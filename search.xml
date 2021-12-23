@@ -290,25 +290,6 @@
       </tags>
   </entry>
   <entry>
-    <title>JS检测属性位于对象本身还是来自于其原型链</title>
-    <url>/2021/12/13/JS%E6%A3%80%E6%B5%8B%E5%B1%9E%E6%80%A7%E4%BD%8D%E4%BA%8E%E5%AF%B9%E8%B1%A1%E6%9C%AC%E8%BA%AB%E8%BF%98%E6%98%AF%E6%9D%A5%E8%87%AA%E4%BA%8E%E5%85%B6%E5%8E%9F%E5%9E%8B%E9%93%BE/</url>
-    <content><![CDATA[<h2 id="1-in-操作符"><a href="#1-in-操作符" class="headerlink" title="1.in 操作符"></a>1.in 操作符</h2><p>in 操作符会在通过对象能够访问给定属性时返回true，无论该属性存在于对象本身还是其原型链上。</p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Person</span>(<span class="params">name</span>) </span>&#123;</span><br><span class="line">       <span class="built_in">this</span>.name = name</span><br><span class="line">   &#125;</span><br><span class="line">   <span class="keyword">let</span> obj = <span class="keyword">new</span> Person(<span class="string">&#x27;Tom&#x27;</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">   Person.prototype.gender = <span class="string">&#x27;male&#x27;</span></span><br><span class="line">   Person.prototype.code = <span class="number">23</span></span><br><span class="line">   </span><br><span class="line">   <span class="built_in">console</span>.log(<span class="string">&quot;name&quot;</span> <span class="keyword">in</span> obj) <span class="comment">// true</span></span><br><span class="line">   <span class="built_in">console</span>.log(<span class="string">&#x27;code&#x27;</span> <span class="keyword">in</span> obj) <span class="comment">// true</span></span><br><span class="line">   <span class="built_in">console</span>.log(<span class="string">&#x27;gender&#x27;</span> <span class="keyword">in</span> obj) <span class="comment">// true</span></span><br></pre></td></tr></table></figure>
-
-
-<h2 id="2-obj-hasOwnProperty-prop"><a href="#2-obj-hasOwnProperty-prop" class="headerlink" title="2.obj.hasOwnProperty(prop)"></a>2.obj.hasOwnProperty(prop)</h2><p>hasOwnProperty() 方法会返回一个布尔值，指示对象自身属性中是否具有指定的属性。</p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Person</span>(<span class="params">name</span>) </span>&#123;</span><br><span class="line">       <span class="built_in">this</span>.name = name</span><br><span class="line">   &#125;</span><br><span class="line">   <span class="keyword">let</span> obj = <span class="keyword">new</span> Person(<span class="string">&#x27;Tom&#x27;</span>)</span><br><span class="line"></span><br><span class="line">   Person.prototype.gender = <span class="string">&#x27;male&#x27;</span></span><br><span class="line">   Person.prototype.code = <span class="number">23</span></span><br><span class="line"></span><br><span class="line">   <span class="built_in">console</span>.log(obj.hasOwnProperty(<span class="string">&#x27;name&#x27;</span>)) <span class="comment">// true</span></span><br><span class="line">   <span class="built_in">console</span>.log(obj.hasOwnProperty(<span class="string">&#x27;code&#x27;</span>)) <span class="comment">// false</span></span><br></pre></td></tr></table></figure>
-
-<h2 id="3-两者结合判断属性位于对象本身还是来自于其原型链"><a href="#3-两者结合判断属性位于对象本身还是来自于其原型链" class="headerlink" title="3.两者结合判断属性位于对象本身还是来自于其原型链"></a>3.两者结合判断属性位于对象本身还是来自于其原型链</h2><figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Person</span>(<span class="params">name</span>) </span>&#123;</span><br><span class="line">     <span class="built_in">this</span>.name = name</span><br><span class="line">   &#125;</span><br><span class="line">   <span class="keyword">let</span> obj = <span class="keyword">new</span> Person(<span class="string">&#x27;Tom&#x27;</span>)</span><br><span class="line"></span><br><span class="line">   Person.prototype.gender = <span class="string">&#x27;male&#x27;</span></span><br><span class="line">   Person.prototype.code = <span class="number">23</span></span><br><span class="line"></span><br><span class="line">   <span class="function"><span class="keyword">function</span> <span class="title">propertyFormPrototype</span>(<span class="params">obj, prop</span>) </span>&#123;</span><br><span class="line">     <span class="keyword">return</span> !obj.hasOwnProperty(prop) &amp;&amp; prop <span class="keyword">in</span> obj</span><br><span class="line">   &#125;</span><br><span class="line">   <span class="built_in">console</span>.log(propertyFormPrototype(obj, <span class="string">&#x27;name&#x27;</span>)) <span class="comment">// false</span></span><br><span class="line">   <span class="built_in">console</span>.log(propertyFormPrototype(obj, <span class="string">&#x27;code&#x27;</span>)) <span class="comment">// true</span></span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>JavaScript</category>
-      </categories>
-      <tags>
-        <tag>JavaScript</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>JS数组扁平化</title>
     <url>/2021/12/14/JS%E6%95%B0%E7%BB%84%E6%89%81%E5%B9%B3%E5%8C%96/</url>
     <content><![CDATA[<p>今天看到一个话题讨论JavaScript数组扁平化，忍不住自己也实现一下，在下采用的方式和别人不同，talk is cheap，show you the code!</p>
@@ -328,6 +309,25 @@
       </categories>
       <tags>
         <tag>算法</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>JS检测属性位于对象本身还是来自于其原型链</title>
+    <url>/2021/12/13/JS%E6%A3%80%E6%B5%8B%E5%B1%9E%E6%80%A7%E4%BD%8D%E4%BA%8E%E5%AF%B9%E8%B1%A1%E6%9C%AC%E8%BA%AB%E8%BF%98%E6%98%AF%E6%9D%A5%E8%87%AA%E4%BA%8E%E5%85%B6%E5%8E%9F%E5%9E%8B%E9%93%BE/</url>
+    <content><![CDATA[<h2 id="1-in-操作符"><a href="#1-in-操作符" class="headerlink" title="1.in 操作符"></a>1.in 操作符</h2><p>in 操作符会在通过对象能够访问给定属性时返回true，无论该属性存在于对象本身还是其原型链上。</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Person</span>(<span class="params">name</span>) </span>&#123;</span><br><span class="line">       <span class="built_in">this</span>.name = name</span><br><span class="line">   &#125;</span><br><span class="line">   <span class="keyword">let</span> obj = <span class="keyword">new</span> Person(<span class="string">&#x27;Tom&#x27;</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">   Person.prototype.gender = <span class="string">&#x27;male&#x27;</span></span><br><span class="line">   Person.prototype.code = <span class="number">23</span></span><br><span class="line">   </span><br><span class="line">   <span class="built_in">console</span>.log(<span class="string">&quot;name&quot;</span> <span class="keyword">in</span> obj) <span class="comment">// true</span></span><br><span class="line">   <span class="built_in">console</span>.log(<span class="string">&#x27;code&#x27;</span> <span class="keyword">in</span> obj) <span class="comment">// true</span></span><br><span class="line">   <span class="built_in">console</span>.log(<span class="string">&#x27;gender&#x27;</span> <span class="keyword">in</span> obj) <span class="comment">// true</span></span><br></pre></td></tr></table></figure>
+
+
+<h2 id="2-obj-hasOwnProperty-prop"><a href="#2-obj-hasOwnProperty-prop" class="headerlink" title="2.obj.hasOwnProperty(prop)"></a>2.obj.hasOwnProperty(prop)</h2><p>hasOwnProperty() 方法会返回一个布尔值，指示对象自身属性中是否具有指定的属性。</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Person</span>(<span class="params">name</span>) </span>&#123;</span><br><span class="line">       <span class="built_in">this</span>.name = name</span><br><span class="line">   &#125;</span><br><span class="line">   <span class="keyword">let</span> obj = <span class="keyword">new</span> Person(<span class="string">&#x27;Tom&#x27;</span>)</span><br><span class="line"></span><br><span class="line">   Person.prototype.gender = <span class="string">&#x27;male&#x27;</span></span><br><span class="line">   Person.prototype.code = <span class="number">23</span></span><br><span class="line"></span><br><span class="line">   <span class="built_in">console</span>.log(obj.hasOwnProperty(<span class="string">&#x27;name&#x27;</span>)) <span class="comment">// true</span></span><br><span class="line">   <span class="built_in">console</span>.log(obj.hasOwnProperty(<span class="string">&#x27;code&#x27;</span>)) <span class="comment">// false</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="3-两者结合判断属性位于对象本身还是来自于其原型链"><a href="#3-两者结合判断属性位于对象本身还是来自于其原型链" class="headerlink" title="3.两者结合判断属性位于对象本身还是来自于其原型链"></a>3.两者结合判断属性位于对象本身还是来自于其原型链</h2><figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Person</span>(<span class="params">name</span>) </span>&#123;</span><br><span class="line">     <span class="built_in">this</span>.name = name</span><br><span class="line">   &#125;</span><br><span class="line">   <span class="keyword">let</span> obj = <span class="keyword">new</span> Person(<span class="string">&#x27;Tom&#x27;</span>)</span><br><span class="line"></span><br><span class="line">   Person.prototype.gender = <span class="string">&#x27;male&#x27;</span></span><br><span class="line">   Person.prototype.code = <span class="number">23</span></span><br><span class="line"></span><br><span class="line">   <span class="function"><span class="keyword">function</span> <span class="title">propertyFormPrototype</span>(<span class="params">obj, prop</span>) </span>&#123;</span><br><span class="line">     <span class="keyword">return</span> !obj.hasOwnProperty(prop) &amp;&amp; prop <span class="keyword">in</span> obj</span><br><span class="line">   &#125;</span><br><span class="line">   <span class="built_in">console</span>.log(propertyFormPrototype(obj, <span class="string">&#x27;name&#x27;</span>)) <span class="comment">// false</span></span><br><span class="line">   <span class="built_in">console</span>.log(propertyFormPrototype(obj, <span class="string">&#x27;code&#x27;</span>)) <span class="comment">// true</span></span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>JavaScript</category>
+      </categories>
+      <tags>
+        <tag>JavaScript</tag>
       </tags>
   </entry>
   <entry>
@@ -400,6 +400,24 @@
       </tags>
   </entry>
   <entry>
+    <title>JavaScript函数传参---按值传递</title>
+    <url>/2021/12/19/JavaScript%E5%87%BD%E6%95%B0%E4%BC%A0%E5%8F%82-%E6%8C%89%E5%80%BC%E4%BC%A0%E9%80%92/</url>
+    <content><![CDATA[<p>所有函数的参数都是按值传递的,也就是说把函数外部的值复制给函数内部的参数，就和把值从一个变量复制到另一个变量一样。所以如果能理解变量的复制，那么参数的传递也就很简单了。</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> obj = &#123;</span><br><span class="line">  <span class="attr">name</span>: <span class="string">&#x27;Tom&#x27;</span>,</span><br><span class="line">  <span class="attr">age</span>: <span class="number">15</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">test</span>(<span class="params">arr</span>) </span>&#123;</span><br><span class="line">  arr.name = <span class="string">&#x27;Toney&#x27;</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">test(obj)</span><br><span class="line"><span class="built_in">console</span>.log(obj)  <span class="comment">// &#123;name: &quot;Toney&quot;, age: 15&#125;</span></span><br></pre></td></tr></table></figure>
+
+<p>总所周知，在JavaScript中，引用数据类型存储在堆中，传递时传递的实际上是指向此地址的一个指针，如上例，obj作为参数被传递到了函数内部，实际上相当于复制了一个指针，而指针指向的地址还是此对象所对应的地址，所以改变了函数的参数属性，实际上相当于操作obj的属性改变。</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> obj = &#123;</span><br><span class="line">  <span class="attr">name</span>: <span class="string">&#x27;Tom&#x27;</span>,</span><br><span class="line">  <span class="attr">age</span>: <span class="number">15</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">test</span>(<span class="params">arr</span>) </span>&#123;</span><br><span class="line">  arr = &#123;&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">test(obj)</span><br><span class="line"><span class="built_in">console</span>.log(obj)  <span class="comment">// &#123;name: &quot;Tom&quot;, age: 15&#125;</span></span><br></pre></td></tr></table></figure>
+
+<p>如上，当对参数arr再次赋值时，此时这个指针指向的地址就发生了改变，指向了所赋值的新对象{}，从而与obj无关了。</p>
+]]></content>
+      <categories>
+        <category>JavaScript</category>
+      </categories>
+      <tags>
+        <tag>JavaScript</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>JavaScript希尔排序</title>
     <url>/2021/12/18/JavaScript%E5%B8%8C%E5%B0%94%E6%8E%92%E5%BA%8F/</url>
     <content><![CDATA[<h2 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h2><p><strong>希尔排序</strong>（Shellsort），也称递减增量排序算法，是插入排序的一种更高效的改进版本。希尔排序是非稳定排序算法。</p>
@@ -418,24 +436,6 @@
       </categories>
       <tags>
         <tag>算法</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>JavaScript函数传参---按值传递</title>
-    <url>/2021/12/19/JavaScript%E5%87%BD%E6%95%B0%E4%BC%A0%E5%8F%82-%E6%8C%89%E5%80%BC%E4%BC%A0%E9%80%92/</url>
-    <content><![CDATA[<p>所有函数的参数都是按值传递的,也就是说把函数外部的值复制给函数内部的参数，就和把值从一个变量复制到另一个变量一样。所以如果能理解变量的复制，那么参数的传递也就很简单了。</p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> obj = &#123;</span><br><span class="line">  <span class="attr">name</span>: <span class="string">&#x27;Tom&#x27;</span>,</span><br><span class="line">  <span class="attr">age</span>: <span class="number">15</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">test</span>(<span class="params">arr</span>) </span>&#123;</span><br><span class="line">  arr.name = <span class="string">&#x27;Toney&#x27;</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">test(obj)</span><br><span class="line"><span class="built_in">console</span>.log(obj)  <span class="comment">// &#123;name: &quot;Toney&quot;, age: 15&#125;</span></span><br></pre></td></tr></table></figure>
-
-<p>总所周知，在JavaScript中，引用数据类型存储在堆中，传递时传递的实际上是指向此地址的一个指针，如上例，obj作为参数被传递到了函数内部，实际上相当于复制了一个指针，而指针指向的地址还是此对象所对应的地址，所以改变了函数的参数属性，实际上相当于操作obj的属性改变。</p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> obj = &#123;</span><br><span class="line">  <span class="attr">name</span>: <span class="string">&#x27;Tom&#x27;</span>,</span><br><span class="line">  <span class="attr">age</span>: <span class="number">15</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">test</span>(<span class="params">arr</span>) </span>&#123;</span><br><span class="line">  arr = &#123;&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">test(obj)</span><br><span class="line"><span class="built_in">console</span>.log(obj)  <span class="comment">// &#123;name: &quot;Tom&quot;, age: 15&#125;</span></span><br></pre></td></tr></table></figure>
-
-<p>如上，当对参数arr再次赋值时，此时这个指针指向的地址就发生了改变，指向了所赋值的新对象{}，从而与obj无关了。</p>
-]]></content>
-      <categories>
-        <category>JavaScript</category>
-      </categories>
-      <tags>
-        <tag>JavaScript</tag>
       </tags>
   </entry>
   <entry>
@@ -506,6 +506,21 @@
 <p>递归到最底部的判断条件是数列的大小是零或一，此时该数列显然已经有序。</p>
 <p>选取基准值有数种具体方法，此选取方法对排序的时间性能有决定性影响。</p>
 <h2 id="JavaScript代码实现快速排序"><a href="#JavaScript代码实现快速排序" class="headerlink" title="JavaScript代码实现快速排序"></a>JavaScript代码实现快速排序</h2><figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">quickSort</span>(<span class="params">list</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> rec = <span class="function"><span class="params">arr</span> =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (!arr.length) <span class="keyword">return</span> []</span><br><span class="line">    <span class="keyword">const</span> left = []</span><br><span class="line">    <span class="keyword">const</span> right = []</span><br><span class="line">    <span class="keyword">const</span> mid = arr[<span class="number">0</span>]</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">1</span>; i &lt; arr.length; i++) &#123;</span><br><span class="line">      <span class="keyword">if</span> (arr[i] &lt; mid) &#123;</span><br><span class="line">        left.push(arr[i])</span><br><span class="line">      &#125; <span class="keyword">else</span> right.push(arr[i])</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> [...rec(left), mid, ...rec(right)]</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> rec(list)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>算法</category>
+      </categories>
+      <tags>
+        <tag>算法</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>JavaScript选择排序</title>
+    <url>/2021/12/14/JavaScript%E9%80%89%E6%8B%A9%E6%8E%92%E5%BA%8F/</url>
+    <content><![CDATA[<h2 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h2><p><strong>选择排序</strong>（Selection sort）是一种简单直观的排序算法。它的工作原理如下，首先在未排序序列中找到最小（大）元素，存放到排序序列的起始位置，然后，再从剩余未排序元素中继续寻找最小（大）元素，然后放到已排序序列的末尾。以此类推，直到所有元素均排序完毕。</p>
+<p>选择排序的主要优点与数据移动有关。如果某个元素位于正确的最终位置上，则它不会被移动。选择排序每次交换一对元素，它们当中至少有一个将被移到其最终位置上，因此对n个元素的表进行排序总共进行至多(n-1)次交换。在所有的完全依靠交换去移动元素的排序方法中，选择排序属于非常好的一种。</p>
+<h2 id="算法实现逻辑"><a href="#算法实现逻辑" class="headerlink" title="算法实现逻辑"></a>算法实现逻辑</h2><p>选择排序算法，从数组的开头开始，将第一个元素和其他元素进行比较，检查完所有元素后，最小的元素会放在数组的第一个位置，然后算法会从第二个位置继续。这个过程一直进行，当进行到数组的倒数第二个位置时，所有的数据便完成了排序。</p>
+<h2 id="JavaScript代码实现选择排序"><a href="#JavaScript代码实现选择排序" class="headerlink" title="JavaScript代码实现选择排序"></a>JavaScript代码实现选择排序</h2><figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>, len = arr.length; i &lt; len - <span class="number">1</span>; i++) &#123;</span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">let</span> j = i + <span class="number">1</span>; j &lt; len; j++) &#123;</span><br><span class="line">    <span class="keyword">if</span> (arr[i] &gt; arr[j]) &#123;</span><br><span class="line">      [arr[i], arr[j]] = [arr[j], arr[i]]</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 ]]></content>
       <categories>
         <category>算法</category>
@@ -636,21 +651,6 @@
       </tags>
   </entry>
   <entry>
-    <title>JavaScript选择排序</title>
-    <url>/2021/12/14/JavaScript%E9%80%89%E6%8B%A9%E6%8E%92%E5%BA%8F/</url>
-    <content><![CDATA[<h2 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h2><p><strong>选择排序</strong>（Selection sort）是一种简单直观的排序算法。它的工作原理如下，首先在未排序序列中找到最小（大）元素，存放到排序序列的起始位置，然后，再从剩余未排序元素中继续寻找最小（大）元素，然后放到已排序序列的末尾。以此类推，直到所有元素均排序完毕。</p>
-<p>选择排序的主要优点与数据移动有关。如果某个元素位于正确的最终位置上，则它不会被移动。选择排序每次交换一对元素，它们当中至少有一个将被移到其最终位置上，因此对n个元素的表进行排序总共进行至多(n-1)次交换。在所有的完全依靠交换去移动元素的排序方法中，选择排序属于非常好的一种。</p>
-<h2 id="算法实现逻辑"><a href="#算法实现逻辑" class="headerlink" title="算法实现逻辑"></a>算法实现逻辑</h2><p>选择排序算法，从数组的开头开始，将第一个元素和其他元素进行比较，检查完所有元素后，最小的元素会放在数组的第一个位置，然后算法会从第二个位置继续。这个过程一直进行，当进行到数组的倒数第二个位置时，所有的数据便完成了排序。</p>
-<h2 id="JavaScript代码实现选择排序"><a href="#JavaScript代码实现选择排序" class="headerlink" title="JavaScript代码实现选择排序"></a>JavaScript代码实现选择排序</h2><figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>, len = arr.length; i &lt; len - <span class="number">1</span>; i++) &#123;</span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">let</span> j = i + <span class="number">1</span>; j &lt; len; j++) &#123;</span><br><span class="line">    <span class="keyword">if</span> (arr[i] &gt; arr[j]) &#123;</span><br><span class="line">      [arr[i], arr[j]] = [arr[j], arr[i]]</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>算法</category>
-      </categories>
-      <tags>
-        <tag>算法</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>js中viod运算符总结</title>
     <url>/2021/12/12/js%E4%B8%ADviod%E8%BF%90%E7%AE%97%E7%AC%A6%E6%80%BB%E7%BB%93/</url>
     <content><![CDATA[<h2 id="写在前面"><a href="#写在前面" class="headerlink" title="写在前面"></a>写在前面</h2><p>简单来说，void运算符用于对给定的表达式进行求值，然后返回 <a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/undefined">undefined</a>。该运算符通常用于避免输出不应该输出的值。</p>
@@ -706,6 +706,24 @@
       </tags>
   </entry>
   <entry>
+    <title>react全局状态管理react-redux</title>
+    <url>/2021/12/12/react%E5%85%A8%E5%B1%80%E7%8A%B6%E6%80%81%E7%AE%A1%E7%90%86react-redux/</url>
+    <content><![CDATA[<p>简言之，通过react-redux提供的connect方法将UI组件同store连接起来，connect方法可以接受两个参数，第一个为mapStateToProps（接受两个参数，state，ownProps），用于UI组件的输入逻辑，此建立了从外部的数据（即store中的state对象）到UI组件的props的一个映射；第二个参数为mapDispatchToProps（接受两个参数，dispatch，ownProps），用于UI组件的输出逻辑，即用户发出的动作如何变为 Action 对象，从 UI 组件传出去，从而影响外部数据state。</p>
+<p>State 的变化必须是 View 导致的，Action 就是 View 发出的通知，表示 State 应该要发生变化了。</p>
+<p>Action 是一个对象。其中的type属性是必须的，表示 Action 的名称，其他属性可以自由设置。</p>
+<p>对象store的方法dispath用于派发action，store.dispatch(action)是 View 发出 Action 的唯一方法。</p>
+<p>通过dispath派发的action会触发reducer，reducer执行会返回一个新的state，此时state改变了。</p>
+<p>state的改变又会通过mapStateToProps函数传入UI组件的props，UI组件的Props改变又会触发render函数，从而更新UI组件。</p>
+<p>以上就是redux大致的工作流程。欢迎大神们评论批评指正。（action，reducer等基本概念参见阮一峰老师的博客）</p>
+]]></content>
+      <categories>
+        <category>React</category>
+      </categories>
+      <tags>
+        <tag>React</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>react项目配置react-hot-loader实现模块热更新</title>
     <url>/2021/12/18/react%E9%A1%B9%E7%9B%AE%E9%85%8D%E7%BD%AEreact-hot-loader%E5%AE%9E%E7%8E%B0%E6%A8%A1%E5%9D%97%E7%83%AD%E6%9B%B4%E6%96%B0/</url>
     <content><![CDATA[<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>今天我们来聊一聊react的模块热更新，熟悉react的同学都知道，使用官方的脚手架，当我们改动页面时，整个页面会被刷新，那我们当然希望页面只刷新我们改动的部分而不是刷新整个页面，那么怎么做到如此呢？千呼万唤始出来，react-hot-loader就是来完成这个伟大的使命的。</p>
@@ -736,24 +754,6 @@
 <p>完整的主入口文件为：</p>
 <figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> React <span class="keyword">from</span> <span class="string">&#x27;react&#x27;</span>;</span><br><span class="line"><span class="keyword">import</span> ReactDOM <span class="keyword">from</span> <span class="string">&#x27;react-dom&#x27;</span>;</span><br><span class="line"><span class="keyword">import</span> <span class="string">&#x27;./index.css&#x27;</span>;</span><br><span class="line"><span class="keyword">import</span> App <span class="keyword">from</span> <span class="string">&#x27;./App&#x27;</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; Provider &#125; <span class="keyword">from</span> <span class="string">&#x27;react-redux&#x27;</span>;</span><br><span class="line"><span class="keyword">import</span> store <span class="keyword">from</span> <span class="string">&#x27;@/store&#x27;</span>;</span><br><span class="line"><span class="keyword">import</span> * <span class="keyword">as</span> serviceWorker <span class="keyword">from</span> <span class="string">&#x27;./serviceWorker&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> &#123; AppContainer &#125; <span class="keyword">from</span> <span class="string">&#x27;react-hot-loader&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> render = <span class="function"><span class="params">Component</span> =&gt;</span> &#123;</span><br><span class="line">  ReactDOM.render(</span><br><span class="line">    <span class="xml"><span class="tag">&lt;<span class="name">Provider</span> <span class="attr">store</span>=<span class="string">&#123;store&#125;</span>&gt;</span></span></span><br><span class="line"><span class="xml">      <span class="tag">&lt;<span class="name">AppContainer</span>&gt;</span></span></span><br><span class="line"><span class="xml">        <span class="tag">&lt;<span class="name">Component</span> /&gt;</span></span></span><br><span class="line"><span class="xml">      <span class="tag">&lt;/<span class="name">AppContainer</span>&gt;</span></span></span><br><span class="line"><span class="xml">    <span class="tag">&lt;/<span class="name">Provider</span>&gt;</span></span>, </span><br><span class="line">    <span class="built_in">document</span>.getElementById(<span class="string">&#x27;root&#x27;</span>));</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">render(App);</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> (<span class="built_in">module</span>.hot) &#123;</span><br><span class="line">  <span class="built_in">module</span>.hot.accept(<span class="string">&#x27;./App&#x27;</span>, <span class="function">() =&gt;</span> &#123;</span><br><span class="line">    <span class="comment">//因为在App里使用的是export default语法，这里使用的是require,默认不会加载default的，所以需要手动加上</span></span><br><span class="line">    <span class="keyword">const</span> NextApp = <span class="built_in">require</span>(<span class="string">&#x27;./App&#x27;</span>).default;</span><br><span class="line">    <span class="comment">// 重新渲染到 document 里面</span></span><br><span class="line">    render(NextApp);</span><br><span class="line">  &#125;)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// If you want your app to work offline and load faster, you can change</span></span><br><span class="line"><span class="comment">// unregister() to register() below. Note this comes with some pitfalls.</span></span><br><span class="line"><span class="comment">// Learn more about service workers: https://bit.ly/CRA-PWA</span></span><br><span class="line">serviceWorker.unregister();</span><br></pre></td></tr></table></figure>
 <p>至此，我们就已经配置完成了react项目的模块热更新，即局部刷新而不是整个页面的刷新，如此可大大提高开发效率。</p>
-]]></content>
-      <categories>
-        <category>React</category>
-      </categories>
-      <tags>
-        <tag>React</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>react全局状态管理react-redux</title>
-    <url>/2021/12/12/react%E5%85%A8%E5%B1%80%E7%8A%B6%E6%80%81%E7%AE%A1%E7%90%86react-redux/</url>
-    <content><![CDATA[<p>简言之，通过react-redux提供的connect方法将UI组件同store连接起来，connect方法可以接受两个参数，第一个为mapStateToProps（接受两个参数，state，ownProps），用于UI组件的输入逻辑，此建立了从外部的数据（即store中的state对象）到UI组件的props的一个映射；第二个参数为mapDispatchToProps（接受两个参数，dispatch，ownProps），用于UI组件的输出逻辑，即用户发出的动作如何变为 Action 对象，从 UI 组件传出去，从而影响外部数据state。</p>
-<p>State 的变化必须是 View 导致的，Action 就是 View 发出的通知，表示 State 应该要发生变化了。</p>
-<p>Action 是一个对象。其中的type属性是必须的，表示 Action 的名称，其他属性可以自由设置。</p>
-<p>对象store的方法dispath用于派发action，store.dispatch(action)是 View 发出 Action 的唯一方法。</p>
-<p>通过dispath派发的action会触发reducer，reducer执行会返回一个新的state，此时state改变了。</p>
-<p>state的改变又会通过mapStateToProps函数传入UI组件的props，UI组件的Props改变又会触发render函数，从而更新UI组件。</p>
-<p>以上就是redux大致的工作流程。欢迎大神们评论批评指正。（action，reducer等基本概念参见阮一峰老师的博客）</p>
 ]]></content>
       <categories>
         <category>React</category>
@@ -945,6 +945,57 @@
       </tags>
   </entry>
   <entry>
+    <title>webpack系列《一》核心概念（入门篇）</title>
+    <url>/2021/12/18/webpack%E7%B3%BB%E5%88%97%E3%80%8A%E4%B8%80%E3%80%8B%E6%A0%B8%E5%BF%83%E6%A6%82%E5%BF%B5%EF%BC%88%E5%85%A5%E9%97%A8%E7%AF%87%EF%BC%89/</url>
+    <content><![CDATA[<h2 id="1-什么是webpack"><a href="#1-什么是webpack" class="headerlink" title="1. 什么是webpack"></a>1. 什么是webpack</h2><p>作为前端开发者，<strong>webpack</strong>可谓是家喻户晓的构建工具！那么，我们先来看看英文官方对于webpack的定义和说明：</p>
+<p>webpack is a static module bundler for modern JavaScript applications. When webpack processes your application, it internally builds a dependency graph which maps every module your project needs and generates one or more bundles.</p>
+<p><strong>webpack</strong> 是一个现代 JavaScript 应用程序的静态模块打包器(module bundler)。当 webpack 处理应用程序时，它会递归地构建一个依赖关系图(dependency graph)，其中包含应用程序需要的每个模块，然后将所有这些模块打包成一个或多个 bundle。</p>
+<p><strong>webPack</strong> 可以看做是模块打包机：它做的事情是，分析你的项目结构，找到JavaScript模块以及其它的一些浏览器不能直接运行的拓展语言（Scss，TypeScript等），并将其打包为合适的格式以供浏览器使用。</p>
+<p><strong>webpack</strong> 的工作方式是：把你的项目当做一个整体，通过一个给定的主文件（如：index.js），Webpack将从这个文件开始找到你的项目的所有依赖文件，使用loaders处理它们，最后打包为一个（或多个）浏览器可识别的JavaScript文件。</p>
+<h2 id="2-webpack配置的核心概念"><a href="#2-webpack配置的核心概念" class="headerlink" title="2. webpack配置的核心概念"></a>2. webpack配置的核心概念</h2><h3 id="2-1-entry（打包入口）"><a href="#2-1-entry（打包入口）" class="headerlink" title="2.1 entry（打包入口）"></a>2.1 entry（打包入口）</h3><p>入口起点(entry point)指示 webpack 应该使用哪个模块，来作为构建其内部依赖图的开始。进入入口起点后，webpack 会找出有哪些模块和库是入口起点（直接和间接）依赖的。就vue项目来说，通常入口文件为main.js文件。<br><a href="https://img-blog.csdnimg.cn/20190325145103811.png"><img src="https://img-blog.csdnimg.cn/20190325145103811.png"></a></p>
+<p>entry 通常有三种写法：</p>
+<h4 id="第一种：字符串形式，如下："><a href="#第一种：字符串形式，如下：" class="headerlink" title="第一种：字符串形式，如下："></a>第一种：字符串形式，如下：</h4><figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="comment">// webpack.config.js</span></span><br><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">  <span class="attr">entry</span>: <span class="string">&#x27;./src/layout/main.js&#x27;</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="第二种：数组形式，如下："><a href="#第二种：数组形式，如下：" class="headerlink" title="第二种：数组形式，如下："></a>第二种：数组形式，如下：</h4><figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="comment">// webpack.config.js</span></span><br><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">  <span class="attr">entry</span>: [<span class="string">&#x27;./src/layout/main.js&#x27;</span>]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="第三种：对象形式，如下："><a href="#第三种：对象形式，如下：" class="headerlink" title="第三种：对象形式，如下："></a>第三种：对象形式，如下：</h4><figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="comment">// webpack.config.js</span></span><br><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">  <span class="attr">entry</span>: &#123;</span><br><span class="line">    <span class="attr">app</span>: <span class="string">&#x27;./src/layout/main.js&#x27;</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>对于这三种写法，通常开发者都会采用第三种，实际上，我们也推荐第三种写法，不论是可扩展性还是代码可读性，第三种都秒杀前两种！</p>
+<h3 id="2-2-output（打包出口）"><a href="#2-2-output（打包出口）" class="headerlink" title="2.2 output（打包出口）"></a>2.2 output（打包出口）</h3><p>output 属性告诉 webpack 在哪里输出它所创建的 bundles，以及如何命名这些文件，默认值为 ./dist。基本上，整个应用程序结构，都会被编译到你指定的输出路径的文件夹中。你可以通过在配置中指定一个 output 字段，来配置这些处理过程：</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="comment">// webpack.config.js</span></span><br><span class="line"><span class="keyword">const</span> path = <span class="built_in">require</span>(<span class="string">&#x27;path&#x27;</span>);</span><br><span class="line"></span><br><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">  <span class="attr">entry</span>: <span class="string">&#x27;./src/layout/main.js&#x27;</span>,</span><br><span class="line">  <span class="attr">output</span>: &#123;</span><br><span class="line">    <span class="attr">path</span>: path.resolve(__dirname, <span class="string">&#x27;dist&#x27;</span>),</span><br><span class="line">    <span class="attr">filename</span>: <span class="string">&#x27;[name].bundle.[hash:8].js&#x27;</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>在上面的示例中，我们通过 output.filename 和 output.path 属性，来告诉 webpack bundle 的名称，以及我们想要 bundle 生成(emit)到哪里。可能你想要了解在代码最上面导入的 path 模块是什么，它是一个 Node.js 核心模块，用于操作文件路径。</p>
+<p>关于output还有很多可配置的属性，详情参见webpack官方文档output配置，在此不再赘述了。</p>
+<h3 id="2-3-loaders（处理非js文件）"><a href="#2-3-loaders（处理非js文件）" class="headerlink" title="2.3 loaders（处理非js文件）"></a>2.3 loaders（处理非js文件）</h3><p>loader 让 webpack 能够去处理那些非 JavaScript 文件（webpack 自身只理解 JavaScript）。loader 可以将所有类型的文件转换为 webpack 能够处理的有效模块，然后你就可以利用 webpack 的打包能力，对它们进行处理。</p>
+<p>本质上，webpack loader 将所有类型的文件，转换为应用程序的依赖图（和最终的 bundle）可以直接引用的模块。</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="comment">// webpack.config.js</span></span><br><span class="line"><span class="keyword">const</span> path = <span class="built_in">require</span>(<span class="string">&#x27;path&#x27;</span>);</span><br><span class="line"></span><br><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">  <span class="attr">entry</span>: <span class="string">&#x27;./src/layout/main.js&#x27;</span>,</span><br><span class="line">  <span class="attr">output</span>: &#123;</span><br><span class="line">    <span class="attr">path</span>: path.resolve(__dirname, <span class="string">&#x27;dist&#x27;</span>),</span><br><span class="line">    <span class="attr">filename</span>: <span class="string">&#x27;[name].bundle.[hash:8].js&#x27;</span></span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="attr">module</span>: &#123;</span><br><span class="line">    <span class="attr">rules</span>: [</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="attr">test</span>: <span class="regexp">/\.js$/</span>,</span><br><span class="line">        loader: <span class="string">&#x27;babel-loader&#x27;</span>,</span><br><span class="line">        <span class="attr">exclude</span>: <span class="regexp">/node_modules/</span></span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="attr">test</span>: <span class="regexp">/\.(png|jpg|gif|svg)$/</span>,</span><br><span class="line">        loader: <span class="string">&#x27;url-loader&#x27;</span>,</span><br><span class="line">        <span class="attr">options</span>: &#123;</span><br><span class="line">          <span class="attr">name</span>: <span class="string">&#x27;[name].[ext]?[hash]&#x27;</span></span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    ]</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>如上，可以看到module种配置rules规则，使用babel-loader来处理js文件，使用url-loader来处理图片文件。</p>
+<p>常用的loader：</p>
+<ol>
+<li><p>编译相关：babel-loader，ts-loader；</p>
+</li>
+<li><p>样式相关：style-loader，css-loader，less-loader，sass-loader，postcss-loader；</p>
+</li>
+<li><p>文件相关：file-loader，url-loader；</p>
+</li>
+</ol>
+<h3 id="2-4-plugins（插件）"><a href="#2-4-plugins（插件）" class="headerlink" title="2.4 plugins（插件）"></a>2.4 plugins（插件）</h3><p>loader 被用于转换某些类型的模块，而插件则可以用于执行范围更广的任务。插件的范围包括，从打包优化和压缩，一直到重新定义环境中的变量。插件接口功能极其强大，可以用来处理各种各样的任务。</p>
+<p>想要使用一个插件，你只需要 require() 它，然后把它添加到 plugins 数组中。多数插件可以通过选项(option)自定义。你也可以在一个配置文件中因为不同目的而多次使用同一个插件，这时需要通过使用 new 操作符来创建它的一个实例。</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="comment">// webpack.config.js</span></span><br><span class="line"><span class="keyword">const</span> path = <span class="built_in">require</span>(<span class="string">&#x27;path&#x27;</span>);</span><br><span class="line"><span class="keyword">const</span> webpack = <span class="built_in">require</span>(<span class="string">&#x27;webpack&#x27;</span>);</span><br><span class="line"><span class="keyword">const</span> HtmlWebpackPlugin = <span class="built_in">require</span>(<span class="string">&#x27;html-webpack-plugin&#x27;</span>); <span class="comment">// 通过 npm 安装</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">  <span class="attr">entry</span>: <span class="string">&#x27;./src/layout/main.js&#x27;</span>,</span><br><span class="line">  <span class="attr">output</span>: &#123;</span><br><span class="line">    <span class="attr">path</span>: path.resolve(__dirname, <span class="string">&#x27;dist&#x27;</span>),</span><br><span class="line">    <span class="attr">filename</span>: <span class="string">&#x27;[name].bundle.[hash:8].js&#x27;</span></span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="attr">module</span>: &#123;</span><br><span class="line">    <span class="attr">rules</span>: [</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="attr">test</span>: <span class="regexp">/\.js$/</span>,</span><br><span class="line">        loader: <span class="string">&#x27;babel-loader&#x27;</span>,</span><br><span class="line">        <span class="attr">exclude</span>: <span class="regexp">/node_modules/</span></span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="attr">test</span>: <span class="regexp">/\.(png|jpg|gif|svg)$/</span>,</span><br><span class="line">        loader: <span class="string">&#x27;url-loader&#x27;</span>,</span><br><span class="line">        <span class="attr">options</span>: &#123;</span><br><span class="line">          <span class="attr">name</span>: <span class="string">&#x27;[name].[ext]?[hash]&#x27;</span></span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    ]</span><br><span class="line">  &#125;，</span><br><span class="line">  <span class="attr">plugins</span>: [</span><br><span class="line">    <span class="keyword">new</span> HtmlWebpackPlugin(&#123;<span class="attr">template</span>: <span class="string">&#x27;./src/index.html&#x27;</span>&#125;),</span><br><span class="line">    <span class="keyword">new</span> webpack.DefinePlugin(&#123;</span><br><span class="line">      <span class="string">&#x27;process.env&#x27;</span>: &#123;</span><br><span class="line">        <span class="attr">NODE_ENV</span>: <span class="string">&#x27;&quot;production&quot;&#x27;</span></span><br><span class="line">      &#125;</span><br><span class="line">    &#125;),</span><br><span class="line">    <span class="keyword">new</span> webpack.optimize.UglifyJsPlugin(&#123;</span><br><span class="line">      <span class="attr">sourceMap</span>: <span class="literal">true</span>,</span><br><span class="line">      <span class="attr">compress</span>: &#123;</span><br><span class="line">        <span class="attr">warnings</span>: <span class="literal">false</span></span><br><span class="line">      &#125;</span><br><span class="line">    &#125;),</span><br><span class="line">    <span class="keyword">new</span> webpack.LoaderOptionsPlugin(&#123;</span><br><span class="line">      <span class="attr">minimize</span>: <span class="literal">true</span></span><br><span class="line">    &#125;)</span><br><span class="line">  ]</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>webpack 提供许多开箱可用的插件！具体可以查阅<a href="https://webpack.js.org/plugins/" title="webpack官方文档">webpack官方文档</a>。</p>
+<h3 id="2-5-mode（模式）"><a href="#2-5-mode（模式）" class="headerlink" title="2.5 mode（模式）"></a>2.5 mode（模式）</h3><p>通过选择 development 或 production 之中的一个，来设置 mode 参数，你可以启用相应模式下的 webpack 内置的优化。</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="comment">// webpack.config.js</span></span><br><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">  <span class="attr">mode</span>: <span class="string">&#x27;production&#x27;</span>  <span class="comment">// &quot;production&quot; | &quot;development&quot; | &quot;none&quot;</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>webpack</category>
+      </categories>
+      <tags>
+        <tag>webpack</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>webpack系列之webpack性能优化</title>
     <url>/2021/12/19/webpack%E7%B3%BB%E5%88%97%E4%B9%8Bwebpack%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/</url>
     <content><![CDATA[<h2 id="写在前面"><a href="#写在前面" class="headerlink" title="写在前面"></a>写在前面</h2><p>在此文中，我不会浪费篇幅给大家讲如何写配置文件。如果你想学习这方面的内容，那么完全可以去官网学习。在这部分的内容中，我们会聚焦于以下两个知识点，并且每一个知识点都属于高频考点：</p>
@@ -997,78 +1048,6 @@
       </tags>
   </entry>
   <entry>
-    <title>webpack系列《一》核心概念（入门篇）</title>
-    <url>/2021/12/18/webpack%E7%B3%BB%E5%88%97%E3%80%8A%E4%B8%80%E3%80%8B%E6%A0%B8%E5%BF%83%E6%A6%82%E5%BF%B5%EF%BC%88%E5%85%A5%E9%97%A8%E7%AF%87%EF%BC%89/</url>
-    <content><![CDATA[<h2 id="1-什么是webpack"><a href="#1-什么是webpack" class="headerlink" title="1. 什么是webpack"></a>1. 什么是webpack</h2><p>作为前端开发者，<strong>webpack</strong>可谓是家喻户晓的构建工具！那么，我们先来看看英文官方对于webpack的定义和说明：</p>
-<p>webpack is a static module bundler for modern JavaScript applications. When webpack processes your application, it internally builds a dependency graph which maps every module your project needs and generates one or more bundles.</p>
-<p><strong>webpack</strong> 是一个现代 JavaScript 应用程序的静态模块打包器(module bundler)。当 webpack 处理应用程序时，它会递归地构建一个依赖关系图(dependency graph)，其中包含应用程序需要的每个模块，然后将所有这些模块打包成一个或多个 bundle。</p>
-<p><strong>webPack</strong> 可以看做是模块打包机：它做的事情是，分析你的项目结构，找到JavaScript模块以及其它的一些浏览器不能直接运行的拓展语言（Scss，TypeScript等），并将其打包为合适的格式以供浏览器使用。</p>
-<p><strong>webpack</strong> 的工作方式是：把你的项目当做一个整体，通过一个给定的主文件（如：index.js），Webpack将从这个文件开始找到你的项目的所有依赖文件，使用loaders处理它们，最后打包为一个（或多个）浏览器可识别的JavaScript文件。</p>
-<h2 id="2-webpack配置的核心概念"><a href="#2-webpack配置的核心概念" class="headerlink" title="2. webpack配置的核心概念"></a>2. webpack配置的核心概念</h2><h3 id="2-1-entry（打包入口）"><a href="#2-1-entry（打包入口）" class="headerlink" title="2.1 entry（打包入口）"></a>2.1 entry（打包入口）</h3><p>入口起点(entry point)指示 webpack 应该使用哪个模块，来作为构建其内部依赖图的开始。进入入口起点后，webpack 会找出有哪些模块和库是入口起点（直接和间接）依赖的。就vue项目来说，通常入口文件为main.js文件。<br><a href="https://img-blog.csdnimg.cn/20190325145103811.png"><img src="https://img-blog.csdnimg.cn/20190325145103811.png"></a></p>
-<p>entry 通常有三种写法：</p>
-<h4 id="第一种：字符串形式，如下："><a href="#第一种：字符串形式，如下：" class="headerlink" title="第一种：字符串形式，如下："></a>第一种：字符串形式，如下：</h4><figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="comment">// webpack.config.js</span></span><br><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">  <span class="attr">entry</span>: <span class="string">&#x27;./src/layout/main.js&#x27;</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h4 id="第二种：数组形式，如下："><a href="#第二种：数组形式，如下：" class="headerlink" title="第二种：数组形式，如下："></a>第二种：数组形式，如下：</h4><figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="comment">// webpack.config.js</span></span><br><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">  <span class="attr">entry</span>: [<span class="string">&#x27;./src/layout/main.js&#x27;</span>]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h4 id="第三种：对象形式，如下："><a href="#第三种：对象形式，如下：" class="headerlink" title="第三种：对象形式，如下："></a>第三种：对象形式，如下：</h4><figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="comment">// webpack.config.js</span></span><br><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">  <span class="attr">entry</span>: &#123;</span><br><span class="line">    <span class="attr">app</span>: <span class="string">&#x27;./src/layout/main.js&#x27;</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>对于这三种写法，通常开发者都会采用第三种，实际上，我们也推荐第三种写法，不论是可扩展性还是代码可读性，第三种都秒杀前两种！</p>
-<h3 id="2-2-output（打包出口）"><a href="#2-2-output（打包出口）" class="headerlink" title="2.2 output（打包出口）"></a>2.2 output（打包出口）</h3><p>output 属性告诉 webpack 在哪里输出它所创建的 bundles，以及如何命名这些文件，默认值为 ./dist。基本上，整个应用程序结构，都会被编译到你指定的输出路径的文件夹中。你可以通过在配置中指定一个 output 字段，来配置这些处理过程：</p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="comment">// webpack.config.js</span></span><br><span class="line"><span class="keyword">const</span> path = <span class="built_in">require</span>(<span class="string">&#x27;path&#x27;</span>);</span><br><span class="line"></span><br><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">  <span class="attr">entry</span>: <span class="string">&#x27;./src/layout/main.js&#x27;</span>,</span><br><span class="line">  <span class="attr">output</span>: &#123;</span><br><span class="line">    <span class="attr">path</span>: path.resolve(__dirname, <span class="string">&#x27;dist&#x27;</span>),</span><br><span class="line">    <span class="attr">filename</span>: <span class="string">&#x27;[name].bundle.[hash:8].js&#x27;</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-
-<p>在上面的示例中，我们通过 output.filename 和 output.path 属性，来告诉 webpack bundle 的名称，以及我们想要 bundle 生成(emit)到哪里。可能你想要了解在代码最上面导入的 path 模块是什么，它是一个 Node.js 核心模块，用于操作文件路径。</p>
-<p>关于output还有很多可配置的属性，详情参见webpack官方文档output配置，在此不再赘述了。</p>
-<h3 id="2-3-loaders（处理非js文件）"><a href="#2-3-loaders（处理非js文件）" class="headerlink" title="2.3 loaders（处理非js文件）"></a>2.3 loaders（处理非js文件）</h3><p>loader 让 webpack 能够去处理那些非 JavaScript 文件（webpack 自身只理解 JavaScript）。loader 可以将所有类型的文件转换为 webpack 能够处理的有效模块，然后你就可以利用 webpack 的打包能力，对它们进行处理。</p>
-<p>本质上，webpack loader 将所有类型的文件，转换为应用程序的依赖图（和最终的 bundle）可以直接引用的模块。</p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="comment">// webpack.config.js</span></span><br><span class="line"><span class="keyword">const</span> path = <span class="built_in">require</span>(<span class="string">&#x27;path&#x27;</span>);</span><br><span class="line"></span><br><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">  <span class="attr">entry</span>: <span class="string">&#x27;./src/layout/main.js&#x27;</span>,</span><br><span class="line">  <span class="attr">output</span>: &#123;</span><br><span class="line">    <span class="attr">path</span>: path.resolve(__dirname, <span class="string">&#x27;dist&#x27;</span>),</span><br><span class="line">    <span class="attr">filename</span>: <span class="string">&#x27;[name].bundle.[hash:8].js&#x27;</span></span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="attr">module</span>: &#123;</span><br><span class="line">    <span class="attr">rules</span>: [</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="attr">test</span>: <span class="regexp">/\.js$/</span>,</span><br><span class="line">        loader: <span class="string">&#x27;babel-loader&#x27;</span>,</span><br><span class="line">        <span class="attr">exclude</span>: <span class="regexp">/node_modules/</span></span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="attr">test</span>: <span class="regexp">/\.(png|jpg|gif|svg)$/</span>,</span><br><span class="line">        loader: <span class="string">&#x27;url-loader&#x27;</span>,</span><br><span class="line">        <span class="attr">options</span>: &#123;</span><br><span class="line">          <span class="attr">name</span>: <span class="string">&#x27;[name].[ext]?[hash]&#x27;</span></span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    ]</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-
-<p>如上，可以看到module种配置rules规则，使用babel-loader来处理js文件，使用url-loader来处理图片文件。</p>
-<p>常用的loader：</p>
-<ol>
-<li><p>编译相关：babel-loader，ts-loader；</p>
-</li>
-<li><p>样式相关：style-loader，css-loader，less-loader，sass-loader，postcss-loader；</p>
-</li>
-<li><p>文件相关：file-loader，url-loader；</p>
-</li>
-</ol>
-<h3 id="2-4-plugins（插件）"><a href="#2-4-plugins（插件）" class="headerlink" title="2.4 plugins（插件）"></a>2.4 plugins（插件）</h3><p>loader 被用于转换某些类型的模块，而插件则可以用于执行范围更广的任务。插件的范围包括，从打包优化和压缩，一直到重新定义环境中的变量。插件接口功能极其强大，可以用来处理各种各样的任务。</p>
-<p>想要使用一个插件，你只需要 require() 它，然后把它添加到 plugins 数组中。多数插件可以通过选项(option)自定义。你也可以在一个配置文件中因为不同目的而多次使用同一个插件，这时需要通过使用 new 操作符来创建它的一个实例。</p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="comment">// webpack.config.js</span></span><br><span class="line"><span class="keyword">const</span> path = <span class="built_in">require</span>(<span class="string">&#x27;path&#x27;</span>);</span><br><span class="line"><span class="keyword">const</span> webpack = <span class="built_in">require</span>(<span class="string">&#x27;webpack&#x27;</span>);</span><br><span class="line"><span class="keyword">const</span> HtmlWebpackPlugin = <span class="built_in">require</span>(<span class="string">&#x27;html-webpack-plugin&#x27;</span>); <span class="comment">// 通过 npm 安装</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">  <span class="attr">entry</span>: <span class="string">&#x27;./src/layout/main.js&#x27;</span>,</span><br><span class="line">  <span class="attr">output</span>: &#123;</span><br><span class="line">    <span class="attr">path</span>: path.resolve(__dirname, <span class="string">&#x27;dist&#x27;</span>),</span><br><span class="line">    <span class="attr">filename</span>: <span class="string">&#x27;[name].bundle.[hash:8].js&#x27;</span></span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="attr">module</span>: &#123;</span><br><span class="line">    <span class="attr">rules</span>: [</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="attr">test</span>: <span class="regexp">/\.js$/</span>,</span><br><span class="line">        loader: <span class="string">&#x27;babel-loader&#x27;</span>,</span><br><span class="line">        <span class="attr">exclude</span>: <span class="regexp">/node_modules/</span></span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="attr">test</span>: <span class="regexp">/\.(png|jpg|gif|svg)$/</span>,</span><br><span class="line">        loader: <span class="string">&#x27;url-loader&#x27;</span>,</span><br><span class="line">        <span class="attr">options</span>: &#123;</span><br><span class="line">          <span class="attr">name</span>: <span class="string">&#x27;[name].[ext]?[hash]&#x27;</span></span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    ]</span><br><span class="line">  &#125;，</span><br><span class="line">  <span class="attr">plugins</span>: [</span><br><span class="line">    <span class="keyword">new</span> HtmlWebpackPlugin(&#123;<span class="attr">template</span>: <span class="string">&#x27;./src/index.html&#x27;</span>&#125;),</span><br><span class="line">    <span class="keyword">new</span> webpack.DefinePlugin(&#123;</span><br><span class="line">      <span class="string">&#x27;process.env&#x27;</span>: &#123;</span><br><span class="line">        <span class="attr">NODE_ENV</span>: <span class="string">&#x27;&quot;production&quot;&#x27;</span></span><br><span class="line">      &#125;</span><br><span class="line">    &#125;),</span><br><span class="line">    <span class="keyword">new</span> webpack.optimize.UglifyJsPlugin(&#123;</span><br><span class="line">      <span class="attr">sourceMap</span>: <span class="literal">true</span>,</span><br><span class="line">      <span class="attr">compress</span>: &#123;</span><br><span class="line">        <span class="attr">warnings</span>: <span class="literal">false</span></span><br><span class="line">      &#125;</span><br><span class="line">    &#125;),</span><br><span class="line">    <span class="keyword">new</span> webpack.LoaderOptionsPlugin(&#123;</span><br><span class="line">      <span class="attr">minimize</span>: <span class="literal">true</span></span><br><span class="line">    &#125;)</span><br><span class="line">  ]</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-
-<p>webpack 提供许多开箱可用的插件！具体可以查阅<a href="https://webpack.js.org/plugins/" title="webpack官方文档">webpack官方文档</a>。</p>
-<h3 id="2-5-mode（模式）"><a href="#2-5-mode（模式）" class="headerlink" title="2.5 mode（模式）"></a>2.5 mode（模式）</h3><p>通过选择 development 或 production 之中的一个，来设置 mode 参数，你可以启用相应模式下的 webpack 内置的优化。</p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="comment">// webpack.config.js</span></span><br><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">  <span class="attr">mode</span>: <span class="string">&#x27;production&#x27;</span>  <span class="comment">// &quot;production&quot; | &quot;development&quot; | &quot;none&quot;</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>webpack</category>
-      </categories>
-      <tags>
-        <tag>webpack</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>webstorm快捷键（win版）</title>
-    <url>/2021/12/12/webstorm%E5%BF%AB%E6%8D%B7%E9%94%AE%EF%BC%88win%E7%89%88%EF%BC%89/</url>
-    <content><![CDATA[<h2 id="编辑"><a href="#编辑" class="headerlink" title="编辑"></a>编辑</h2><p>Ctrl + Space 基本代码完成 （任何类、 方法或变量名称）<br>Ctrl + Shift + Enter 完整的语句<br>Ctrl + P （在方法调用参数） 内的参数信息<br>Ctrl + Q 快速的文件查找<br>Ctrl + mouse 在简短的信息的代码<br>Ctrl + F1 在插入符号显示错误或警告的说明<br>Alt + Insert 生成代码…<br>Ctrl + Alt + T 以…（如果……否则，尝试。抓住，等等。）<br>Ctrl + / 行注释与取消注释<br>Ctrl + Shift + / 块注释与取消注释<br>Ctrl + W 选择先后提高代码块<br>Ctrl + Shift + W 减少当前所选内容到以前的状态<br>Alt + Q 上下文信息 Alt + enter 键显示意图采取行动和快速修复<br>Ctrl + Alt + L 格式化代码<br>Ctrl + Alt + I 自动缩进的行数<br>Tab / Shift + Tab 缩进/取消缩进选定的行<br>Ctrl + X , Shift + Delete 剪切到剪贴板的当前行或者所选代码块<br>Ctrl + C，Ctrl + 插入复制当前行或者所选代码块到剪贴板<br>Ctrl + V，Shift + 从剪贴板插入粘贴<br>Ctrl + Shift + V 粘贴从最近缓冲区…<br>Ctrl + D 复制当前行或者所选代码块<br>Ctrl + Y 删除线在插入符号<br>Ctrl + Shift + J 加入行<br>Ctrl + enter 键分割线<br>Shift + Enter 开始新行<br>Ctrl + Shift + U 切换案例在插入符号或所选代码块的词<br>按住 Ctrl + Shift +] / [选择直到代码块结束/开始<br>Ctrl + Delete 删除单词结束 Ctrl + 退格键删除单词的开始<br>Ctrl + 滑鼠 + /-展开/折叠代码块<br>Ctrl + Shift + 滑鼠 + 全部展开<br>Ctrl + Shift + 滑鼠-崩溃<br>Ctrl + F4 关闭活动的编辑器标签</p>
-<h2 id="多个插入符号和选择"><a href="#多个插入符号和选择" class="headerlink" title="多个插入符号和选择"></a>多个插入符号和选择</h2><p>Alt + 单击添加或插入符号<br>Shift + Ctrl + Alt + J 选择全部删除按住<br>Alt + J 选择下一个出现<br>Alt + Shift + J 取消选择发生按<br>Esc 取消选择所有事件或插入符号</p>
-<h2 id="运行"><a href="#运行" class="headerlink" title="运行"></a>运行</h2><p>Alt + Shift + F10/F9 选择配置和运行/调试<br>Shift + F10/F9 运行/调试<br>Ctrl + Shift + F10/F9 运行/调试上下文配置从编辑器<br>Alt + Shift + R 重新运行测试</p>
-<h2 id="调试"><a href="#调试" class="headerlink" title="调试"></a>调试</h2><p>F8 步骤<br>F7 一步成<br>Shift + F7 智能踏入<br>Shift + F8 踏出<br>Alt + F9 运行到光标<br>Alt + F8 计算表达式的值<br>F9 简历<br>Ctrl + f8 键切换断点<br>Ctrl + Shift + F8 查看断点</p>
-<h2 id="导航"><a href="#导航" class="headerlink" title="导航"></a>导航</h2><p>Ctrl + N 去某个类<br>Ctrl + Shift + N 转到文件<br>Ctrl + Alt + 转变 + N 转到符号<br>Alt + 权利转到下一个编辑器选项卡<br>Alt + 左转到上一个编辑器选项卡<br>f12 键回到上一个工具窗口<br>esc 键转到编辑器 （在工具窗口中）<br>Shift + Esc 隐藏活动或最后一个活动窗口<br>Ctrl + Shift + F4 关闭活动运行/消息/查找 /……选项卡<br>Ctrl + G 转到线<br>Ctrl + E 最近文件弹出式<br>Ctrl + Alt + 左/右导航回 /转发<br>Ctrl + Shift + 退格键导航最后编辑位置<br>Alt + F1 选择当前文件或符号在任何视图中<br>Ctrl + B，<br>Ctrl + 单击转到声明<br>Ctrl + Alt + B 去实现<br>Ctrl + Shift + I，打开快速定义查找<br>Ctrl + Shift + B 去键入宣言<br>Ctrl + U 转到超级方法/超级类<br>Alt + 上下转到上一页/下一页方法<br>Ctrl +] / [移动到代码块结束/启动<br>Ctrl + f12 键文件结构弹出<br>Ctrl + H 类型层次结构<br>Ctrl + Alt + H 调用层次结构<br>F2 / Shift + F2 下一页/上一页突出显示错误 F4，<br>Ctrl + Ente 跳转到源<br>Alt + home 跳转到导航栏<br>F11 切换书签<br>Ctrl + F11 切换书签助记键<br>Ctrl + #[0-9] 去带编号的书签<br>Shift + F11 显示书签</p>
-<h2 id="VCS-当地历史"><a href="#VCS-当地历史" class="headerlink" title="VCS/当地历史"></a>VCS/当地历史</h2><p>Alt + 反引号 (‘) ‘VCS’ 快速弹出<br>Ctrl + K 提交项目到 VCS<br>Ctrl + T 更新项目从 VCS<br>Alt + Shift + C 查看最近的更改</p>
-<h2 id="搜索-替换"><a href="#搜索-替换" class="headerlink" title="搜索/替换"></a>搜索/替换</h2><p>Ctrl + F 查找<br>F3 查找下一步<br>Shift + F3 查找上一个<br>Ctrl + R 替换<br>Ctrl + Shift + F 在路径中找到<br>Ctrl + Shift + R 替换路径中</p>
-<h2 id="使用搜索"><a href="#使用搜索" class="headerlink" title="使用搜索"></a>使用搜索</h2><p>Alt + f7 键 / Ctrl + f7 键查找使用实例 / 找到用法在文件<br>Ctrl + Shift + f7 键突出显示用法在文件<br>Ctrl + Alt + F7 显示用法</p>
-<h2 id="重构"><a href="#重构" class="headerlink" title="重构"></a>重构</h2><p>F5 副本<br>F6 移动<br>Alt + delete 安全删除<br>Shift + F6 重命名<br>Ctrl + Alt + N 内联可变<br>Ctrl + Alt + M 提取方法<br>Ctrl + Alt + V 引进可变<br>Ctrl + Alt + C 引入的恒定<br>Ctrl + Alt + P 介绍参数<br>Ctrl + F6 变化函数签名</p>
-<h2 id="一般"><a href="#一般" class="headerlink" title="一般"></a>一般</h2><p>Ctrl + Shift +a 查找操作<br>双击shift 查找所有的（包括文件、命令等）<br>Alt + #[0-9] 打开相应的工具窗口<br>Ctrl + Shift + f12 键切换最大化编辑器<br>Alt + Shift + F 将添加到收藏夹<br>Alt + Shift + I 检查当前文件与当前配置文件<br>Ctrl + 反引号 (‘) 快速切换当前计划<br>Ctrl + Alt + S 打开设置对话框<br>Ctrl + Tab 切换选项卡和工具窗口</p>
-]]></content>
-      <categories>
-        <category>编辑器</category>
-      </categories>
-      <tags>
-        <tag>编辑器</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>webstorm快捷键（Mac版）</title>
     <url>/2021/12/12/webstorm%E5%BF%AB%E6%8D%B7%E9%94%AE%EF%BC%88Mac%E7%89%88%EF%BC%89/</url>
     <content><![CDATA[<p>⌘——Command</p>
@@ -1094,6 +1073,27 @@
       </tags>
   </entry>
   <entry>
+    <title>webstorm快捷键（win版）</title>
+    <url>/2021/12/12/webstorm%E5%BF%AB%E6%8D%B7%E9%94%AE%EF%BC%88win%E7%89%88%EF%BC%89/</url>
+    <content><![CDATA[<h2 id="编辑"><a href="#编辑" class="headerlink" title="编辑"></a>编辑</h2><p>Ctrl + Space 基本代码完成 （任何类、 方法或变量名称）<br>Ctrl + Shift + Enter 完整的语句<br>Ctrl + P （在方法调用参数） 内的参数信息<br>Ctrl + Q 快速的文件查找<br>Ctrl + mouse 在简短的信息的代码<br>Ctrl + F1 在插入符号显示错误或警告的说明<br>Alt + Insert 生成代码…<br>Ctrl + Alt + T 以…（如果……否则，尝试。抓住，等等。）<br>Ctrl + / 行注释与取消注释<br>Ctrl + Shift + / 块注释与取消注释<br>Ctrl + W 选择先后提高代码块<br>Ctrl + Shift + W 减少当前所选内容到以前的状态<br>Alt + Q 上下文信息 Alt + enter 键显示意图采取行动和快速修复<br>Ctrl + Alt + L 格式化代码<br>Ctrl + Alt + I 自动缩进的行数<br>Tab / Shift + Tab 缩进/取消缩进选定的行<br>Ctrl + X , Shift + Delete 剪切到剪贴板的当前行或者所选代码块<br>Ctrl + C，Ctrl + 插入复制当前行或者所选代码块到剪贴板<br>Ctrl + V，Shift + 从剪贴板插入粘贴<br>Ctrl + Shift + V 粘贴从最近缓冲区…<br>Ctrl + D 复制当前行或者所选代码块<br>Ctrl + Y 删除线在插入符号<br>Ctrl + Shift + J 加入行<br>Ctrl + enter 键分割线<br>Shift + Enter 开始新行<br>Ctrl + Shift + U 切换案例在插入符号或所选代码块的词<br>按住 Ctrl + Shift +] / [选择直到代码块结束/开始<br>Ctrl + Delete 删除单词结束 Ctrl + 退格键删除单词的开始<br>Ctrl + 滑鼠 + /-展开/折叠代码块<br>Ctrl + Shift + 滑鼠 + 全部展开<br>Ctrl + Shift + 滑鼠-崩溃<br>Ctrl + F4 关闭活动的编辑器标签</p>
+<h2 id="多个插入符号和选择"><a href="#多个插入符号和选择" class="headerlink" title="多个插入符号和选择"></a>多个插入符号和选择</h2><p>Alt + 单击添加或插入符号<br>Shift + Ctrl + Alt + J 选择全部删除按住<br>Alt + J 选择下一个出现<br>Alt + Shift + J 取消选择发生按<br>Esc 取消选择所有事件或插入符号</p>
+<h2 id="运行"><a href="#运行" class="headerlink" title="运行"></a>运行</h2><p>Alt + Shift + F10/F9 选择配置和运行/调试<br>Shift + F10/F9 运行/调试<br>Ctrl + Shift + F10/F9 运行/调试上下文配置从编辑器<br>Alt + Shift + R 重新运行测试</p>
+<h2 id="调试"><a href="#调试" class="headerlink" title="调试"></a>调试</h2><p>F8 步骤<br>F7 一步成<br>Shift + F7 智能踏入<br>Shift + F8 踏出<br>Alt + F9 运行到光标<br>Alt + F8 计算表达式的值<br>F9 简历<br>Ctrl + f8 键切换断点<br>Ctrl + Shift + F8 查看断点</p>
+<h2 id="导航"><a href="#导航" class="headerlink" title="导航"></a>导航</h2><p>Ctrl + N 去某个类<br>Ctrl + Shift + N 转到文件<br>Ctrl + Alt + 转变 + N 转到符号<br>Alt + 权利转到下一个编辑器选项卡<br>Alt + 左转到上一个编辑器选项卡<br>f12 键回到上一个工具窗口<br>esc 键转到编辑器 （在工具窗口中）<br>Shift + Esc 隐藏活动或最后一个活动窗口<br>Ctrl + Shift + F4 关闭活动运行/消息/查找 /……选项卡<br>Ctrl + G 转到线<br>Ctrl + E 最近文件弹出式<br>Ctrl + Alt + 左/右导航回 /转发<br>Ctrl + Shift + 退格键导航最后编辑位置<br>Alt + F1 选择当前文件或符号在任何视图中<br>Ctrl + B，<br>Ctrl + 单击转到声明<br>Ctrl + Alt + B 去实现<br>Ctrl + Shift + I，打开快速定义查找<br>Ctrl + Shift + B 去键入宣言<br>Ctrl + U 转到超级方法/超级类<br>Alt + 上下转到上一页/下一页方法<br>Ctrl +] / [移动到代码块结束/启动<br>Ctrl + f12 键文件结构弹出<br>Ctrl + H 类型层次结构<br>Ctrl + Alt + H 调用层次结构<br>F2 / Shift + F2 下一页/上一页突出显示错误 F4，<br>Ctrl + Ente 跳转到源<br>Alt + home 跳转到导航栏<br>F11 切换书签<br>Ctrl + F11 切换书签助记键<br>Ctrl + #[0-9] 去带编号的书签<br>Shift + F11 显示书签</p>
+<h2 id="VCS-当地历史"><a href="#VCS-当地历史" class="headerlink" title="VCS/当地历史"></a>VCS/当地历史</h2><p>Alt + 反引号 (‘) ‘VCS’ 快速弹出<br>Ctrl + K 提交项目到 VCS<br>Ctrl + T 更新项目从 VCS<br>Alt + Shift + C 查看最近的更改</p>
+<h2 id="搜索-替换"><a href="#搜索-替换" class="headerlink" title="搜索/替换"></a>搜索/替换</h2><p>Ctrl + F 查找<br>F3 查找下一步<br>Shift + F3 查找上一个<br>Ctrl + R 替换<br>Ctrl + Shift + F 在路径中找到<br>Ctrl + Shift + R 替换路径中</p>
+<h2 id="使用搜索"><a href="#使用搜索" class="headerlink" title="使用搜索"></a>使用搜索</h2><p>Alt + f7 键 / Ctrl + f7 键查找使用实例 / 找到用法在文件<br>Ctrl + Shift + f7 键突出显示用法在文件<br>Ctrl + Alt + F7 显示用法</p>
+<h2 id="重构"><a href="#重构" class="headerlink" title="重构"></a>重构</h2><p>F5 副本<br>F6 移动<br>Alt + delete 安全删除<br>Shift + F6 重命名<br>Ctrl + Alt + N 内联可变<br>Ctrl + Alt + M 提取方法<br>Ctrl + Alt + V 引进可变<br>Ctrl + Alt + C 引入的恒定<br>Ctrl + Alt + P 介绍参数<br>Ctrl + F6 变化函数签名</p>
+<h2 id="一般"><a href="#一般" class="headerlink" title="一般"></a>一般</h2><p>Ctrl + Shift +a 查找操作<br>双击shift 查找所有的（包括文件、命令等）<br>Alt + #[0-9] 打开相应的工具窗口<br>Ctrl + Shift + f12 键切换最大化编辑器<br>Alt + Shift + F 将添加到收藏夹<br>Alt + Shift + I 检查当前文件与当前配置文件<br>Ctrl + 反引号 (‘) 快速切换当前计划<br>Ctrl + Alt + S 打开设置对话框<br>Ctrl + Tab 切换选项卡和工具窗口</p>
+]]></content>
+      <categories>
+        <category>编辑器</category>
+      </categories>
+      <tags>
+        <tag>编辑器</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>为什么 TCP 建立连接需要三次握手?</title>
     <url>/2021/12/19/%E4%B8%BA%E4%BB%80%E4%B9%88-TCP-%E5%BB%BA%E7%AB%8B%E8%BF%9E%E6%8E%A5%E9%9C%80%E8%A6%81%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B/</url>
     <content><![CDATA[<p>因为这是为了防止出现失效的连接请求报文段被服务端接收的情况，从而产生错误。</p>
@@ -1106,6 +1106,39 @@
       </categories>
       <tags>
         <tag>HTTP</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>使用npm安装node-sass失败的解决办法</title>
+    <url>/2021/12/12/%E4%BD%BF%E7%94%A8npm%E5%AE%89%E8%A3%85node-sass%E5%A4%B1%E8%B4%A5%E7%9A%84%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95/</url>
+    <content><![CDATA[<p>使用npm安装node-sass失败时，我们可以这样解决：</p>
+<ul>
+<li>第一步（卸载之前安装失败的包）：<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">npm uninstall node-sass -D</span><br></pre></td></tr></table></figure></li>
+<li>第二步（使用淘宝镜像cnpm，先提前安装好cnpm）：<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">cnpm i node-sass -D</span><br></pre></td></tr></table></figure></li>
+</ul>
+]]></content>
+      <categories>
+        <category>前端工具</category>
+      </categories>
+      <tags>
+        <tag>npm</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>去掉inline-block元素间隙</title>
+    <url>/2021/12/18/%E5%8E%BB%E6%8E%89inline-block%E5%85%83%E7%B4%A0%E9%97%B4%E9%9A%99/</url>
+    <content><![CDATA[<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>做页面时，如果用到inline-block元素来布局，就无可避免都会遇到一个问题，就是inline-block元素之间的间隙。这些间隙会导致一些布局上的问题，需要把间隙去掉。</p>
+<h2 id="1、标签写在一行，移除标签间的空格"><a href="#1、标签写在一行，移除标签间的空格" class="headerlink" title="1、标签写在一行，移除标签间的空格"></a>1、标签写在一行，移除标签间的空格</h2><figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;demo&quot;</span>&gt;</span></span><br><span class="line">   <span class="tag">&lt;<span class="name">span</span>&gt;</span>我是一个span<span class="tag">&lt;/<span class="name">span</span>&gt;</span><span class="tag">&lt;<span class="name">span</span>&gt;</span>我是一个span<span class="tag">&lt;/<span class="name">span</span>&gt;</span><span class="tag">&lt;<span class="name">span</span>&gt;</span>我是一个span<span class="tag">&lt;/<span class="name">span</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="2、利用HTML注释标签"><a href="#2、利用HTML注释标签" class="headerlink" title="2、利用HTML注释标签"></a>2、利用HTML注释标签</h2><figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;demo&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">span</span>&gt;</span>我是一个span<span class="tag">&lt;/<span class="name">span</span>&gt;</span><span class="comment">&lt;!-- </span></span><br><span class="line"><span class="comment">    --&gt;</span><span class="tag">&lt;<span class="name">span</span>&gt;</span>我是一个span<span class="tag">&lt;/<span class="name">span</span>&gt;</span><span class="comment">&lt;!-- </span></span><br><span class="line"><span class="comment">    --&gt;</span><span class="tag">&lt;<span class="name">span</span>&gt;</span>我是一个span<span class="tag">&lt;/<span class="name">span</span>&gt;</span><span class="comment">&lt;!-- </span></span><br><span class="line"><span class="comment">    --&gt;</span><span class="tag">&lt;<span class="name">span</span>&gt;</span>我是一个span<span class="tag">&lt;/<span class="name">span</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h2 id="3、在父容器上使用font-size-0-可以消除间隙"><a href="#3、在父容器上使用font-size-0-可以消除间隙" class="headerlink" title="3、在父容器上使用font-size:0;可以消除间隙"></a>3、在父容器上使用font-size:0;可以消除间隙</h2><figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;demo&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">span</span>&gt;</span>我是一个span</span><br><span class="line">    <span class="tag">&lt;<span class="name">span</span>&gt;</span>我是一个span</span><br><span class="line">    <span class="tag">&lt;<span class="name">span</span>&gt;</span>我是一个span</span><br><span class="line">    <span class="tag">&lt;<span class="name">span</span>&gt;</span>我是一个span<span class="tag">&lt;/<span class="name">span</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight css"><table><tr><td class="code"><pre><span class="line"><span class="selector-class">.demo</span> &#123;<span class="attribute">font-size</span>: <span class="number">0</span>;&#125;</span><br><span class="line"><span class="selector-class">.demo</span> <span class="selector-tag">span</span>&#123;</span><br><span class="line">     <span class="attribute">background</span>:<span class="number">#ddd</span>;</span><br><span class="line">     <span class="attribute">display</span>: inline-block;</span><br><span class="line">     <span class="attribute">font-size</span>: <span class="number">14px</span>; <span class="comment">/*要设置相应的字号*/</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>CSS</category>
+      </categories>
+      <tags>
+        <tag>CSS</tag>
       </tags>
   </entry>
   <entry>
@@ -1190,30 +1223,10 @@
       </tags>
   </entry>
   <entry>
-    <title>使用npm安装node-sass失败的解决办法</title>
-    <url>/2021/12/12/%E4%BD%BF%E7%94%A8npm%E5%AE%89%E8%A3%85node-sass%E5%A4%B1%E8%B4%A5%E7%9A%84%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95/</url>
-    <content><![CDATA[<p>使用npm安装node-sass失败时，我们可以这样解决：</p>
-<ul>
-<li>第一步（卸载之前安装失败的包）：<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">npm uninstall node-sass -D</span><br></pre></td></tr></table></figure></li>
-<li>第二步（使用淘宝镜像cnpm，先提前安装好cnpm）：<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">cnpm i node-sass -D</span><br></pre></td></tr></table></figure></li>
-</ul>
-]]></content>
-      <categories>
-        <category>前端工具</category>
-      </categories>
-      <tags>
-        <tag>npm</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>去掉inline-block元素间隙</title>
-    <url>/2021/12/18/%E5%8E%BB%E6%8E%89inline-block%E5%85%83%E7%B4%A0%E9%97%B4%E9%9A%99/</url>
-    <content><![CDATA[<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>做页面时，如果用到inline-block元素来布局，就无可避免都会遇到一个问题，就是inline-block元素之间的间隙。这些间隙会导致一些布局上的问题，需要把间隙去掉。</p>
-<h2 id="1、标签写在一行，移除标签间的空格"><a href="#1、标签写在一行，移除标签间的空格" class="headerlink" title="1、标签写在一行，移除标签间的空格"></a>1、标签写在一行，移除标签间的空格</h2><figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;demo&quot;</span>&gt;</span></span><br><span class="line">   <span class="tag">&lt;<span class="name">span</span>&gt;</span>我是一个span<span class="tag">&lt;/<span class="name">span</span>&gt;</span><span class="tag">&lt;<span class="name">span</span>&gt;</span>我是一个span<span class="tag">&lt;/<span class="name">span</span>&gt;</span><span class="tag">&lt;<span class="name">span</span>&gt;</span>我是一个span<span class="tag">&lt;/<span class="name">span</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-<h2 id="2、利用HTML注释标签"><a href="#2、利用HTML注释标签" class="headerlink" title="2、利用HTML注释标签"></a>2、利用HTML注释标签</h2><figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;demo&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">span</span>&gt;</span>我是一个span<span class="tag">&lt;/<span class="name">span</span>&gt;</span><span class="comment">&lt;!-- </span></span><br><span class="line"><span class="comment">    --&gt;</span><span class="tag">&lt;<span class="name">span</span>&gt;</span>我是一个span<span class="tag">&lt;/<span class="name">span</span>&gt;</span><span class="comment">&lt;!-- </span></span><br><span class="line"><span class="comment">    --&gt;</span><span class="tag">&lt;<span class="name">span</span>&gt;</span>我是一个span<span class="tag">&lt;/<span class="name">span</span>&gt;</span><span class="comment">&lt;!-- </span></span><br><span class="line"><span class="comment">    --&gt;</span><span class="tag">&lt;<span class="name">span</span>&gt;</span>我是一个span<span class="tag">&lt;/<span class="name">span</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<h2 id="3、在父容器上使用font-size-0-可以消除间隙"><a href="#3、在父容器上使用font-size-0-可以消除间隙" class="headerlink" title="3、在父容器上使用font-size:0;可以消除间隙"></a>3、在父容器上使用font-size:0;可以消除间隙</h2><figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;demo&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">span</span>&gt;</span>我是一个span</span><br><span class="line">    <span class="tag">&lt;<span class="name">span</span>&gt;</span>我是一个span</span><br><span class="line">    <span class="tag">&lt;<span class="name">span</span>&gt;</span>我是一个span</span><br><span class="line">    <span class="tag">&lt;<span class="name">span</span>&gt;</span>我是一个span<span class="tag">&lt;/<span class="name">span</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<figure class="highlight css"><table><tr><td class="code"><pre><span class="line"><span class="selector-class">.demo</span> &#123;<span class="attribute">font-size</span>: <span class="number">0</span>;&#125;</span><br><span class="line"><span class="selector-class">.demo</span> <span class="selector-tag">span</span>&#123;</span><br><span class="line">     <span class="attribute">background</span>:<span class="number">#ddd</span>;</span><br><span class="line">     <span class="attribute">display</span>: inline-block;</span><br><span class="line">     <span class="attribute">font-size</span>: <span class="number">14px</span>; <span class="comment">/*要设置相应的字号*/</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+    <title>移动端按钮点击背景高亮解决之法</title>
+    <url>/2021/12/14/%E7%A7%BB%E5%8A%A8%E7%AB%AF%E6%8C%89%E9%92%AE%E7%82%B9%E5%87%BB%E8%83%8C%E6%99%AF%E9%AB%98%E4%BA%AE%E8%A7%A3%E5%86%B3%E4%B9%8B%E6%B3%95/</url>
+    <content><![CDATA[<p>在移动端上，有事件监听的元素被点击的时候会被高亮显示，而-webkit-tap-highlight-color属性会在当用户点击iOS的Safari浏览器中的链接或JavaScript的可点击的元素时，覆盖显示的高亮颜色。</p>
+<p>对于添加了 cursor:pointer 属性的元素，在移动端点击时，背景会高亮。为元素添加 -webkit-tap-highlight-color: transparent; 属性可以隐藏背景高亮。</p>
 ]]></content>
       <categories>
         <category>CSS</category>
@@ -1277,19 +1290,6 @@
       </categories>
       <tags>
         <tag>JavaScript</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>移动端按钮点击背景高亮解决之法</title>
-    <url>/2021/12/14/%E7%A7%BB%E5%8A%A8%E7%AB%AF%E6%8C%89%E9%92%AE%E7%82%B9%E5%87%BB%E8%83%8C%E6%99%AF%E9%AB%98%E4%BA%AE%E8%A7%A3%E5%86%B3%E4%B9%8B%E6%B3%95/</url>
-    <content><![CDATA[<p>在移动端上，有事件监听的元素被点击的时候会被高亮显示，而-webkit-tap-highlight-color属性会在当用户点击iOS的Safari浏览器中的链接或JavaScript的可点击的元素时，覆盖显示的高亮颜色。</p>
-<p>对于添加了 cursor:pointer 属性的元素，在移动端点击时，背景会高亮。为元素添加 -webkit-tap-highlight-color: transparent; 属性可以隐藏背景高亮。</p>
-]]></content>
-      <categories>
-        <category>CSS</category>
-      </categories>
-      <tags>
-        <tag>CSS</tag>
       </tags>
   </entry>
 </search>
