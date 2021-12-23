@@ -1,27 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>ES6的let到底存不存在变量提升</title>
-    <url>/2021/12/12/ES6%E7%9A%84let%E5%88%B0%E5%BA%95%E5%AD%98%E4%B8%8D%E5%AD%98%E5%9C%A8%E5%8F%98%E9%87%8F%E6%8F%90%E5%8D%87/</url>
-    <content><![CDATA[<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>关于ES6中的let存不存在变量提升的问题，我想大部分人都认为是不存在变量提升的，而官方文档关于这点也曾做过改动，最初是认为存在变量提升，后来又改成了不存在变量提升。而最近我在CSDN上看到一篇文章在探讨这个问题，于是自己就试验了一下。实践是检验真理的唯一标准，那么今天我们就来探讨一下到底let存不存在变量提升的问题。</p>
-<h2 id="变量提升"><a href="#变量提升" class="headerlink" title="变量提升"></a>变量提升</h2><p><strong>定义：函数声明和变量声明总是被JavaScript解释器隐式地提升(hoist)到包含他们的作用域的最顶端。</strong></p>
-<p>通过定义我们可以知道，只有变量的声明和函数的声明存在变量提升这一说，那么在ES6出现之前，JavaScript声明变量的方式是通过关键字var实现的，声明函数自然通过function啦，ES6中我们用let，const来声明变量和常量。</p>
-<p>话不多说，直接上一段代码： <code>&#123; console.log(a) // 报错，a is not defined let a=2; &#125;</code></p>
-<hr>
-<p>这和官方文档所说的存在暂时性死区是一致的。<br>如果let存在变量提升，那么上述代码就相当于下面这样</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&#123; let a; console.log(a) //undefined a=2; &#125;```  </span><br><span class="line"> 由此可见，let并不存在变量提升。此外，ES6新增了块级作用域的概念，块级作用域简单的来说就是用&#123;&#125;包裹起来的就是块级作用域。不妨再来看一个例子：  </span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>{ let a =11; console.log(a); //11 }```</p>
-<p>console.log(a); //报错，a is not defined<br>因此，我们可以得出结论，let声明的变量不能跨块访问。</p>
-]]></content>
-      <categories>
-        <category>JavaScript</category>
-      </categories>
-      <tags>
-        <tag>JavaScript</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>HTTP状态码详解</title>
     <url>/2021/12/12/HTTP%E7%8A%B6%E6%80%81%E7%A0%81%E8%AF%A6%E8%A7%A3/</url>
     <content><![CDATA[<p>HTTP状态码负责表示客户端HTTP请求的返回结果、标记服务器端的处理是否正常、通知出现的错误等工作。</p>
@@ -91,6 +70,44 @@
       </tags>
   </entry>
   <entry>
+    <title>ES6的let到底存不存在变量提升</title>
+    <url>/2021/12/12/ES6%E7%9A%84let%E5%88%B0%E5%BA%95%E5%AD%98%E4%B8%8D%E5%AD%98%E5%9C%A8%E5%8F%98%E9%87%8F%E6%8F%90%E5%8D%87/</url>
+    <content><![CDATA[<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>关于ES6中的let存不存在变量提升的问题，我想大部分人都认为是不存在变量提升的，而官方文档关于这点也曾做过改动，最初是认为存在变量提升，后来又改成了不存在变量提升。而最近我在CSDN上看到一篇文章在探讨这个问题，于是自己就试验了一下。实践是检验真理的唯一标准，那么今天我们就来探讨一下到底let存不存在变量提升的问题。</p>
+<h2 id="变量提升"><a href="#变量提升" class="headerlink" title="变量提升"></a>变量提升</h2><p><strong>定义：函数声明和变量声明总是被JavaScript解释器隐式地提升(hoist)到包含他们的作用域的最顶端。</strong></p>
+<p>通过定义我们可以知道，只有变量的声明和函数的声明存在变量提升这一说，那么在ES6出现之前，JavaScript声明变量的方式是通过关键字var实现的，声明函数自然通过function啦，ES6中我们用let，const来声明变量和常量。</p>
+<p>话不多说，直接上一段代码： <code>&#123; console.log(a) // 报错，a is not defined let a=2; &#125;</code></p>
+<hr>
+<p>这和官方文档所说的存在暂时性死区是一致的。<br>如果let存在变量提升，那么上述代码就相当于下面这样</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&#123; let a; console.log(a) //undefined a=2; &#125;```  </span><br><span class="line"> 由此可见，let并不存在变量提升。此外，ES6新增了块级作用域的概念，块级作用域简单的来说就是用&#123;&#125;包裹起来的就是块级作用域。不妨再来看一个例子：  </span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>{ let a =11; console.log(a); //11 }```</p>
+<p>console.log(a); //报错，a is not defined<br>因此，我们可以得出结论，let声明的变量不能跨块访问。</p>
+]]></content>
+      <categories>
+        <category>JavaScript</category>
+      </categories>
+      <tags>
+        <tag>JavaScript</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>JS中构造函数中有return的分析</title>
+    <url>/2021/12/13/JS%E4%B8%AD%E6%9E%84%E9%80%A0%E5%87%BD%E6%95%B0%E4%B8%AD%E6%9C%89return%E7%9A%84%E5%88%86%E6%9E%90/</url>
+    <content><![CDATA[<h2 id="写在前面"><a href="#写在前面" class="headerlink" title="写在前面"></a>写在前面</h2><p>简单的总结来说就一句话：如果return的值是基本数据类型的话，则忽略return，直接返回实例化的对象；如果return的值是引用类型的话，则不再返回实例化的对象，而是直接返回return返回的引用类型的值。</p>
+<h2 id="demo帮助理解"><a href="#demo帮助理解" class="headerlink" title="demo帮助理解"></a>demo帮助理解</h2><p>看几个例子</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Person</span>(<span class="params">name</span>) </span>&#123;</span><br><span class="line">   <span class="built_in">this</span>.name = name</span><br><span class="line">   <span class="keyword">return</span> <span class="number">12306</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">let</span> p = <span class="keyword">new</span> Person(<span class="string">&#x27;Tom&#x27;</span>)</span><br><span class="line"><span class="built_in">console</span>.log(p);</span><br></pre></td></tr></table></figure>
+<p>此种情况下，会忽略return后面的12306，而直接返回Person的实例化对象。</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> obj = &#123;<span class="attr">age</span>: <span class="number">26</span>&#125;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Person</span>(<span class="params">name</span>) </span>&#123;</span><br><span class="line">   <span class="built_in">this</span>.name = name</span><br><span class="line">   <span class="keyword">return</span> obj</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">let</span> p = <span class="keyword">new</span> Person(<span class="string">&#x27;Tom&#x27;</span>)</span><br><span class="line"><span class="built_in">console</span>.log(p);</span><br></pre></td></tr></table></figure>
+<p>此种情况下，由于return的值是一个对象，所以p的值最后会是返回的对象，即obj.</p>
+]]></content>
+      <categories>
+        <category>JavaScript</category>
+      </categories>
+      <tags>
+        <tag>JavaScript</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>JS事件委托</title>
     <url>/2021/12/13/JS%E4%BA%8B%E4%BB%B6%E5%A7%94%E6%89%98/</url>
     <content><![CDATA[<h2 id="DOM的事件流程"><a href="#DOM的事件流程" class="headerlink" title="DOM的事件流程"></a>DOM的事件流程</h2><p>DOM的事件流程分为三个阶段：<strong>事件捕获阶段</strong>、<strong>处于目标阶段</strong>、<strong>事件冒泡阶段</strong>。</p>
@@ -131,23 +148,6 @@
       </tags>
   </entry>
   <entry>
-    <title>JS中构造函数中有return的分析</title>
-    <url>/2021/12/13/JS%E4%B8%AD%E6%9E%84%E9%80%A0%E5%87%BD%E6%95%B0%E4%B8%AD%E6%9C%89return%E7%9A%84%E5%88%86%E6%9E%90/</url>
-    <content><![CDATA[<h2 id="写在前面"><a href="#写在前面" class="headerlink" title="写在前面"></a>写在前面</h2><p>简单的总结来说就一句话：如果return的值是基本数据类型的话，则忽略return，直接返回实例化的对象；如果return的值是引用类型的话，则不再返回实例化的对象，而是直接返回return返回的引用类型的值。</p>
-<h2 id="demo帮助理解"><a href="#demo帮助理解" class="headerlink" title="demo帮助理解"></a>demo帮助理解</h2><p>看几个例子</p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Person</span>(<span class="params">name</span>) </span>&#123;</span><br><span class="line">   <span class="built_in">this</span>.name = name</span><br><span class="line">   <span class="keyword">return</span> <span class="number">12306</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">let</span> p = <span class="keyword">new</span> Person(<span class="string">&#x27;Tom&#x27;</span>)</span><br><span class="line"><span class="built_in">console</span>.log(p);</span><br></pre></td></tr></table></figure>
-<p>此种情况下，会忽略return后面的12306，而直接返回Person的实例化对象。</p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> obj = &#123;<span class="attr">age</span>: <span class="number">26</span>&#125;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Person</span>(<span class="params">name</span>) </span>&#123;</span><br><span class="line">   <span class="built_in">this</span>.name = name</span><br><span class="line">   <span class="keyword">return</span> obj</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">let</span> p = <span class="keyword">new</span> Person(<span class="string">&#x27;Tom&#x27;</span>)</span><br><span class="line"><span class="built_in">console</span>.log(p);</span><br></pre></td></tr></table></figure>
-<p>此种情况下，由于return的值是一个对象，所以p的值最后会是返回的对象，即obj.</p>
-]]></content>
-      <categories>
-        <category>JavaScript</category>
-      </categories>
-      <tags>
-        <tag>JavaScript</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>JS事件对象(event)的一些兼容性写法</title>
     <url>/2021/12/12/JS%E4%BA%8B%E4%BB%B6%E5%AF%B9%E8%B1%A1-event-%E7%9A%84%E4%B8%80%E4%BA%9B%E5%85%BC%E5%AE%B9%E6%80%A7%E5%86%99%E6%B3%95/</url>
     <content><![CDATA[<h2 id="获得event对象兼容性写法"><a href="#获得event对象兼容性写法" class="headerlink" title="获得event对象兼容性写法"></a>获得event对象兼容性写法</h2><pre><code>event || (event = window.event);
@@ -170,35 +170,19 @@
       </tags>
   </entry>
   <entry>
-    <title>JS尾调用</title>
-    <url>/2021/12/13/JS%E5%B0%BE%E8%B0%83%E7%94%A8/</url>
-    <content><![CDATA[<h2 id="1-尾调用"><a href="#1-尾调用" class="headerlink" title="1. 尾调用"></a>1. 尾调用</h2><p>尾调用（Tail Call）是函数式编程的一个重要的概念，简单的来说就是：某个函数的最后一步是调用另一个函数。</p>
-<p>例如下面的例子就是尾调用：</p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">f</span>(<span class="params">x</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> g(x)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+    <title>JS尾调用优化</title>
+    <url>/2021/12/13/JS%E5%B0%BE%E8%B0%83%E7%94%A8%E4%BC%98%E5%8C%96/</url>
+    <content><![CDATA[<h2 id="1-写在前面"><a href="#1-写在前面" class="headerlink" title="1. 写在前面"></a>1. 写在前面</h2><p>上次介绍了什么是尾调用以及怎么准确快速的判别一个函数调用是否为尾调用。那么，我们判别尾调用的意义是什么呢？做什么事情总归有个目的，那么今天我们就来系统的介绍一下尾调用的意义，或者说尾调用有什么用吧。</p>
+<h2 id="2-尾调用优化"><a href="#2-尾调用优化" class="headerlink" title="2. 尾调用优化"></a>2. 尾调用优化</h2><p>我们知道，函数的调用会在内存中生成一个“调用帧”（call frame），保存着函数的调用位置和内部变量等信息。如果在函数A的内部调用函数B，那么在A的调用帧上方还会生成一个B的调用帧。等到函数B运行结束，将结果返回到A，B的调用帧才会消失。如果函数B的内部还调用函数C，那么在B的调用帧上方又会生成一个C的调用帧，以此类推。所有的调用帧就形成了一个“调用栈”（call stack）。</p>
+<p>我们知道，尾调用是函数的最后一步操作，外部函数的调用位置和其内部变量信息都不会再用到了，所以不需要保留外部函数的调用帧了，直接用内层函数的调用帧取代外层函数的调用帧即可。</p>
+<p>如果所有的函数都是尾调用，那么完全可以做到每次执行时的调用帧只有一项，这将大大的节省内存，更不可能发生内存溢出，这就是讨论尾调用的意义所在。</p>
+<p>所谓的“尾调用优化”，其实就是保证在函数执行时只保留内层函数的调用帧，换句话说，就是用内层函数的调用帧取代外部函数的调用帧，即执行时内存中只保存一项调用帧。</p>
+<h2 id="3-如何做到尾调用优化"><a href="#3-如何做到尾调用优化" class="headerlink" title="3. 如何做到尾调用优化"></a>3. 如何做到尾调用优化</h2><p>通过上面的讨论，我们知道了，只要外部函数的调用帧被内层函数的调用帧取代即可做到“尾调用优化”。同时，我们也知道调用帧是用来保存函数调用位置和内部变量信息的，所以，要想让内层函数的调用帧取代外部函数的调用帧，只需要保证，在调用内层函数时，不再用到和外部函数有关的一切信息即可（不再用到外部函数的内部变量）。</p>
+<p>如此，我们总结出只有内层函数在被调用时不再用到外部函数的内部变量，才能做到“尾调用优化”。</p>
+<p>先来，看一个例子：</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">f</span>(<span class="params">a</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> b = <span class="number">3</span>;</span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">g</span>(<span class="params">n</span>) </span>&#123;</span><br><span class="line">      <span class="keyword">return</span> n + b</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> g(a)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<h2 id="2-尾调用的特点"><a href="#2-尾调用的特点" class="headerlink" title="2. 尾调用的特点"></a>2. 尾调用的特点</h2><p>那么，我们来总结一下，尾调用的特点：</p>
-<p>首先，尾调用必须满足，函数的最后一步是return另一个函数（如上述例子），这里和闭包有点像；</p>
-<p>其次，return 后面的表达式必须仅仅是某个函数的调用，除此之外不能包含其它任何别的操作；</p>
-<p>看下面的例子，我们来分析：</p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">f</span>(<span class="params">x</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> a = <span class="number">3</span></span><br><span class="line">    <span class="keyword">return</span> a + g(x)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>上面这个例子，就不是尾调用，因为return 后的表达式除了函数调用还包含了加法操作，所以这不是尾调用。</p>
-<p>再来看一个例子：</p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">f</span>(<span class="params">x</span>) </span>&#123;</span><br><span class="line">    g(x)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>这仍然不是尾调用，因为上述例子相当于：</p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">f</span>(<span class="params">x</span>) </span>&#123;</span><br><span class="line">    g(x)</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">undefined</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>可以看出，原来的函数并没有return 表达式，相当于返回了undefined，所以此例中的最后一步操作相当于return undefined，所以明显不属于尾调用。</p>
-<p>再来看一个例子：</p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">f</span>(<span class="params">x</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">let</span> a = g(x)</span><br><span class="line">    <span class="keyword">return</span> a</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>此例仍然不属于尾调用，因为最后return 的是函数g(x)的调用返回的结果，所以不是尾调用。</p>
-<p>综上所述，判断是不是尾调用，看一看我们总结的那两个条件是否同时满足。</p>
-<p>再看一个，你能否判断出下面这个例子是否是尾调用呢？</p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">f</span>(<span class="params">x</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (x &gt; <span class="number">0</span>) <span class="keyword">return</span> g(x)</span><br><span class="line">    <span class="keyword">return</span> h(x)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>这是否是尾调用呢？写下你的答案吧！</p>
+<p>上述例子，我们明显可以看出这是典型的尾调用，那么这有没有做到“尾调用优化”呢？很明显，可以看出在调用内部函数g的时候，其内部用到外部函数f 的内部变量b，故在函数g 被调用时，g 的调用帧并不能取代外部函数f 的调用帧，所以这不是“尾调用优化”。</p>
 ]]></content>
       <categories>
         <category>JavaScript</category>
@@ -268,19 +252,54 @@
       </tags>
   </entry>
   <entry>
-    <title>JS尾调用优化</title>
-    <url>/2021/12/13/JS%E5%B0%BE%E8%B0%83%E7%94%A8%E4%BC%98%E5%8C%96/</url>
-    <content><![CDATA[<h2 id="1-写在前面"><a href="#1-写在前面" class="headerlink" title="1. 写在前面"></a>1. 写在前面</h2><p>上次介绍了什么是尾调用以及怎么准确快速的判别一个函数调用是否为尾调用。那么，我们判别尾调用的意义是什么呢？做什么事情总归有个目的，那么今天我们就来系统的介绍一下尾调用的意义，或者说尾调用有什么用吧。</p>
-<h2 id="2-尾调用优化"><a href="#2-尾调用优化" class="headerlink" title="2. 尾调用优化"></a>2. 尾调用优化</h2><p>我们知道，函数的调用会在内存中生成一个“调用帧”（call frame），保存着函数的调用位置和内部变量等信息。如果在函数A的内部调用函数B，那么在A的调用帧上方还会生成一个B的调用帧。等到函数B运行结束，将结果返回到A，B的调用帧才会消失。如果函数B的内部还调用函数C，那么在B的调用帧上方又会生成一个C的调用帧，以此类推。所有的调用帧就形成了一个“调用栈”（call stack）。</p>
-<p>我们知道，尾调用是函数的最后一步操作，外部函数的调用位置和其内部变量信息都不会再用到了，所以不需要保留外部函数的调用帧了，直接用内层函数的调用帧取代外层函数的调用帧即可。</p>
-<p>如果所有的函数都是尾调用，那么完全可以做到每次执行时的调用帧只有一项，这将大大的节省内存，更不可能发生内存溢出，这就是讨论尾调用的意义所在。</p>
-<p>所谓的“尾调用优化”，其实就是保证在函数执行时只保留内层函数的调用帧，换句话说，就是用内层函数的调用帧取代外部函数的调用帧，即执行时内存中只保存一项调用帧。</p>
-<h2 id="3-如何做到尾调用优化"><a href="#3-如何做到尾调用优化" class="headerlink" title="3. 如何做到尾调用优化"></a>3. 如何做到尾调用优化</h2><p>通过上面的讨论，我们知道了，只要外部函数的调用帧被内层函数的调用帧取代即可做到“尾调用优化”。同时，我们也知道调用帧是用来保存函数调用位置和内部变量信息的，所以，要想让内层函数的调用帧取代外部函数的调用帧，只需要保证，在调用内层函数时，不再用到和外部函数有关的一切信息即可（不再用到外部函数的内部变量）。</p>
-<p>如此，我们总结出只有内层函数在被调用时不再用到外部函数的内部变量，才能做到“尾调用优化”。</p>
-<p>先来，看一个例子：</p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">f</span>(<span class="params">a</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> b = <span class="number">3</span>;</span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">g</span>(<span class="params">n</span>) </span>&#123;</span><br><span class="line">      <span class="keyword">return</span> n + b</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> g(a)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+    <title>JS尾调用</title>
+    <url>/2021/12/13/JS%E5%B0%BE%E8%B0%83%E7%94%A8/</url>
+    <content><![CDATA[<h2 id="1-尾调用"><a href="#1-尾调用" class="headerlink" title="1. 尾调用"></a>1. 尾调用</h2><p>尾调用（Tail Call）是函数式编程的一个重要的概念，简单的来说就是：某个函数的最后一步是调用另一个函数。</p>
+<p>例如下面的例子就是尾调用：</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">f</span>(<span class="params">x</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> g(x)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<p>上述例子，我们明显可以看出这是典型的尾调用，那么这有没有做到“尾调用优化”呢？很明显，可以看出在调用内部函数g的时候，其内部用到外部函数f 的内部变量b，故在函数g 被调用时，g 的调用帧并不能取代外部函数f 的调用帧，所以这不是“尾调用优化”。</p>
+<h2 id="2-尾调用的特点"><a href="#2-尾调用的特点" class="headerlink" title="2. 尾调用的特点"></a>2. 尾调用的特点</h2><p>那么，我们来总结一下，尾调用的特点：</p>
+<p>首先，尾调用必须满足，函数的最后一步是return另一个函数（如上述例子），这里和闭包有点像；</p>
+<p>其次，return 后面的表达式必须仅仅是某个函数的调用，除此之外不能包含其它任何别的操作；</p>
+<p>看下面的例子，我们来分析：</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">f</span>(<span class="params">x</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> a = <span class="number">3</span></span><br><span class="line">    <span class="keyword">return</span> a + g(x)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>上面这个例子，就不是尾调用，因为return 后的表达式除了函数调用还包含了加法操作，所以这不是尾调用。</p>
+<p>再来看一个例子：</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">f</span>(<span class="params">x</span>) </span>&#123;</span><br><span class="line">    g(x)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这仍然不是尾调用，因为上述例子相当于：</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">f</span>(<span class="params">x</span>) </span>&#123;</span><br><span class="line">    g(x)</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">undefined</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>可以看出，原来的函数并没有return 表达式，相当于返回了undefined，所以此例中的最后一步操作相当于return undefined，所以明显不属于尾调用。</p>
+<p>再来看一个例子：</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">f</span>(<span class="params">x</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">let</span> a = g(x)</span><br><span class="line">    <span class="keyword">return</span> a</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>此例仍然不属于尾调用，因为最后return 的是函数g(x)的调用返回的结果，所以不是尾调用。</p>
+<p>综上所述，判断是不是尾调用，看一看我们总结的那两个条件是否同时满足。</p>
+<p>再看一个，你能否判断出下面这个例子是否是尾调用呢？</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">f</span>(<span class="params">x</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (x &gt; <span class="number">0</span>) <span class="keyword">return</span> g(x)</span><br><span class="line">    <span class="keyword">return</span> h(x)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这是否是尾调用呢？写下你的答案吧！</p>
+]]></content>
+      <categories>
+        <category>JavaScript</category>
+      </categories>
+      <tags>
+        <tag>JavaScript</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>JS检测属性位于对象本身还是来自于其原型链</title>
+    <url>/2021/12/13/JS%E6%A3%80%E6%B5%8B%E5%B1%9E%E6%80%A7%E4%BD%8D%E4%BA%8E%E5%AF%B9%E8%B1%A1%E6%9C%AC%E8%BA%AB%E8%BF%98%E6%98%AF%E6%9D%A5%E8%87%AA%E4%BA%8E%E5%85%B6%E5%8E%9F%E5%9E%8B%E9%93%BE/</url>
+    <content><![CDATA[<h2 id="1-in-操作符"><a href="#1-in-操作符" class="headerlink" title="1.in 操作符"></a>1.in 操作符</h2><p>in 操作符会在通过对象能够访问给定属性时返回true，无论该属性存在于对象本身还是其原型链上。</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Person</span>(<span class="params">name</span>) </span>&#123;</span><br><span class="line">       <span class="built_in">this</span>.name = name</span><br><span class="line">   &#125;</span><br><span class="line">   <span class="keyword">let</span> obj = <span class="keyword">new</span> Person(<span class="string">&#x27;Tom&#x27;</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">   Person.prototype.gender = <span class="string">&#x27;male&#x27;</span></span><br><span class="line">   Person.prototype.code = <span class="number">23</span></span><br><span class="line">   </span><br><span class="line">   <span class="built_in">console</span>.log(<span class="string">&quot;name&quot;</span> <span class="keyword">in</span> obj) <span class="comment">// true</span></span><br><span class="line">   <span class="built_in">console</span>.log(<span class="string">&#x27;code&#x27;</span> <span class="keyword">in</span> obj) <span class="comment">// true</span></span><br><span class="line">   <span class="built_in">console</span>.log(<span class="string">&#x27;gender&#x27;</span> <span class="keyword">in</span> obj) <span class="comment">// true</span></span><br></pre></td></tr></table></figure>
+
+
+<h2 id="2-obj-hasOwnProperty-prop"><a href="#2-obj-hasOwnProperty-prop" class="headerlink" title="2.obj.hasOwnProperty(prop)"></a>2.obj.hasOwnProperty(prop)</h2><p>hasOwnProperty() 方法会返回一个布尔值，指示对象自身属性中是否具有指定的属性。</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Person</span>(<span class="params">name</span>) </span>&#123;</span><br><span class="line">       <span class="built_in">this</span>.name = name</span><br><span class="line">   &#125;</span><br><span class="line">   <span class="keyword">let</span> obj = <span class="keyword">new</span> Person(<span class="string">&#x27;Tom&#x27;</span>)</span><br><span class="line"></span><br><span class="line">   Person.prototype.gender = <span class="string">&#x27;male&#x27;</span></span><br><span class="line">   Person.prototype.code = <span class="number">23</span></span><br><span class="line"></span><br><span class="line">   <span class="built_in">console</span>.log(obj.hasOwnProperty(<span class="string">&#x27;name&#x27;</span>)) <span class="comment">// true</span></span><br><span class="line">   <span class="built_in">console</span>.log(obj.hasOwnProperty(<span class="string">&#x27;code&#x27;</span>)) <span class="comment">// false</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="3-两者结合判断属性位于对象本身还是来自于其原型链"><a href="#3-两者结合判断属性位于对象本身还是来自于其原型链" class="headerlink" title="3.两者结合判断属性位于对象本身还是来自于其原型链"></a>3.两者结合判断属性位于对象本身还是来自于其原型链</h2><figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Person</span>(<span class="params">name</span>) </span>&#123;</span><br><span class="line">     <span class="built_in">this</span>.name = name</span><br><span class="line">   &#125;</span><br><span class="line">   <span class="keyword">let</span> obj = <span class="keyword">new</span> Person(<span class="string">&#x27;Tom&#x27;</span>)</span><br><span class="line"></span><br><span class="line">   Person.prototype.gender = <span class="string">&#x27;male&#x27;</span></span><br><span class="line">   Person.prototype.code = <span class="number">23</span></span><br><span class="line"></span><br><span class="line">   <span class="function"><span class="keyword">function</span> <span class="title">propertyFormPrototype</span>(<span class="params">obj, prop</span>) </span>&#123;</span><br><span class="line">     <span class="keyword">return</span> !obj.hasOwnProperty(prop) &amp;&amp; prop <span class="keyword">in</span> obj</span><br><span class="line">   &#125;</span><br><span class="line">   <span class="built_in">console</span>.log(propertyFormPrototype(obj, <span class="string">&#x27;name&#x27;</span>)) <span class="comment">// false</span></span><br><span class="line">   <span class="built_in">console</span>.log(propertyFormPrototype(obj, <span class="string">&#x27;code&#x27;</span>)) <span class="comment">// true</span></span><br></pre></td></tr></table></figure>
 ]]></content>
       <categories>
         <category>JavaScript</category>
@@ -312,25 +331,6 @@
       </tags>
   </entry>
   <entry>
-    <title>JS检测属性位于对象本身还是来自于其原型链</title>
-    <url>/2021/12/13/JS%E6%A3%80%E6%B5%8B%E5%B1%9E%E6%80%A7%E4%BD%8D%E4%BA%8E%E5%AF%B9%E8%B1%A1%E6%9C%AC%E8%BA%AB%E8%BF%98%E6%98%AF%E6%9D%A5%E8%87%AA%E4%BA%8E%E5%85%B6%E5%8E%9F%E5%9E%8B%E9%93%BE/</url>
-    <content><![CDATA[<h2 id="1-in-操作符"><a href="#1-in-操作符" class="headerlink" title="1.in 操作符"></a>1.in 操作符</h2><p>in 操作符会在通过对象能够访问给定属性时返回true，无论该属性存在于对象本身还是其原型链上。</p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Person</span>(<span class="params">name</span>) </span>&#123;</span><br><span class="line">       <span class="built_in">this</span>.name = name</span><br><span class="line">   &#125;</span><br><span class="line">   <span class="keyword">let</span> obj = <span class="keyword">new</span> Person(<span class="string">&#x27;Tom&#x27;</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">   Person.prototype.gender = <span class="string">&#x27;male&#x27;</span></span><br><span class="line">   Person.prototype.code = <span class="number">23</span></span><br><span class="line">   </span><br><span class="line">   <span class="built_in">console</span>.log(<span class="string">&quot;name&quot;</span> <span class="keyword">in</span> obj) <span class="comment">// true</span></span><br><span class="line">   <span class="built_in">console</span>.log(<span class="string">&#x27;code&#x27;</span> <span class="keyword">in</span> obj) <span class="comment">// true</span></span><br><span class="line">   <span class="built_in">console</span>.log(<span class="string">&#x27;gender&#x27;</span> <span class="keyword">in</span> obj) <span class="comment">// true</span></span><br></pre></td></tr></table></figure>
-
-
-<h2 id="2-obj-hasOwnProperty-prop"><a href="#2-obj-hasOwnProperty-prop" class="headerlink" title="2.obj.hasOwnProperty(prop)"></a>2.obj.hasOwnProperty(prop)</h2><p>hasOwnProperty() 方法会返回一个布尔值，指示对象自身属性中是否具有指定的属性。</p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Person</span>(<span class="params">name</span>) </span>&#123;</span><br><span class="line">       <span class="built_in">this</span>.name = name</span><br><span class="line">   &#125;</span><br><span class="line">   <span class="keyword">let</span> obj = <span class="keyword">new</span> Person(<span class="string">&#x27;Tom&#x27;</span>)</span><br><span class="line"></span><br><span class="line">   Person.prototype.gender = <span class="string">&#x27;male&#x27;</span></span><br><span class="line">   Person.prototype.code = <span class="number">23</span></span><br><span class="line"></span><br><span class="line">   <span class="built_in">console</span>.log(obj.hasOwnProperty(<span class="string">&#x27;name&#x27;</span>)) <span class="comment">// true</span></span><br><span class="line">   <span class="built_in">console</span>.log(obj.hasOwnProperty(<span class="string">&#x27;code&#x27;</span>)) <span class="comment">// false</span></span><br></pre></td></tr></table></figure>
-
-<h2 id="3-两者结合判断属性位于对象本身还是来自于其原型链"><a href="#3-两者结合判断属性位于对象本身还是来自于其原型链" class="headerlink" title="3.两者结合判断属性位于对象本身还是来自于其原型链"></a>3.两者结合判断属性位于对象本身还是来自于其原型链</h2><figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Person</span>(<span class="params">name</span>) </span>&#123;</span><br><span class="line">     <span class="built_in">this</span>.name = name</span><br><span class="line">   &#125;</span><br><span class="line">   <span class="keyword">let</span> obj = <span class="keyword">new</span> Person(<span class="string">&#x27;Tom&#x27;</span>)</span><br><span class="line"></span><br><span class="line">   Person.prototype.gender = <span class="string">&#x27;male&#x27;</span></span><br><span class="line">   Person.prototype.code = <span class="number">23</span></span><br><span class="line"></span><br><span class="line">   <span class="function"><span class="keyword">function</span> <span class="title">propertyFormPrototype</span>(<span class="params">obj, prop</span>) </span>&#123;</span><br><span class="line">     <span class="keyword">return</span> !obj.hasOwnProperty(prop) &amp;&amp; prop <span class="keyword">in</span> obj</span><br><span class="line">   &#125;</span><br><span class="line">   <span class="built_in">console</span>.log(propertyFormPrototype(obj, <span class="string">&#x27;name&#x27;</span>)) <span class="comment">// false</span></span><br><span class="line">   <span class="built_in">console</span>.log(propertyFormPrototype(obj, <span class="string">&#x27;code&#x27;</span>)) <span class="comment">// true</span></span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>JavaScript</category>
-      </categories>
-      <tags>
-        <tag>JavaScript</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>JS生成随机颜色值</title>
     <url>/2021/12/13/JS%E7%94%9F%E6%88%90%E9%9A%8F%E6%9C%BA%E9%A2%9C%E8%89%B2%E5%80%BC/</url>
     <content><![CDATA[<h2 id="1-rgb-颜色值"><a href="#1-rgb-颜色值" class="headerlink" title="1.rgb()颜色值"></a>1.rgb()颜色值</h2><figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">rgbColor</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">        <span class="keyword">let</span> r = <span class="built_in">Math</span>.floor(<span class="built_in">Math</span>.random()*<span class="number">256</span>);</span><br><span class="line">        <span class="keyword">let</span> g = <span class="built_in">Math</span>.floor(<span class="built_in">Math</span>.random()*<span class="number">256</span>);</span><br><span class="line">        <span class="keyword">let</span> b = <span class="built_in">Math</span>.floor(<span class="built_in">Math</span>.random()*<span class="number">256</span>);</span><br><span class="line">        <span class="keyword">let</span> rgb = <span class="string">`rgb(<span class="subst">$&#123;r&#125;</span>,<span class="subst">$&#123;g&#125;</span>,<span class="subst">$&#123;b&#125;</span>)`</span>;</span><br><span class="line">        <span class="keyword">return</span> rgb;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
@@ -340,6 +340,29 @@
 <h2 id="4-数组拼接法"><a href="#4-数组拼接法" class="headerlink" title="4.数组拼接法"></a>4.数组拼接法</h2><figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> colorArr=[<span class="string">&#x27;0&#x27;</span>,<span class="string">&#x27;1&#x27;</span>,<span class="string">&#x27;2&#x27;</span>,<span class="string">&#x27;3&#x27;</span>,<span class="string">&#x27;4&#x27;</span>,<span class="string">&#x27;5&#x27;</span>,<span class="string">&#x27;6&#x27;</span>,<span class="string">&#x27;7&#x27;</span>,<span class="string">&#x27;8&#x27;</span>,<span class="string">&#x27;9&#x27;</span>,<span class="string">&#x27;a&#x27;</span>,<span class="string">&#x27;b&#x27;</span>,<span class="string">&#x27;c&#x27;</span>,<span class="string">&#x27;d&#x27;</span>,<span class="string">&#x27;e&#x27;</span>,<span class="string">&#x27;f&#x27;</span>];</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">random</span>(<span class="params">min,max</span>)</span>&#123;</span><br><span class="line">	  <span class="keyword">if</span>(<span class="built_in">isNaN</span>(min) || <span class="built_in">isNaN</span>(max))&#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="literal">null</span>;</span><br><span class="line">	  &#125;</span><br><span class="line">	  <span class="keyword">if</span>(min &gt; max)&#123;</span><br><span class="line">		min ^= max;</span><br><span class="line">		max ^= min;</span><br><span class="line">		min ^= max;</span><br><span class="line">	  &#125;</span><br><span class="line">	  <span class="keyword">return</span> (<span class="built_in">Math</span>.random() * (max - min) | <span class="number">0</span>) + min;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">function</span> <span class="title">arrColor</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">	  <span class="keyword">var</span> color=<span class="string">&quot;#&quot;</span>;</span><br><span class="line">	  <span class="keyword">for</span>(<span class="keyword">var</span> i=<span class="number">0</span>;i&lt;<span class="number">6</span>;i++)&#123;</span><br><span class="line">	    color += colorArr[random(<span class="number">0</span>,<span class="number">16</span>)];</span><br><span class="line">	  &#125;</span><br><span class="line">	  <span class="keyword">return</span> color;</span><br><span class="line">	&#125;</span><br></pre></td></tr></table></figure>
 <h2 id="5-随机数生产法"><a href="#5-随机数生产法" class="headerlink" title="5.随机数生产法"></a>5.随机数生产法</h2><figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">randomNumColor</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">        <span class="keyword">var</span> color=<span class="string">&quot;#&quot;</span>;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">var</span> i=<span class="number">0</span>;i&lt;<span class="number">6</span>;i++)&#123;</span><br><span class="line">          color += (<span class="built_in">Math</span>.random()*<span class="number">16</span> | <span class="number">0</span>).toString(<span class="number">16</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> color;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h2 id="6-16进制随机数生成法"><a href="#6-16进制随机数生成法" class="headerlink" title="6.16进制随机数生成法"></a>6.16进制随机数生成法</h2>   <figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">color</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">      <span class="keyword">return</span> <span class="string">&quot;#&quot;</span>+ (<span class="built_in">Math</span>.random() * <span class="number">0x1000000</span> | <span class="number">0</span>).toString(<span class="number">16</span>)</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>算法</category>
+      </categories>
+      <tags>
+        <tag>算法</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>JavaScript冒泡排序</title>
+    <url>/2021/12/14/JavaScript%E5%86%92%E6%B3%A1%E6%8E%92%E5%BA%8F/</url>
+    <content><![CDATA[<h2 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h2><p><strong>冒泡排序</strong>（英语：Bubble Sort）又称为泡式排序，是一种简单的排序算法。它重复地走访过要排序的数列，一次比较两个元素，如果它们的顺序错误就把它们交换过来。走访数列的工作是重复地进行直到没有再需要交换，也就是说该数列已经排序完成。这个算法的名字由来是因为越小的元素会经由交换慢慢“浮”到数列的顶端。</p>
+<p>冒泡排序之所以叫冒泡排序，是因为使用这种算法进行排序时，数据值会像气泡一样从数组的一端漂浮到另一端。假设正在将一组数字按照升序排列，较大的值会浮动到数组的右侧，而较小的值会浮动到数组的左侧。之所以产生这种现象是因为算法会多次在数组中移动，比较相邻的数据，而左侧值大于右侧值时将它们进行互换。</p>
+<h2 id="算法实现逻辑"><a href="#算法实现逻辑" class="headerlink" title="算法实现逻辑"></a>算法实现逻辑</h2><p>冒泡排序算法的运作如下：</p>
+<ol>
+<li>比较相邻的元素。如果第一个比第二个大，就交换它们两个。</li>
+<li>对每一对相邻元素作同样的工作，从开始第一对到结尾的最后一对。这步做完后，最后的元素会是最大的数。</li>
+<li>针对所有的元素重复以上的步骤，除了最后一个。</li>
+<li>持续每次对越来越少的元素重复上面的步骤，直到没有任何一对数字需要比较。</li>
+</ol>
+<h2 id="JavaScript代码实现冒泡排序"><a href="#JavaScript代码实现冒泡排序" class="headerlink" title="JavaScript代码实现冒泡排序"></a>JavaScript代码实现冒泡排序</h2><h3 id="写法一："><a href="#写法一：" class="headerlink" title="写法一："></a>写法一：</h3><figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>, len = arr.length; i &lt; len - <span class="number">1</span>; i++) &#123;</span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">let</span> j = <span class="number">0</span>; j &lt; len - i - <span class="number">1</span>; j++) &#123;</span><br><span class="line">    <span class="keyword">if</span> (arr[j] &gt; arr[j + <span class="number">1</span>]) &#123;</span><br><span class="line">      <span class="keyword">let</span> temp = arr[j];</span><br><span class="line">      arr[j] = arr[j + <span class="number">1</span>];</span><br><span class="line">      arr[j + <span class="number">1</span>] = temp;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="写法二："><a href="#写法二：" class="headerlink" title="写法二："></a>写法二：</h3><figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">for</span> (<span class="keyword">let</span> i = arr.length - <span class="number">1</span>; i &gt; <span class="number">1</span>; i--) &#123;</span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">let</span> j = <span class="number">0</span>; j &lt; i; j++) &#123;</span><br><span class="line">    <span class="keyword">if</span> (arr[j] &gt; arr[j + <span class="number">1</span>]) &#123;</span><br><span class="line">      <span class="comment">// 一行代码实现两变量互换</span></span><br><span class="line">      [arr[j], arr[j + <span class="number">1</span>]] = [arr[j + <span class="number">1</span>], arr[j]]</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 ]]></content>
       <categories>
         <category>算法</category>
@@ -377,20 +400,18 @@
       </tags>
   </entry>
   <entry>
-    <title>JavaScript冒泡排序</title>
-    <url>/2021/12/14/JavaScript%E5%86%92%E6%B3%A1%E6%8E%92%E5%BA%8F/</url>
-    <content><![CDATA[<h2 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h2><p><strong>冒泡排序</strong>（英语：Bubble Sort）又称为泡式排序，是一种简单的排序算法。它重复地走访过要排序的数列，一次比较两个元素，如果它们的顺序错误就把它们交换过来。走访数列的工作是重复地进行直到没有再需要交换，也就是说该数列已经排序完成。这个算法的名字由来是因为越小的元素会经由交换慢慢“浮”到数列的顶端。</p>
-<p>冒泡排序之所以叫冒泡排序，是因为使用这种算法进行排序时，数据值会像气泡一样从数组的一端漂浮到另一端。假设正在将一组数字按照升序排列，较大的值会浮动到数组的右侧，而较小的值会浮动到数组的左侧。之所以产生这种现象是因为算法会多次在数组中移动，比较相邻的数据，而左侧值大于右侧值时将它们进行互换。</p>
-<h2 id="算法实现逻辑"><a href="#算法实现逻辑" class="headerlink" title="算法实现逻辑"></a>算法实现逻辑</h2><p>冒泡排序算法的运作如下：</p>
+    <title>JavaScript希尔排序</title>
+    <url>/2021/12/18/JavaScript%E5%B8%8C%E5%B0%94%E6%8E%92%E5%BA%8F/</url>
+    <content><![CDATA[<h2 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h2><p><strong>希尔排序</strong>（Shellsort），也称递减增量排序算法，是插入排序的一种更高效的改进版本。希尔排序是非稳定排序算法。</p>
+<p>希尔排序是基于插入排序的以下两点性质而提出改进方法的：</p>
 <ol>
-<li>比较相邻的元素。如果第一个比第二个大，就交换它们两个。</li>
-<li>对每一对相邻元素作同样的工作，从开始第一对到结尾的最后一对。这步做完后，最后的元素会是最大的数。</li>
-<li>针对所有的元素重复以上的步骤，除了最后一个。</li>
-<li>持续每次对越来越少的元素重复上面的步骤，直到没有任何一对数字需要比较。</li>
+<li>插入排序在对几乎已经排好序的数据操作时，效率高，即可以达到线性排序的效率；</li>
+<li>但插入排序一般来说是低效的，因为插入排序每次只能将数据移动一位。</li>
 </ol>
-<h2 id="JavaScript代码实现冒泡排序"><a href="#JavaScript代码实现冒泡排序" class="headerlink" title="JavaScript代码实现冒泡排序"></a>JavaScript代码实现冒泡排序</h2><h3 id="写法一："><a href="#写法一：" class="headerlink" title="写法一："></a>写法一：</h3><figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>, len = arr.length; i &lt; len - <span class="number">1</span>; i++) &#123;</span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">let</span> j = <span class="number">0</span>; j &lt; len - i - <span class="number">1</span>; j++) &#123;</span><br><span class="line">    <span class="keyword">if</span> (arr[j] &gt; arr[j + <span class="number">1</span>]) &#123;</span><br><span class="line">      <span class="keyword">let</span> temp = arr[j];</span><br><span class="line">      arr[j] = arr[j + <span class="number">1</span>];</span><br><span class="line">      arr[j + <span class="number">1</span>] = temp;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h3 id="写法二："><a href="#写法二：" class="headerlink" title="写法二："></a>写法二：</h3><figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">for</span> (<span class="keyword">let</span> i = arr.length - <span class="number">1</span>; i &gt; <span class="number">1</span>; i--) &#123;</span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">let</span> j = <span class="number">0</span>; j &lt; i; j++) &#123;</span><br><span class="line">    <span class="keyword">if</span> (arr[j] &gt; arr[j + <span class="number">1</span>]) &#123;</span><br><span class="line">      <span class="comment">// 一行代码实现两变量互换</span></span><br><span class="line">      [arr[j], arr[j + <span class="number">1</span>]] = [arr[j + <span class="number">1</span>], arr[j]]</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="算法实现逻辑"><a href="#算法实现逻辑" class="headerlink" title="算法实现逻辑"></a>算法实现逻辑</h2><p>希尔排序通过将比较的全部元素分为几个区域来提升插入排序的性能。这样可以让一个元素可以一次性地朝最终位置前进一大步。然后算法再取越来越小的步长进行排序，算法的最后一步就是普通的插入排序，但是到了这步，需排序的数据几乎是已排好的了（此时插入排序较快）。</p>
+<h2 id="步长序列"><a href="#步长序列" class="headerlink" title="步长序列"></a>步长序列</h2><p>步长的选择是希尔排序的重要部分。只要最终步长为1任何步长序列都可以工作。算法最开始以一定的步长进行排序。然后会继续以一定步长进行排序，最终算法以步长为1进行排序。当步长为1时，算法变为普通插入排序，这就保证了数据一定会被排序。</p>
+<p>Donald Shell最初建议步长选择为<code>n/2</code>并且对步长取半直到步长达到1。虽然这样取可以比<code>O(n^2)</code>类的算法（插入排序）更好，但这样仍然有减少平均时间和最差时间的余地。</p>
+<h2 id="JavaScript代码实现希尔排序"><a href="#JavaScript代码实现希尔排序" class="headerlink" title="JavaScript代码实现希尔排序"></a>JavaScript代码实现希尔排序</h2><figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">shellSort</span>(<span class="params">list</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> len = list.length</span><br><span class="line">  <span class="keyword">let</span> gap = len / <span class="number">2</span> | <span class="number">0</span></span><br><span class="line">  <span class="keyword">while</span> (gap &gt;= <span class="number">1</span>) &#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">let</span> outer = gap; outer &lt; len; outer++) &#123;</span><br><span class="line">      <span class="keyword">const</span> TEMP = list[outer]</span><br><span class="line">      <span class="keyword">let</span> inner = outer</span><br><span class="line">      <span class="keyword">while</span> (inner - gap &gt;= <span class="number">0</span> &amp;&amp; list[inner - gap] &gt; TEMP) &#123;</span><br><span class="line">        list[inner] = list[inner - gap]</span><br><span class="line">        inner -= gap</span><br><span class="line">      &#125;</span><br><span class="line">      list[inner] = TEMP</span><br><span class="line">    &#125;</span><br><span class="line">    gap = gap / <span class="number">2</span> | <span class="number">0</span></span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> list</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 ]]></content>
       <categories>
         <category>算法</category>
@@ -415,27 +436,6 @@
       </categories>
       <tags>
         <tag>JavaScript</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>JavaScript希尔排序</title>
-    <url>/2021/12/18/JavaScript%E5%B8%8C%E5%B0%94%E6%8E%92%E5%BA%8F/</url>
-    <content><![CDATA[<h2 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h2><p><strong>希尔排序</strong>（Shellsort），也称递减增量排序算法，是插入排序的一种更高效的改进版本。希尔排序是非稳定排序算法。</p>
-<p>希尔排序是基于插入排序的以下两点性质而提出改进方法的：</p>
-<ol>
-<li>插入排序在对几乎已经排好序的数据操作时，效率高，即可以达到线性排序的效率；</li>
-<li>但插入排序一般来说是低效的，因为插入排序每次只能将数据移动一位。</li>
-</ol>
-<h2 id="算法实现逻辑"><a href="#算法实现逻辑" class="headerlink" title="算法实现逻辑"></a>算法实现逻辑</h2><p>希尔排序通过将比较的全部元素分为几个区域来提升插入排序的性能。这样可以让一个元素可以一次性地朝最终位置前进一大步。然后算法再取越来越小的步长进行排序，算法的最后一步就是普通的插入排序，但是到了这步，需排序的数据几乎是已排好的了（此时插入排序较快）。</p>
-<h2 id="步长序列"><a href="#步长序列" class="headerlink" title="步长序列"></a>步长序列</h2><p>步长的选择是希尔排序的重要部分。只要最终步长为1任何步长序列都可以工作。算法最开始以一定的步长进行排序。然后会继续以一定步长进行排序，最终算法以步长为1进行排序。当步长为1时，算法变为普通插入排序，这就保证了数据一定会被排序。</p>
-<p>Donald Shell最初建议步长选择为<code>n/2</code>并且对步长取半直到步长达到1。虽然这样取可以比<code>O(n^2)</code>类的算法（插入排序）更好，但这样仍然有减少平均时间和最差时间的余地。</p>
-<h2 id="JavaScript代码实现希尔排序"><a href="#JavaScript代码实现希尔排序" class="headerlink" title="JavaScript代码实现希尔排序"></a>JavaScript代码实现希尔排序</h2><figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">shellSort</span>(<span class="params">list</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> len = list.length</span><br><span class="line">  <span class="keyword">let</span> gap = len / <span class="number">2</span> | <span class="number">0</span></span><br><span class="line">  <span class="keyword">while</span> (gap &gt;= <span class="number">1</span>) &#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">let</span> outer = gap; outer &lt; len; outer++) &#123;</span><br><span class="line">      <span class="keyword">const</span> TEMP = list[outer]</span><br><span class="line">      <span class="keyword">let</span> inner = outer</span><br><span class="line">      <span class="keyword">while</span> (inner - gap &gt;= <span class="number">0</span> &amp;&amp; list[inner - gap] &gt; TEMP) &#123;</span><br><span class="line">        list[inner] = list[inner - gap]</span><br><span class="line">        inner -= gap</span><br><span class="line">      &#125;</span><br><span class="line">      list[inner] = TEMP</span><br><span class="line">    &#125;</span><br><span class="line">    gap = gap / <span class="number">2</span> | <span class="number">0</span></span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> list</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>算法</category>
-      </categories>
-      <tags>
-        <tag>算法</tag>
       </tags>
   </entry>
   <entry>
@@ -470,28 +470,6 @@
       </tags>
   </entry>
   <entry>
-    <title>JavaScript快速排序</title>
-    <url>/2021/12/18/JavaScript%E5%BF%AB%E9%80%9F%E6%8E%92%E5%BA%8F/</url>
-    <content><![CDATA[<h2 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h2><p>快速排序（英语：Quicksort），又称分区交换排序（partition-exchange sort），简称快排，一种排序算法，最早由东尼·霍尔提出。在平均状况下，排序 n 个项目要 O(nlogn) 次比较。在最坏状况下则需要 O(n^2) 次比较，但这种状况并不常见。事实上，快速排序 (nlogn) 通常明显比其他算法更快，因为它的内部循环（inner loop）可以在大部分的架构上很有效率地达成。</p>
-<h2 id="算法逻辑思想"><a href="#算法逻辑思想" class="headerlink" title="算法逻辑思想"></a>算法逻辑思想</h2><p>快速排序使用<strong>分治法</strong>（Divide and conquer）策略来把一个序列（list）分为较小和较大的2个子序列，然后递归地排序两个子序列。</p>
-<p>步骤为：</p>
-<ol>
-<li>挑选基准值：从数列中挑出一个元素，称为“基准”（pivot），</li>
-<li>分割：重新排序数列，所有比基准值小的元素摆放在基准前面，所有比基准值大的元素摆在基准后面（与基准值相等的数可以到任何一边）。在这个分割结束之后，对基准值的排序就已经完成，</li>
-<li>递归排序子序列：递归地将小于基准值元素的子序列和大于基准值元素的子序列排序。</li>
-</ol>
-<p>递归到最底部的判断条件是数列的大小是零或一，此时该数列显然已经有序。</p>
-<p>选取基准值有数种具体方法，此选取方法对排序的时间性能有决定性影响。</p>
-<h2 id="JavaScript代码实现快速排序"><a href="#JavaScript代码实现快速排序" class="headerlink" title="JavaScript代码实现快速排序"></a>JavaScript代码实现快速排序</h2><figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">quickSort</span>(<span class="params">list</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> rec = <span class="function"><span class="params">arr</span> =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (!arr.length) <span class="keyword">return</span> []</span><br><span class="line">    <span class="keyword">const</span> left = []</span><br><span class="line">    <span class="keyword">const</span> right = []</span><br><span class="line">    <span class="keyword">const</span> mid = arr[<span class="number">0</span>]</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">1</span>; i &lt; arr.length; i++) &#123;</span><br><span class="line">      <span class="keyword">if</span> (arr[i] &lt; mid) &#123;</span><br><span class="line">        left.push(arr[i])</span><br><span class="line">      &#125; <span class="keyword">else</span> right.push(arr[i])</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> [...rec(left), mid, ...rec(right)]</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> rec(list)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>算法</category>
-      </categories>
-      <tags>
-        <tag>算法</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>JavaScript插入排序</title>
     <url>/2021/12/18/JavaScript%E6%8F%92%E5%85%A5%E6%8E%92%E5%BA%8F/</url>
     <content><![CDATA[<h2 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h2><p><strong>插入排序</strong>（英语：Insertion Sort）是一种简单直观的排序算法。它的工作原理是通过构建有序序列，对于未排序数据，在已排序序列中从后向前扫描，找到相应位置并插入。插入排序在实现上，通常采用in-place排序（即只需用到O(1)的额外空间的排序），因而在从后向前扫描过程中，需要反复把已排序元素逐步向后挪位，为最新元素提供插入空间。</p>
@@ -515,18 +493,40 @@
       </tags>
   </entry>
   <entry>
-    <title>JavaScript选择排序</title>
-    <url>/2021/12/14/JavaScript%E9%80%89%E6%8B%A9%E6%8E%92%E5%BA%8F/</url>
-    <content><![CDATA[<h2 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h2><p><strong>选择排序</strong>（Selection sort）是一种简单直观的排序算法。它的工作原理如下，首先在未排序序列中找到最小（大）元素，存放到排序序列的起始位置，然后，再从剩余未排序元素中继续寻找最小（大）元素，然后放到已排序序列的末尾。以此类推，直到所有元素均排序完毕。</p>
-<p>选择排序的主要优点与数据移动有关。如果某个元素位于正确的最终位置上，则它不会被移动。选择排序每次交换一对元素，它们当中至少有一个将被移到其最终位置上，因此对n个元素的表进行排序总共进行至多(n-1)次交换。在所有的完全依靠交换去移动元素的排序方法中，选择排序属于非常好的一种。</p>
-<h2 id="算法实现逻辑"><a href="#算法实现逻辑" class="headerlink" title="算法实现逻辑"></a>算法实现逻辑</h2><p>选择排序算法，从数组的开头开始，将第一个元素和其他元素进行比较，检查完所有元素后，最小的元素会放在数组的第一个位置，然后算法会从第二个位置继续。这个过程一直进行，当进行到数组的倒数第二个位置时，所有的数据便完成了排序。</p>
-<h2 id="JavaScript代码实现选择排序"><a href="#JavaScript代码实现选择排序" class="headerlink" title="JavaScript代码实现选择排序"></a>JavaScript代码实现选择排序</h2><figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>, len = arr.length; i &lt; len - <span class="number">1</span>; i++) &#123;</span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">let</span> j = i + <span class="number">1</span>; j &lt; len; j++) &#123;</span><br><span class="line">    <span class="keyword">if</span> (arr[i] &gt; arr[j]) &#123;</span><br><span class="line">      [arr[i], arr[j]] = [arr[j], arr[i]]</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+    <title>JavaScript快速排序</title>
+    <url>/2021/12/18/JavaScript%E5%BF%AB%E9%80%9F%E6%8E%92%E5%BA%8F/</url>
+    <content><![CDATA[<h2 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h2><p>快速排序（英语：Quicksort），又称分区交换排序（partition-exchange sort），简称快排，一种排序算法，最早由东尼·霍尔提出。在平均状况下，排序 n 个项目要 O(nlogn) 次比较。在最坏状况下则需要 O(n^2) 次比较，但这种状况并不常见。事实上，快速排序 (nlogn) 通常明显比其他算法更快，因为它的内部循环（inner loop）可以在大部分的架构上很有效率地达成。</p>
+<h2 id="算法逻辑思想"><a href="#算法逻辑思想" class="headerlink" title="算法逻辑思想"></a>算法逻辑思想</h2><p>快速排序使用<strong>分治法</strong>（Divide and conquer）策略来把一个序列（list）分为较小和较大的2个子序列，然后递归地排序两个子序列。</p>
+<p>步骤为：</p>
+<ol>
+<li>挑选基准值：从数列中挑出一个元素，称为“基准”（pivot），</li>
+<li>分割：重新排序数列，所有比基准值小的元素摆放在基准前面，所有比基准值大的元素摆在基准后面（与基准值相等的数可以到任何一边）。在这个分割结束之后，对基准值的排序就已经完成，</li>
+<li>递归排序子序列：递归地将小于基准值元素的子序列和大于基准值元素的子序列排序。</li>
+</ol>
+<p>递归到最底部的判断条件是数列的大小是零或一，此时该数列显然已经有序。</p>
+<p>选取基准值有数种具体方法，此选取方法对排序的时间性能有决定性影响。</p>
+<h2 id="JavaScript代码实现快速排序"><a href="#JavaScript代码实现快速排序" class="headerlink" title="JavaScript代码实现快速排序"></a>JavaScript代码实现快速排序</h2><figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">quickSort</span>(<span class="params">list</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> rec = <span class="function"><span class="params">arr</span> =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (!arr.length) <span class="keyword">return</span> []</span><br><span class="line">    <span class="keyword">const</span> left = []</span><br><span class="line">    <span class="keyword">const</span> right = []</span><br><span class="line">    <span class="keyword">const</span> mid = arr[<span class="number">0</span>]</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">1</span>; i &lt; arr.length; i++) &#123;</span><br><span class="line">      <span class="keyword">if</span> (arr[i] &lt; mid) &#123;</span><br><span class="line">        left.push(arr[i])</span><br><span class="line">      &#125; <span class="keyword">else</span> right.push(arr[i])</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> [...rec(left), mid, ...rec(right)]</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> rec(list)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 ]]></content>
       <categories>
         <category>算法</category>
       </categories>
       <tags>
         <tag>算法</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>cnpm全局安装（淘宝镜像）</title>
+    <url>/2021/12/12/cnpm%E5%85%A8%E5%B1%80%E5%AE%89%E8%A3%85%EF%BC%88%E6%B7%98%E5%AE%9D%E9%95%9C%E5%83%8F%EF%BC%89/</url>
+    <content><![CDATA[<p>安装淘宝npm（cnpm）</p>
+<p>安装cnpm</p>
+<p>输入以下命令</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">npm install -g cnpm --registry=https://registry.npmmirror.com</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>前端工具</category>
+      </categories>
+      <tags>
+        <tag>npm</tag>
       </tags>
   </entry>
   <entry>
@@ -636,33 +636,18 @@
       </tags>
   </entry>
   <entry>
-    <title>cnpm全局安装（淘宝镜像）</title>
-    <url>/2021/12/12/cnpm%E5%85%A8%E5%B1%80%E5%AE%89%E8%A3%85%EF%BC%88%E6%B7%98%E5%AE%9D%E9%95%9C%E5%83%8F%EF%BC%89/</url>
-    <content><![CDATA[<p>安装淘宝npm（cnpm）</p>
-<p>安装cnpm</p>
-<p>输入以下命令</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">npm install -g cnpm --registry=https://registry.npmmirror.com</span><br></pre></td></tr></table></figure>
+    <title>JavaScript选择排序</title>
+    <url>/2021/12/14/JavaScript%E9%80%89%E6%8B%A9%E6%8E%92%E5%BA%8F/</url>
+    <content><![CDATA[<h2 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h2><p><strong>选择排序</strong>（Selection sort）是一种简单直观的排序算法。它的工作原理如下，首先在未排序序列中找到最小（大）元素，存放到排序序列的起始位置，然后，再从剩余未排序元素中继续寻找最小（大）元素，然后放到已排序序列的末尾。以此类推，直到所有元素均排序完毕。</p>
+<p>选择排序的主要优点与数据移动有关。如果某个元素位于正确的最终位置上，则它不会被移动。选择排序每次交换一对元素，它们当中至少有一个将被移到其最终位置上，因此对n个元素的表进行排序总共进行至多(n-1)次交换。在所有的完全依靠交换去移动元素的排序方法中，选择排序属于非常好的一种。</p>
+<h2 id="算法实现逻辑"><a href="#算法实现逻辑" class="headerlink" title="算法实现逻辑"></a>算法实现逻辑</h2><p>选择排序算法，从数组的开头开始，将第一个元素和其他元素进行比较，检查完所有元素后，最小的元素会放在数组的第一个位置，然后算法会从第二个位置继续。这个过程一直进行，当进行到数组的倒数第二个位置时，所有的数据便完成了排序。</p>
+<h2 id="JavaScript代码实现选择排序"><a href="#JavaScript代码实现选择排序" class="headerlink" title="JavaScript代码实现选择排序"></a>JavaScript代码实现选择排序</h2><figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>, len = arr.length; i &lt; len - <span class="number">1</span>; i++) &#123;</span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">let</span> j = i + <span class="number">1</span>; j &lt; len; j++) &#123;</span><br><span class="line">    <span class="keyword">if</span> (arr[i] &gt; arr[j]) &#123;</span><br><span class="line">      [arr[i], arr[j]] = [arr[j], arr[i]]</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 ]]></content>
       <categories>
-        <category>前端工具</category>
+        <category>算法</category>
       </categories>
       <tags>
-        <tag>npm</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>npm、yarn下载包的源地址查看与设置成国内淘宝镜像的地址</title>
-    <url>/2021/12/13/npm%E3%80%81yarn%E4%B8%8B%E8%BD%BD%E5%8C%85%E7%9A%84%E6%BA%90%E5%9C%B0%E5%9D%80%E6%9F%A5%E7%9C%8B%E4%B8%8E%E8%AE%BE%E7%BD%AE%E6%88%90%E5%9B%BD%E5%86%85%E6%B7%98%E5%AE%9D%E9%95%9C%E5%83%8F%E7%9A%84%E5%9C%B0%E5%9D%80/</url>
-    <content><![CDATA[<h2 id="1-查询npm，yarn等下载包的源地址"><a href="#1-查询npm，yarn等下载包的源地址" class="headerlink" title="1.查询npm，yarn等下载包的源地址"></a>1.查询npm，yarn等下载包的源地址</h2><p><code>npm config get registry</code></p>
-<p><code>yarn config get registry</code></p>
-<h2 id="2-设置成国内淘宝镜像的地址（加快下载第三方包的速度，服务器在国内，超快的）"><a href="#2-设置成国内淘宝镜像的地址（加快下载第三方包的速度，服务器在国内，超快的）" class="headerlink" title="2.设置成国内淘宝镜像的地址（加快下载第三方包的速度，服务器在国内，超快的）"></a>2.设置成国内淘宝镜像的地址（加快下载第三方包的速度，服务器在国内，超快的）</h2><p><code>npm config set registry https://registry.npmmirror.com</code></p>
-<p><code>yarn config set registry https://registry.npmmirror.com</code></p>
-]]></content>
-      <categories>
-        <category>前端工具</category>
-      </categories>
-      <tags>
-        <tag>npm</tag>
+        <tag>算法</tag>
       </tags>
   </entry>
   <entry>
@@ -687,6 +672,21 @@
       </tags>
   </entry>
   <entry>
+    <title>npm、yarn下载包的源地址查看与设置成国内淘宝镜像的地址</title>
+    <url>/2021/12/13/npm%E3%80%81yarn%E4%B8%8B%E8%BD%BD%E5%8C%85%E7%9A%84%E6%BA%90%E5%9C%B0%E5%9D%80%E6%9F%A5%E7%9C%8B%E4%B8%8E%E8%AE%BE%E7%BD%AE%E6%88%90%E5%9B%BD%E5%86%85%E6%B7%98%E5%AE%9D%E9%95%9C%E5%83%8F%E7%9A%84%E5%9C%B0%E5%9D%80/</url>
+    <content><![CDATA[<h2 id="1-查询npm，yarn等下载包的源地址"><a href="#1-查询npm，yarn等下载包的源地址" class="headerlink" title="1.查询npm，yarn等下载包的源地址"></a>1.查询npm，yarn等下载包的源地址</h2><p><code>npm config get registry</code></p>
+<p><code>yarn config get registry</code></p>
+<h2 id="2-设置成国内淘宝镜像的地址（加快下载第三方包的速度，服务器在国内，超快的）"><a href="#2-设置成国内淘宝镜像的地址（加快下载第三方包的速度，服务器在国内，超快的）" class="headerlink" title="2.设置成国内淘宝镜像的地址（加快下载第三方包的速度，服务器在国内，超快的）"></a>2.设置成国内淘宝镜像的地址（加快下载第三方包的速度，服务器在国内，超快的）</h2><p><code>npm config set registry https://registry.npmmirror.com</code></p>
+<p><code>yarn config set registry https://registry.npmmirror.com</code></p>
+]]></content>
+      <categories>
+        <category>前端工具</category>
+      </categories>
+      <tags>
+        <tag>npm</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>package.json 里 devDependencies和dependencies的区别</title>
     <url>/2021/12/12/package-json-%E9%87%8C-devDependencies%E5%92%8Cdependencies%E7%9A%84%E5%8C%BA%E5%88%AB/</url>
     <content><![CDATA[<p>我们在使用npm install 安装模块或插件的时候，有两种命令把他们写入到 package.json 文件里面去，比如：</p>
@@ -703,24 +703,6 @@
       </categories>
       <tags>
         <tag>npm</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>react全局状态管理react-redux</title>
-    <url>/2021/12/12/react%E5%85%A8%E5%B1%80%E7%8A%B6%E6%80%81%E7%AE%A1%E7%90%86react-redux/</url>
-    <content><![CDATA[<p>简言之，通过react-redux提供的connect方法将UI组件同store连接起来，connect方法可以接受两个参数，第一个为mapStateToProps（接受两个参数，state，ownProps），用于UI组件的输入逻辑，此建立了从外部的数据（即store中的state对象）到UI组件的props的一个映射；第二个参数为mapDispatchToProps（接受两个参数，dispatch，ownProps），用于UI组件的输出逻辑，即用户发出的动作如何变为 Action 对象，从 UI 组件传出去，从而影响外部数据state。</p>
-<p>State 的变化必须是 View 导致的，Action 就是 View 发出的通知，表示 State 应该要发生变化了。</p>
-<p>Action 是一个对象。其中的type属性是必须的，表示 Action 的名称，其他属性可以自由设置。</p>
-<p>对象store的方法dispath用于派发action，store.dispatch(action)是 View 发出 Action 的唯一方法。</p>
-<p>通过dispath派发的action会触发reducer，reducer执行会返回一个新的state，此时state改变了。</p>
-<p>state的改变又会通过mapStateToProps函数传入UI组件的props，UI组件的Props改变又会触发render函数，从而更新UI组件。</p>
-<p>以上就是redux大致的工作流程。欢迎大神们评论批评指正。（action，reducer等基本概念参见阮一峰老师的博客）</p>
-]]></content>
-      <categories>
-        <category>React</category>
-      </categories>
-      <tags>
-        <tag>React</tag>
       </tags>
   </entry>
   <entry>
@@ -763,6 +745,37 @@
       </tags>
   </entry>
   <entry>
+    <title>react全局状态管理react-redux</title>
+    <url>/2021/12/12/react%E5%85%A8%E5%B1%80%E7%8A%B6%E6%80%81%E7%AE%A1%E7%90%86react-redux/</url>
+    <content><![CDATA[<p>简言之，通过react-redux提供的connect方法将UI组件同store连接起来，connect方法可以接受两个参数，第一个为mapStateToProps（接受两个参数，state，ownProps），用于UI组件的输入逻辑，此建立了从外部的数据（即store中的state对象）到UI组件的props的一个映射；第二个参数为mapDispatchToProps（接受两个参数，dispatch，ownProps），用于UI组件的输出逻辑，即用户发出的动作如何变为 Action 对象，从 UI 组件传出去，从而影响外部数据state。</p>
+<p>State 的变化必须是 View 导致的，Action 就是 View 发出的通知，表示 State 应该要发生变化了。</p>
+<p>Action 是一个对象。其中的type属性是必须的，表示 Action 的名称，其他属性可以自由设置。</p>
+<p>对象store的方法dispath用于派发action，store.dispatch(action)是 View 发出 Action 的唯一方法。</p>
+<p>通过dispath派发的action会触发reducer，reducer执行会返回一个新的state，此时state改变了。</p>
+<p>state的改变又会通过mapStateToProps函数传入UI组件的props，UI组件的Props改变又会触发render函数，从而更新UI组件。</p>
+<p>以上就是redux大致的工作流程。欢迎大神们评论批评指正。（action，reducer等基本概念参见阮一峰老师的博客）</p>
+]]></content>
+      <categories>
+        <category>React</category>
+      </categories>
+      <tags>
+        <tag>React</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>vue2.5+typescript的采坑系列《一》</title>
+    <url>/2021/12/13/vue2-5-typescript%E7%9A%84%E9%87%87%E5%9D%91%E7%B3%BB%E5%88%97%E3%80%8A%E4%B8%80%E3%80%8B/</url>
+    <content><![CDATA[<h2 id="写在前面"><a href="#写在前面" class="headerlink" title="写在前面"></a>写在前面</h2><p>最近笔者在使用vue2.5+typescript构建项目，其实是自己写着玩的，本着探索+分享的目的，在GitHub新建了一个项目，技术选型vue2.5+typescript，因为之前一直没有使用vue+typescript构建项目，所以就想尝试一下，没想到vue+ts却是巨坑多多啊。。。下面开始带大家一起看看，那些年我们一起踩过的坑</p>
+<h2 id="1-引入-vue文件不能省略文件扩展名"><a href="#1-引入-vue文件不能省略文件扩展名" class="headerlink" title="1.引入.vue文件不能省略文件扩展名"></a>1.引入.vue文件不能省略文件扩展名</h2><p>看到上述小标题，你或许会感叹：纳尼？写惯了省略文件后缀名，但是在vue+typescript的项目中，是不能省略.vue文件的扩展名的，起初，笔者引入vue组件，一直报错，而且笔者在webpack的配置中已经配置了extensions中加入了’.vue’，but木有用啊，说起来都是泪，我也是写惯了配置了extensions之后省略文件后缀名的写法，愣是检查了二十多分钟，实在是看不出来哪里错了，最后不得不去某技术网站搜索，终于十分钟之后，终于明白了，原因居然是不能省略文件扩展名，笔者表示无语。这是笔者使用vue2.5+typescript 踩过的第一个坑，特此告知，以免后来者犯同样的错误。。。</p>
+]]></content>
+      <categories>
+        <category>Vue</category>
+      </categories>
+      <tags>
+        <tag>Vue</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>vue作用域插槽slot-scope详解</title>
     <url>/2021/12/12/vue%E4%BD%9C%E7%94%A8%E5%9F%9F%E6%8F%92%E6%A7%BDslot-scope%E8%AF%A6%E8%A7%A3/</url>
     <content><![CDATA[<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p><strong>vue的插槽，也就是slot，是组件的一块HTML模板，这块模板显示不显示、以及怎样显示由父组件来决定。</strong> 实际上，一个slot最核心的两个问题这里就点出来了，是<strong>显示不显示</strong>和<strong>怎样显示</strong>。</p>
@@ -781,19 +794,6 @@
 
 <p>说到这里，想必大家都应该明白了作用域插槽了吧，简单来说就一句话：可以绑定数据的插槽，显示内容完全由子组件决定，数据来自子组件。</p>
 <p>如果绑定数据太多，而你不需要全都用到的时候可以使用es6的对象解构，关于对象解构比较简单，笔者在此就不再赘述了！</p>
-]]></content>
-      <categories>
-        <category>Vue</category>
-      </categories>
-      <tags>
-        <tag>Vue</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>vue2.5+typescript的采坑系列《一》</title>
-    <url>/2021/12/13/vue2-5-typescript%E7%9A%84%E9%87%87%E5%9D%91%E7%B3%BB%E5%88%97%E3%80%8A%E4%B8%80%E3%80%8B/</url>
-    <content><![CDATA[<h2 id="写在前面"><a href="#写在前面" class="headerlink" title="写在前面"></a>写在前面</h2><p>最近笔者在使用vue2.5+typescript构建项目，其实是自己写着玩的，本着探索+分享的目的，在GitHub新建了一个项目，技术选型vue2.5+typescript，因为之前一直没有使用vue+typescript构建项目，所以就想尝试一下，没想到vue+ts却是巨坑多多啊。。。下面开始带大家一起看看，那些年我们一起踩过的坑</p>
-<h2 id="1-引入-vue文件不能省略文件扩展名"><a href="#1-引入-vue文件不能省略文件扩展名" class="headerlink" title="1.引入.vue文件不能省略文件扩展名"></a>1.引入.vue文件不能省略文件扩展名</h2><p>看到上述小标题，你或许会感叹：纳尼？写惯了省略文件后缀名，但是在vue+typescript的项目中，是不能省略.vue文件的扩展名的，起初，笔者引入vue组件，一直报错，而且笔者在webpack的配置中已经配置了extensions中加入了’.vue’，but木有用啊，说起来都是泪，我也是写惯了配置了extensions之后省略文件后缀名的写法，愣是检查了二十多分钟，实在是看不出来哪里错了，最后不得不去某技术网站搜索，终于十分钟之后，终于明白了，原因居然是不能省略文件扩展名，笔者表示无语。这是笔者使用vue2.5+typescript 踩过的第一个坑，特此告知，以免后来者犯同样的错误。。。</p>
 ]]></content>
       <categories>
         <category>Vue</category>
@@ -919,57 +919,6 @@
       </tags>
   </entry>
   <entry>
-    <title>webpack系列《一》核心概念（入门篇）</title>
-    <url>/2021/12/18/webpack%E7%B3%BB%E5%88%97%E3%80%8A%E4%B8%80%E3%80%8B%E6%A0%B8%E5%BF%83%E6%A6%82%E5%BF%B5%EF%BC%88%E5%85%A5%E9%97%A8%E7%AF%87%EF%BC%89/</url>
-    <content><![CDATA[<h2 id="1-什么是webpack"><a href="#1-什么是webpack" class="headerlink" title="1. 什么是webpack"></a>1. 什么是webpack</h2><p>作为前端开发者，<strong>webpack</strong>可谓是家喻户晓的构建工具！那么，我们先来看看英文官方对于webpack的定义和说明：</p>
-<p>webpack is a static module bundler for modern JavaScript applications. When webpack processes your application, it internally builds a dependency graph which maps every module your project needs and generates one or more bundles.</p>
-<p><strong>webpack</strong> 是一个现代 JavaScript 应用程序的静态模块打包器(module bundler)。当 webpack 处理应用程序时，它会递归地构建一个依赖关系图(dependency graph)，其中包含应用程序需要的每个模块，然后将所有这些模块打包成一个或多个 bundle。</p>
-<p><strong>webPack</strong> 可以看做是模块打包机：它做的事情是，分析你的项目结构，找到JavaScript模块以及其它的一些浏览器不能直接运行的拓展语言（Scss，TypeScript等），并将其打包为合适的格式以供浏览器使用。</p>
-<p><strong>webpack</strong> 的工作方式是：把你的项目当做一个整体，通过一个给定的主文件（如：index.js），Webpack将从这个文件开始找到你的项目的所有依赖文件，使用loaders处理它们，最后打包为一个（或多个）浏览器可识别的JavaScript文件。</p>
-<h2 id="2-webpack配置的核心概念"><a href="#2-webpack配置的核心概念" class="headerlink" title="2. webpack配置的核心概念"></a>2. webpack配置的核心概念</h2><h3 id="2-1-entry（打包入口）"><a href="#2-1-entry（打包入口）" class="headerlink" title="2.1 entry（打包入口）"></a>2.1 entry（打包入口）</h3><p>入口起点(entry point)指示 webpack 应该使用哪个模块，来作为构建其内部依赖图的开始。进入入口起点后，webpack 会找出有哪些模块和库是入口起点（直接和间接）依赖的。就vue项目来说，通常入口文件为main.js文件。<br><a href="https://img-blog.csdnimg.cn/20190325145103811.png"><img src="https://img-blog.csdnimg.cn/20190325145103811.png"></a></p>
-<p>entry 通常有三种写法：</p>
-<h4 id="第一种：字符串形式，如下："><a href="#第一种：字符串形式，如下：" class="headerlink" title="第一种：字符串形式，如下："></a>第一种：字符串形式，如下：</h4><figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="comment">// webpack.config.js</span></span><br><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">  <span class="attr">entry</span>: <span class="string">&#x27;./src/layout/main.js&#x27;</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h4 id="第二种：数组形式，如下："><a href="#第二种：数组形式，如下：" class="headerlink" title="第二种：数组形式，如下："></a>第二种：数组形式，如下：</h4><figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="comment">// webpack.config.js</span></span><br><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">  <span class="attr">entry</span>: [<span class="string">&#x27;./src/layout/main.js&#x27;</span>]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h4 id="第三种：对象形式，如下："><a href="#第三种：对象形式，如下：" class="headerlink" title="第三种：对象形式，如下："></a>第三种：对象形式，如下：</h4><figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="comment">// webpack.config.js</span></span><br><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">  <span class="attr">entry</span>: &#123;</span><br><span class="line">    <span class="attr">app</span>: <span class="string">&#x27;./src/layout/main.js&#x27;</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>对于这三种写法，通常开发者都会采用第三种，实际上，我们也推荐第三种写法，不论是可扩展性还是代码可读性，第三种都秒杀前两种！</p>
-<h3 id="2-2-output（打包出口）"><a href="#2-2-output（打包出口）" class="headerlink" title="2.2 output（打包出口）"></a>2.2 output（打包出口）</h3><p>output 属性告诉 webpack 在哪里输出它所创建的 bundles，以及如何命名这些文件，默认值为 ./dist。基本上，整个应用程序结构，都会被编译到你指定的输出路径的文件夹中。你可以通过在配置中指定一个 output 字段，来配置这些处理过程：</p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="comment">// webpack.config.js</span></span><br><span class="line"><span class="keyword">const</span> path = <span class="built_in">require</span>(<span class="string">&#x27;path&#x27;</span>);</span><br><span class="line"></span><br><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">  <span class="attr">entry</span>: <span class="string">&#x27;./src/layout/main.js&#x27;</span>,</span><br><span class="line">  <span class="attr">output</span>: &#123;</span><br><span class="line">    <span class="attr">path</span>: path.resolve(__dirname, <span class="string">&#x27;dist&#x27;</span>),</span><br><span class="line">    <span class="attr">filename</span>: <span class="string">&#x27;[name].bundle.[hash:8].js&#x27;</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-
-<p>在上面的示例中，我们通过 output.filename 和 output.path 属性，来告诉 webpack bundle 的名称，以及我们想要 bundle 生成(emit)到哪里。可能你想要了解在代码最上面导入的 path 模块是什么，它是一个 Node.js 核心模块，用于操作文件路径。</p>
-<p>关于output还有很多可配置的属性，详情参见webpack官方文档output配置，在此不再赘述了。</p>
-<h3 id="2-3-loaders（处理非js文件）"><a href="#2-3-loaders（处理非js文件）" class="headerlink" title="2.3 loaders（处理非js文件）"></a>2.3 loaders（处理非js文件）</h3><p>loader 让 webpack 能够去处理那些非 JavaScript 文件（webpack 自身只理解 JavaScript）。loader 可以将所有类型的文件转换为 webpack 能够处理的有效模块，然后你就可以利用 webpack 的打包能力，对它们进行处理。</p>
-<p>本质上，webpack loader 将所有类型的文件，转换为应用程序的依赖图（和最终的 bundle）可以直接引用的模块。</p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="comment">// webpack.config.js</span></span><br><span class="line"><span class="keyword">const</span> path = <span class="built_in">require</span>(<span class="string">&#x27;path&#x27;</span>);</span><br><span class="line"></span><br><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">  <span class="attr">entry</span>: <span class="string">&#x27;./src/layout/main.js&#x27;</span>,</span><br><span class="line">  <span class="attr">output</span>: &#123;</span><br><span class="line">    <span class="attr">path</span>: path.resolve(__dirname, <span class="string">&#x27;dist&#x27;</span>),</span><br><span class="line">    <span class="attr">filename</span>: <span class="string">&#x27;[name].bundle.[hash:8].js&#x27;</span></span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="attr">module</span>: &#123;</span><br><span class="line">    <span class="attr">rules</span>: [</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="attr">test</span>: <span class="regexp">/\.js$/</span>,</span><br><span class="line">        loader: <span class="string">&#x27;babel-loader&#x27;</span>,</span><br><span class="line">        <span class="attr">exclude</span>: <span class="regexp">/node_modules/</span></span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="attr">test</span>: <span class="regexp">/\.(png|jpg|gif|svg)$/</span>,</span><br><span class="line">        loader: <span class="string">&#x27;url-loader&#x27;</span>,</span><br><span class="line">        <span class="attr">options</span>: &#123;</span><br><span class="line">          <span class="attr">name</span>: <span class="string">&#x27;[name].[ext]?[hash]&#x27;</span></span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    ]</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-
-<p>如上，可以看到module种配置rules规则，使用babel-loader来处理js文件，使用url-loader来处理图片文件。</p>
-<p>常用的loader：</p>
-<ol>
-<li><p>编译相关：babel-loader，ts-loader；</p>
-</li>
-<li><p>样式相关：style-loader，css-loader，less-loader，sass-loader，postcss-loader；</p>
-</li>
-<li><p>文件相关：file-loader，url-loader；</p>
-</li>
-</ol>
-<h3 id="2-4-plugins（插件）"><a href="#2-4-plugins（插件）" class="headerlink" title="2.4 plugins（插件）"></a>2.4 plugins（插件）</h3><p>loader 被用于转换某些类型的模块，而插件则可以用于执行范围更广的任务。插件的范围包括，从打包优化和压缩，一直到重新定义环境中的变量。插件接口功能极其强大，可以用来处理各种各样的任务。</p>
-<p>想要使用一个插件，你只需要 require() 它，然后把它添加到 plugins 数组中。多数插件可以通过选项(option)自定义。你也可以在一个配置文件中因为不同目的而多次使用同一个插件，这时需要通过使用 new 操作符来创建它的一个实例。</p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="comment">// webpack.config.js</span></span><br><span class="line"><span class="keyword">const</span> path = <span class="built_in">require</span>(<span class="string">&#x27;path&#x27;</span>);</span><br><span class="line"><span class="keyword">const</span> webpack = <span class="built_in">require</span>(<span class="string">&#x27;webpack&#x27;</span>);</span><br><span class="line"><span class="keyword">const</span> HtmlWebpackPlugin = <span class="built_in">require</span>(<span class="string">&#x27;html-webpack-plugin&#x27;</span>); <span class="comment">// 通过 npm 安装</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">  <span class="attr">entry</span>: <span class="string">&#x27;./src/layout/main.js&#x27;</span>,</span><br><span class="line">  <span class="attr">output</span>: &#123;</span><br><span class="line">    <span class="attr">path</span>: path.resolve(__dirname, <span class="string">&#x27;dist&#x27;</span>),</span><br><span class="line">    <span class="attr">filename</span>: <span class="string">&#x27;[name].bundle.[hash:8].js&#x27;</span></span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="attr">module</span>: &#123;</span><br><span class="line">    <span class="attr">rules</span>: [</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="attr">test</span>: <span class="regexp">/\.js$/</span>,</span><br><span class="line">        loader: <span class="string">&#x27;babel-loader&#x27;</span>,</span><br><span class="line">        <span class="attr">exclude</span>: <span class="regexp">/node_modules/</span></span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="attr">test</span>: <span class="regexp">/\.(png|jpg|gif|svg)$/</span>,</span><br><span class="line">        loader: <span class="string">&#x27;url-loader&#x27;</span>,</span><br><span class="line">        <span class="attr">options</span>: &#123;</span><br><span class="line">          <span class="attr">name</span>: <span class="string">&#x27;[name].[ext]?[hash]&#x27;</span></span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    ]</span><br><span class="line">  &#125;，</span><br><span class="line">  <span class="attr">plugins</span>: [</span><br><span class="line">    <span class="keyword">new</span> HtmlWebpackPlugin(&#123;<span class="attr">template</span>: <span class="string">&#x27;./src/index.html&#x27;</span>&#125;),</span><br><span class="line">    <span class="keyword">new</span> webpack.DefinePlugin(&#123;</span><br><span class="line">      <span class="string">&#x27;process.env&#x27;</span>: &#123;</span><br><span class="line">        <span class="attr">NODE_ENV</span>: <span class="string">&#x27;&quot;production&quot;&#x27;</span></span><br><span class="line">      &#125;</span><br><span class="line">    &#125;),</span><br><span class="line">    <span class="keyword">new</span> webpack.optimize.UglifyJsPlugin(&#123;</span><br><span class="line">      <span class="attr">sourceMap</span>: <span class="literal">true</span>,</span><br><span class="line">      <span class="attr">compress</span>: &#123;</span><br><span class="line">        <span class="attr">warnings</span>: <span class="literal">false</span></span><br><span class="line">      &#125;</span><br><span class="line">    &#125;),</span><br><span class="line">    <span class="keyword">new</span> webpack.LoaderOptionsPlugin(&#123;</span><br><span class="line">      <span class="attr">minimize</span>: <span class="literal">true</span></span><br><span class="line">    &#125;)</span><br><span class="line">  ]</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-
-<p>webpack 提供许多开箱可用的插件！具体可以查阅<a href="https://webpack.js.org/plugins/" title="webpack官方文档">webpack官方文档</a>。</p>
-<h3 id="2-5-mode（模式）"><a href="#2-5-mode（模式）" class="headerlink" title="2.5 mode（模式）"></a>2.5 mode（模式）</h3><p>通过选择 development 或 production 之中的一个，来设置 mode 参数，你可以启用相应模式下的 webpack 内置的优化。</p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="comment">// webpack.config.js</span></span><br><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">  <span class="attr">mode</span>: <span class="string">&#x27;production&#x27;</span>  <span class="comment">// &quot;production&quot; | &quot;development&quot; | &quot;none&quot;</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>webpack</category>
-      </categories>
-      <tags>
-        <tag>webpack</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>webpack使用proxy代理时pathRewrite不生效的分析</title>
     <url>/2021/12/12/webpack%E4%BD%BF%E7%94%A8proxy%E4%BB%A3%E7%90%86%E6%97%B6pathRewrite%E4%B8%8D%E7%94%9F%E6%95%88%E7%9A%84%E5%88%86%E6%9E%90/</url>
     <content><![CDATA[<h2 id="写在前面"><a href="#写在前面" class="headerlink" title="写在前面"></a>写在前面</h2><p>近日来，连续高压的做项目，都没时间来写点东西，今天浏览帖子时发现好多同学在问proxy使用pathRewrite重写路径时不生效的问题，一时兴起就想写篇文章告诉还不清楚的同学们。</p>
@@ -1048,6 +997,78 @@
       </tags>
   </entry>
   <entry>
+    <title>webpack系列《一》核心概念（入门篇）</title>
+    <url>/2021/12/18/webpack%E7%B3%BB%E5%88%97%E3%80%8A%E4%B8%80%E3%80%8B%E6%A0%B8%E5%BF%83%E6%A6%82%E5%BF%B5%EF%BC%88%E5%85%A5%E9%97%A8%E7%AF%87%EF%BC%89/</url>
+    <content><![CDATA[<h2 id="1-什么是webpack"><a href="#1-什么是webpack" class="headerlink" title="1. 什么是webpack"></a>1. 什么是webpack</h2><p>作为前端开发者，<strong>webpack</strong>可谓是家喻户晓的构建工具！那么，我们先来看看英文官方对于webpack的定义和说明：</p>
+<p>webpack is a static module bundler for modern JavaScript applications. When webpack processes your application, it internally builds a dependency graph which maps every module your project needs and generates one or more bundles.</p>
+<p><strong>webpack</strong> 是一个现代 JavaScript 应用程序的静态模块打包器(module bundler)。当 webpack 处理应用程序时，它会递归地构建一个依赖关系图(dependency graph)，其中包含应用程序需要的每个模块，然后将所有这些模块打包成一个或多个 bundle。</p>
+<p><strong>webPack</strong> 可以看做是模块打包机：它做的事情是，分析你的项目结构，找到JavaScript模块以及其它的一些浏览器不能直接运行的拓展语言（Scss，TypeScript等），并将其打包为合适的格式以供浏览器使用。</p>
+<p><strong>webpack</strong> 的工作方式是：把你的项目当做一个整体，通过一个给定的主文件（如：index.js），Webpack将从这个文件开始找到你的项目的所有依赖文件，使用loaders处理它们，最后打包为一个（或多个）浏览器可识别的JavaScript文件。</p>
+<h2 id="2-webpack配置的核心概念"><a href="#2-webpack配置的核心概念" class="headerlink" title="2. webpack配置的核心概念"></a>2. webpack配置的核心概念</h2><h3 id="2-1-entry（打包入口）"><a href="#2-1-entry（打包入口）" class="headerlink" title="2.1 entry（打包入口）"></a>2.1 entry（打包入口）</h3><p>入口起点(entry point)指示 webpack 应该使用哪个模块，来作为构建其内部依赖图的开始。进入入口起点后，webpack 会找出有哪些模块和库是入口起点（直接和间接）依赖的。就vue项目来说，通常入口文件为main.js文件。<br><a href="https://img-blog.csdnimg.cn/20190325145103811.png"><img src="https://img-blog.csdnimg.cn/20190325145103811.png"></a></p>
+<p>entry 通常有三种写法：</p>
+<h4 id="第一种：字符串形式，如下："><a href="#第一种：字符串形式，如下：" class="headerlink" title="第一种：字符串形式，如下："></a>第一种：字符串形式，如下：</h4><figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="comment">// webpack.config.js</span></span><br><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">  <span class="attr">entry</span>: <span class="string">&#x27;./src/layout/main.js&#x27;</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="第二种：数组形式，如下："><a href="#第二种：数组形式，如下：" class="headerlink" title="第二种：数组形式，如下："></a>第二种：数组形式，如下：</h4><figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="comment">// webpack.config.js</span></span><br><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">  <span class="attr">entry</span>: [<span class="string">&#x27;./src/layout/main.js&#x27;</span>]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="第三种：对象形式，如下："><a href="#第三种：对象形式，如下：" class="headerlink" title="第三种：对象形式，如下："></a>第三种：对象形式，如下：</h4><figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="comment">// webpack.config.js</span></span><br><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">  <span class="attr">entry</span>: &#123;</span><br><span class="line">    <span class="attr">app</span>: <span class="string">&#x27;./src/layout/main.js&#x27;</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>对于这三种写法，通常开发者都会采用第三种，实际上，我们也推荐第三种写法，不论是可扩展性还是代码可读性，第三种都秒杀前两种！</p>
+<h3 id="2-2-output（打包出口）"><a href="#2-2-output（打包出口）" class="headerlink" title="2.2 output（打包出口）"></a>2.2 output（打包出口）</h3><p>output 属性告诉 webpack 在哪里输出它所创建的 bundles，以及如何命名这些文件，默认值为 ./dist。基本上，整个应用程序结构，都会被编译到你指定的输出路径的文件夹中。你可以通过在配置中指定一个 output 字段，来配置这些处理过程：</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="comment">// webpack.config.js</span></span><br><span class="line"><span class="keyword">const</span> path = <span class="built_in">require</span>(<span class="string">&#x27;path&#x27;</span>);</span><br><span class="line"></span><br><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">  <span class="attr">entry</span>: <span class="string">&#x27;./src/layout/main.js&#x27;</span>,</span><br><span class="line">  <span class="attr">output</span>: &#123;</span><br><span class="line">    <span class="attr">path</span>: path.resolve(__dirname, <span class="string">&#x27;dist&#x27;</span>),</span><br><span class="line">    <span class="attr">filename</span>: <span class="string">&#x27;[name].bundle.[hash:8].js&#x27;</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>在上面的示例中，我们通过 output.filename 和 output.path 属性，来告诉 webpack bundle 的名称，以及我们想要 bundle 生成(emit)到哪里。可能你想要了解在代码最上面导入的 path 模块是什么，它是一个 Node.js 核心模块，用于操作文件路径。</p>
+<p>关于output还有很多可配置的属性，详情参见webpack官方文档output配置，在此不再赘述了。</p>
+<h3 id="2-3-loaders（处理非js文件）"><a href="#2-3-loaders（处理非js文件）" class="headerlink" title="2.3 loaders（处理非js文件）"></a>2.3 loaders（处理非js文件）</h3><p>loader 让 webpack 能够去处理那些非 JavaScript 文件（webpack 自身只理解 JavaScript）。loader 可以将所有类型的文件转换为 webpack 能够处理的有效模块，然后你就可以利用 webpack 的打包能力，对它们进行处理。</p>
+<p>本质上，webpack loader 将所有类型的文件，转换为应用程序的依赖图（和最终的 bundle）可以直接引用的模块。</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="comment">// webpack.config.js</span></span><br><span class="line"><span class="keyword">const</span> path = <span class="built_in">require</span>(<span class="string">&#x27;path&#x27;</span>);</span><br><span class="line"></span><br><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">  <span class="attr">entry</span>: <span class="string">&#x27;./src/layout/main.js&#x27;</span>,</span><br><span class="line">  <span class="attr">output</span>: &#123;</span><br><span class="line">    <span class="attr">path</span>: path.resolve(__dirname, <span class="string">&#x27;dist&#x27;</span>),</span><br><span class="line">    <span class="attr">filename</span>: <span class="string">&#x27;[name].bundle.[hash:8].js&#x27;</span></span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="attr">module</span>: &#123;</span><br><span class="line">    <span class="attr">rules</span>: [</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="attr">test</span>: <span class="regexp">/\.js$/</span>,</span><br><span class="line">        loader: <span class="string">&#x27;babel-loader&#x27;</span>,</span><br><span class="line">        <span class="attr">exclude</span>: <span class="regexp">/node_modules/</span></span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="attr">test</span>: <span class="regexp">/\.(png|jpg|gif|svg)$/</span>,</span><br><span class="line">        loader: <span class="string">&#x27;url-loader&#x27;</span>,</span><br><span class="line">        <span class="attr">options</span>: &#123;</span><br><span class="line">          <span class="attr">name</span>: <span class="string">&#x27;[name].[ext]?[hash]&#x27;</span></span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    ]</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>如上，可以看到module种配置rules规则，使用babel-loader来处理js文件，使用url-loader来处理图片文件。</p>
+<p>常用的loader：</p>
+<ol>
+<li><p>编译相关：babel-loader，ts-loader；</p>
+</li>
+<li><p>样式相关：style-loader，css-loader，less-loader，sass-loader，postcss-loader；</p>
+</li>
+<li><p>文件相关：file-loader，url-loader；</p>
+</li>
+</ol>
+<h3 id="2-4-plugins（插件）"><a href="#2-4-plugins（插件）" class="headerlink" title="2.4 plugins（插件）"></a>2.4 plugins（插件）</h3><p>loader 被用于转换某些类型的模块，而插件则可以用于执行范围更广的任务。插件的范围包括，从打包优化和压缩，一直到重新定义环境中的变量。插件接口功能极其强大，可以用来处理各种各样的任务。</p>
+<p>想要使用一个插件，你只需要 require() 它，然后把它添加到 plugins 数组中。多数插件可以通过选项(option)自定义。你也可以在一个配置文件中因为不同目的而多次使用同一个插件，这时需要通过使用 new 操作符来创建它的一个实例。</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="comment">// webpack.config.js</span></span><br><span class="line"><span class="keyword">const</span> path = <span class="built_in">require</span>(<span class="string">&#x27;path&#x27;</span>);</span><br><span class="line"><span class="keyword">const</span> webpack = <span class="built_in">require</span>(<span class="string">&#x27;webpack&#x27;</span>);</span><br><span class="line"><span class="keyword">const</span> HtmlWebpackPlugin = <span class="built_in">require</span>(<span class="string">&#x27;html-webpack-plugin&#x27;</span>); <span class="comment">// 通过 npm 安装</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">  <span class="attr">entry</span>: <span class="string">&#x27;./src/layout/main.js&#x27;</span>,</span><br><span class="line">  <span class="attr">output</span>: &#123;</span><br><span class="line">    <span class="attr">path</span>: path.resolve(__dirname, <span class="string">&#x27;dist&#x27;</span>),</span><br><span class="line">    <span class="attr">filename</span>: <span class="string">&#x27;[name].bundle.[hash:8].js&#x27;</span></span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="attr">module</span>: &#123;</span><br><span class="line">    <span class="attr">rules</span>: [</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="attr">test</span>: <span class="regexp">/\.js$/</span>,</span><br><span class="line">        loader: <span class="string">&#x27;babel-loader&#x27;</span>,</span><br><span class="line">        <span class="attr">exclude</span>: <span class="regexp">/node_modules/</span></span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="attr">test</span>: <span class="regexp">/\.(png|jpg|gif|svg)$/</span>,</span><br><span class="line">        loader: <span class="string">&#x27;url-loader&#x27;</span>,</span><br><span class="line">        <span class="attr">options</span>: &#123;</span><br><span class="line">          <span class="attr">name</span>: <span class="string">&#x27;[name].[ext]?[hash]&#x27;</span></span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    ]</span><br><span class="line">  &#125;，</span><br><span class="line">  <span class="attr">plugins</span>: [</span><br><span class="line">    <span class="keyword">new</span> HtmlWebpackPlugin(&#123;<span class="attr">template</span>: <span class="string">&#x27;./src/index.html&#x27;</span>&#125;),</span><br><span class="line">    <span class="keyword">new</span> webpack.DefinePlugin(&#123;</span><br><span class="line">      <span class="string">&#x27;process.env&#x27;</span>: &#123;</span><br><span class="line">        <span class="attr">NODE_ENV</span>: <span class="string">&#x27;&quot;production&quot;&#x27;</span></span><br><span class="line">      &#125;</span><br><span class="line">    &#125;),</span><br><span class="line">    <span class="keyword">new</span> webpack.optimize.UglifyJsPlugin(&#123;</span><br><span class="line">      <span class="attr">sourceMap</span>: <span class="literal">true</span>,</span><br><span class="line">      <span class="attr">compress</span>: &#123;</span><br><span class="line">        <span class="attr">warnings</span>: <span class="literal">false</span></span><br><span class="line">      &#125;</span><br><span class="line">    &#125;),</span><br><span class="line">    <span class="keyword">new</span> webpack.LoaderOptionsPlugin(&#123;</span><br><span class="line">      <span class="attr">minimize</span>: <span class="literal">true</span></span><br><span class="line">    &#125;)</span><br><span class="line">  ]</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>webpack 提供许多开箱可用的插件！具体可以查阅<a href="https://webpack.js.org/plugins/" title="webpack官方文档">webpack官方文档</a>。</p>
+<h3 id="2-5-mode（模式）"><a href="#2-5-mode（模式）" class="headerlink" title="2.5 mode（模式）"></a>2.5 mode（模式）</h3><p>通过选择 development 或 production 之中的一个，来设置 mode 参数，你可以启用相应模式下的 webpack 内置的优化。</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="comment">// webpack.config.js</span></span><br><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">  <span class="attr">mode</span>: <span class="string">&#x27;production&#x27;</span>  <span class="comment">// &quot;production&quot; | &quot;development&quot; | &quot;none&quot;</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>webpack</category>
+      </categories>
+      <tags>
+        <tag>webpack</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>webstorm快捷键（win版）</title>
+    <url>/2021/12/12/webstorm%E5%BF%AB%E6%8D%B7%E9%94%AE%EF%BC%88win%E7%89%88%EF%BC%89/</url>
+    <content><![CDATA[<h2 id="编辑"><a href="#编辑" class="headerlink" title="编辑"></a>编辑</h2><p>Ctrl + Space 基本代码完成 （任何类、 方法或变量名称）<br>Ctrl + Shift + Enter 完整的语句<br>Ctrl + P （在方法调用参数） 内的参数信息<br>Ctrl + Q 快速的文件查找<br>Ctrl + mouse 在简短的信息的代码<br>Ctrl + F1 在插入符号显示错误或警告的说明<br>Alt + Insert 生成代码…<br>Ctrl + Alt + T 以…（如果……否则，尝试。抓住，等等。）<br>Ctrl + / 行注释与取消注释<br>Ctrl + Shift + / 块注释与取消注释<br>Ctrl + W 选择先后提高代码块<br>Ctrl + Shift + W 减少当前所选内容到以前的状态<br>Alt + Q 上下文信息 Alt + enter 键显示意图采取行动和快速修复<br>Ctrl + Alt + L 格式化代码<br>Ctrl + Alt + I 自动缩进的行数<br>Tab / Shift + Tab 缩进/取消缩进选定的行<br>Ctrl + X , Shift + Delete 剪切到剪贴板的当前行或者所选代码块<br>Ctrl + C，Ctrl + 插入复制当前行或者所选代码块到剪贴板<br>Ctrl + V，Shift + 从剪贴板插入粘贴<br>Ctrl + Shift + V 粘贴从最近缓冲区…<br>Ctrl + D 复制当前行或者所选代码块<br>Ctrl + Y 删除线在插入符号<br>Ctrl + Shift + J 加入行<br>Ctrl + enter 键分割线<br>Shift + Enter 开始新行<br>Ctrl + Shift + U 切换案例在插入符号或所选代码块的词<br>按住 Ctrl + Shift +] / [选择直到代码块结束/开始<br>Ctrl + Delete 删除单词结束 Ctrl + 退格键删除单词的开始<br>Ctrl + 滑鼠 + /-展开/折叠代码块<br>Ctrl + Shift + 滑鼠 + 全部展开<br>Ctrl + Shift + 滑鼠-崩溃<br>Ctrl + F4 关闭活动的编辑器标签</p>
+<h2 id="多个插入符号和选择"><a href="#多个插入符号和选择" class="headerlink" title="多个插入符号和选择"></a>多个插入符号和选择</h2><p>Alt + 单击添加或插入符号<br>Shift + Ctrl + Alt + J 选择全部删除按住<br>Alt + J 选择下一个出现<br>Alt + Shift + J 取消选择发生按<br>Esc 取消选择所有事件或插入符号</p>
+<h2 id="运行"><a href="#运行" class="headerlink" title="运行"></a>运行</h2><p>Alt + Shift + F10/F9 选择配置和运行/调试<br>Shift + F10/F9 运行/调试<br>Ctrl + Shift + F10/F9 运行/调试上下文配置从编辑器<br>Alt + Shift + R 重新运行测试</p>
+<h2 id="调试"><a href="#调试" class="headerlink" title="调试"></a>调试</h2><p>F8 步骤<br>F7 一步成<br>Shift + F7 智能踏入<br>Shift + F8 踏出<br>Alt + F9 运行到光标<br>Alt + F8 计算表达式的值<br>F9 简历<br>Ctrl + f8 键切换断点<br>Ctrl + Shift + F8 查看断点</p>
+<h2 id="导航"><a href="#导航" class="headerlink" title="导航"></a>导航</h2><p>Ctrl + N 去某个类<br>Ctrl + Shift + N 转到文件<br>Ctrl + Alt + 转变 + N 转到符号<br>Alt + 权利转到下一个编辑器选项卡<br>Alt + 左转到上一个编辑器选项卡<br>f12 键回到上一个工具窗口<br>esc 键转到编辑器 （在工具窗口中）<br>Shift + Esc 隐藏活动或最后一个活动窗口<br>Ctrl + Shift + F4 关闭活动运行/消息/查找 /……选项卡<br>Ctrl + G 转到线<br>Ctrl + E 最近文件弹出式<br>Ctrl + Alt + 左/右导航回 /转发<br>Ctrl + Shift + 退格键导航最后编辑位置<br>Alt + F1 选择当前文件或符号在任何视图中<br>Ctrl + B，<br>Ctrl + 单击转到声明<br>Ctrl + Alt + B 去实现<br>Ctrl + Shift + I，打开快速定义查找<br>Ctrl + Shift + B 去键入宣言<br>Ctrl + U 转到超级方法/超级类<br>Alt + 上下转到上一页/下一页方法<br>Ctrl +] / [移动到代码块结束/启动<br>Ctrl + f12 键文件结构弹出<br>Ctrl + H 类型层次结构<br>Ctrl + Alt + H 调用层次结构<br>F2 / Shift + F2 下一页/上一页突出显示错误 F4，<br>Ctrl + Ente 跳转到源<br>Alt + home 跳转到导航栏<br>F11 切换书签<br>Ctrl + F11 切换书签助记键<br>Ctrl + #[0-9] 去带编号的书签<br>Shift + F11 显示书签</p>
+<h2 id="VCS-当地历史"><a href="#VCS-当地历史" class="headerlink" title="VCS/当地历史"></a>VCS/当地历史</h2><p>Alt + 反引号 (‘) ‘VCS’ 快速弹出<br>Ctrl + K 提交项目到 VCS<br>Ctrl + T 更新项目从 VCS<br>Alt + Shift + C 查看最近的更改</p>
+<h2 id="搜索-替换"><a href="#搜索-替换" class="headerlink" title="搜索/替换"></a>搜索/替换</h2><p>Ctrl + F 查找<br>F3 查找下一步<br>Shift + F3 查找上一个<br>Ctrl + R 替换<br>Ctrl + Shift + F 在路径中找到<br>Ctrl + Shift + R 替换路径中</p>
+<h2 id="使用搜索"><a href="#使用搜索" class="headerlink" title="使用搜索"></a>使用搜索</h2><p>Alt + f7 键 / Ctrl + f7 键查找使用实例 / 找到用法在文件<br>Ctrl + Shift + f7 键突出显示用法在文件<br>Ctrl + Alt + F7 显示用法</p>
+<h2 id="重构"><a href="#重构" class="headerlink" title="重构"></a>重构</h2><p>F5 副本<br>F6 移动<br>Alt + delete 安全删除<br>Shift + F6 重命名<br>Ctrl + Alt + N 内联可变<br>Ctrl + Alt + M 提取方法<br>Ctrl + Alt + V 引进可变<br>Ctrl + Alt + C 引入的恒定<br>Ctrl + Alt + P 介绍参数<br>Ctrl + F6 变化函数签名</p>
+<h2 id="一般"><a href="#一般" class="headerlink" title="一般"></a>一般</h2><p>Ctrl + Shift +a 查找操作<br>双击shift 查找所有的（包括文件、命令等）<br>Alt + #[0-9] 打开相应的工具窗口<br>Ctrl + Shift + f12 键切换最大化编辑器<br>Alt + Shift + F 将添加到收藏夹<br>Alt + Shift + I 检查当前文件与当前配置文件<br>Ctrl + 反引号 (‘) 快速切换当前计划<br>Ctrl + Alt + S 打开设置对话框<br>Ctrl + Tab 切换选项卡和工具窗口</p>
+]]></content>
+      <categories>
+        <category>编辑器</category>
+      </categories>
+      <tags>
+        <tag>编辑器</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>webstorm快捷键（Mac版）</title>
     <url>/2021/12/12/webstorm%E5%BF%AB%E6%8D%B7%E9%94%AE%EF%BC%88Mac%E7%89%88%EF%BC%89/</url>
     <content><![CDATA[<p>⌘——Command</p>
@@ -1073,24 +1094,18 @@
       </tags>
   </entry>
   <entry>
-    <title>webstorm快捷键（win版）</title>
-    <url>/2021/12/12/webstorm%E5%BF%AB%E6%8D%B7%E9%94%AE%EF%BC%88win%E7%89%88%EF%BC%89/</url>
-    <content><![CDATA[<h2 id="编辑"><a href="#编辑" class="headerlink" title="编辑"></a>编辑</h2><p>Ctrl + Space 基本代码完成 （任何类、 方法或变量名称）<br>Ctrl + Shift + Enter 完整的语句<br>Ctrl + P （在方法调用参数） 内的参数信息<br>Ctrl + Q 快速的文件查找<br>Ctrl + mouse 在简短的信息的代码<br>Ctrl + F1 在插入符号显示错误或警告的说明<br>Alt + Insert 生成代码…<br>Ctrl + Alt + T 以…（如果……否则，尝试。抓住，等等。）<br>Ctrl + / 行注释与取消注释<br>Ctrl + Shift + / 块注释与取消注释<br>Ctrl + W 选择先后提高代码块<br>Ctrl + Shift + W 减少当前所选内容到以前的状态<br>Alt + Q 上下文信息 Alt + enter 键显示意图采取行动和快速修复<br>Ctrl + Alt + L 格式化代码<br>Ctrl + Alt + I 自动缩进的行数<br>Tab / Shift + Tab 缩进/取消缩进选定的行<br>Ctrl + X , Shift + Delete 剪切到剪贴板的当前行或者所选代码块<br>Ctrl + C，Ctrl + 插入复制当前行或者所选代码块到剪贴板<br>Ctrl + V，Shift + 从剪贴板插入粘贴<br>Ctrl + Shift + V 粘贴从最近缓冲区…<br>Ctrl + D 复制当前行或者所选代码块<br>Ctrl + Y 删除线在插入符号<br>Ctrl + Shift + J 加入行<br>Ctrl + enter 键分割线<br>Shift + Enter 开始新行<br>Ctrl + Shift + U 切换案例在插入符号或所选代码块的词<br>按住 Ctrl + Shift +] / [选择直到代码块结束/开始<br>Ctrl + Delete 删除单词结束 Ctrl + 退格键删除单词的开始<br>Ctrl + 滑鼠 + /-展开/折叠代码块<br>Ctrl + Shift + 滑鼠 + 全部展开<br>Ctrl + Shift + 滑鼠-崩溃<br>Ctrl + F4 关闭活动的编辑器标签</p>
-<h2 id="多个插入符号和选择"><a href="#多个插入符号和选择" class="headerlink" title="多个插入符号和选择"></a>多个插入符号和选择</h2><p>Alt + 单击添加或插入符号<br>Shift + Ctrl + Alt + J 选择全部删除按住<br>Alt + J 选择下一个出现<br>Alt + Shift + J 取消选择发生按<br>Esc 取消选择所有事件或插入符号</p>
-<h2 id="运行"><a href="#运行" class="headerlink" title="运行"></a>运行</h2><p>Alt + Shift + F10/F9 选择配置和运行/调试<br>Shift + F10/F9 运行/调试<br>Ctrl + Shift + F10/F9 运行/调试上下文配置从编辑器<br>Alt + Shift + R 重新运行测试</p>
-<h2 id="调试"><a href="#调试" class="headerlink" title="调试"></a>调试</h2><p>F8 步骤<br>F7 一步成<br>Shift + F7 智能踏入<br>Shift + F8 踏出<br>Alt + F9 运行到光标<br>Alt + F8 计算表达式的值<br>F9 简历<br>Ctrl + f8 键切换断点<br>Ctrl + Shift + F8 查看断点</p>
-<h2 id="导航"><a href="#导航" class="headerlink" title="导航"></a>导航</h2><p>Ctrl + N 去某个类<br>Ctrl + Shift + N 转到文件<br>Ctrl + Alt + 转变 + N 转到符号<br>Alt + 权利转到下一个编辑器选项卡<br>Alt + 左转到上一个编辑器选项卡<br>f12 键回到上一个工具窗口<br>esc 键转到编辑器 （在工具窗口中）<br>Shift + Esc 隐藏活动或最后一个活动窗口<br>Ctrl + Shift + F4 关闭活动运行/消息/查找 /……选项卡<br>Ctrl + G 转到线<br>Ctrl + E 最近文件弹出式<br>Ctrl + Alt + 左/右导航回 /转发<br>Ctrl + Shift + 退格键导航最后编辑位置<br>Alt + F1 选择当前文件或符号在任何视图中<br>Ctrl + B，<br>Ctrl + 单击转到声明<br>Ctrl + Alt + B 去实现<br>Ctrl + Shift + I，打开快速定义查找<br>Ctrl + Shift + B 去键入宣言<br>Ctrl + U 转到超级方法/超级类<br>Alt + 上下转到上一页/下一页方法<br>Ctrl +] / [移动到代码块结束/启动<br>Ctrl + f12 键文件结构弹出<br>Ctrl + H 类型层次结构<br>Ctrl + Alt + H 调用层次结构<br>F2 / Shift + F2 下一页/上一页突出显示错误 F4，<br>Ctrl + Ente 跳转到源<br>Alt + home 跳转到导航栏<br>F11 切换书签<br>Ctrl + F11 切换书签助记键<br>Ctrl + #[0-9] 去带编号的书签<br>Shift + F11 显示书签</p>
-<h2 id="VCS-当地历史"><a href="#VCS-当地历史" class="headerlink" title="VCS/当地历史"></a>VCS/当地历史</h2><p>Alt + 反引号 (‘) ‘VCS’ 快速弹出<br>Ctrl + K 提交项目到 VCS<br>Ctrl + T 更新项目从 VCS<br>Alt + Shift + C 查看最近的更改</p>
-<h2 id="搜索-替换"><a href="#搜索-替换" class="headerlink" title="搜索/替换"></a>搜索/替换</h2><p>Ctrl + F 查找<br>F3 查找下一步<br>Shift + F3 查找上一个<br>Ctrl + R 替换<br>Ctrl + Shift + F 在路径中找到<br>Ctrl + Shift + R 替换路径中</p>
-<h2 id="使用搜索"><a href="#使用搜索" class="headerlink" title="使用搜索"></a>使用搜索</h2><p>Alt + f7 键 / Ctrl + f7 键查找使用实例 / 找到用法在文件<br>Ctrl + Shift + f7 键突出显示用法在文件<br>Ctrl + Alt + F7 显示用法</p>
-<h2 id="重构"><a href="#重构" class="headerlink" title="重构"></a>重构</h2><p>F5 副本<br>F6 移动<br>Alt + delete 安全删除<br>Shift + F6 重命名<br>Ctrl + Alt + N 内联可变<br>Ctrl + Alt + M 提取方法<br>Ctrl + Alt + V 引进可变<br>Ctrl + Alt + C 引入的恒定<br>Ctrl + Alt + P 介绍参数<br>Ctrl + F6 变化函数签名</p>
-<h2 id="一般"><a href="#一般" class="headerlink" title="一般"></a>一般</h2><p>Ctrl + Shift +a 查找操作<br>双击shift 查找所有的（包括文件、命令等）<br>Alt + #[0-9] 打开相应的工具窗口<br>Ctrl + Shift + f12 键切换最大化编辑器<br>Alt + Shift + F 将添加到收藏夹<br>Alt + Shift + I 检查当前文件与当前配置文件<br>Ctrl + 反引号 (‘) 快速切换当前计划<br>Ctrl + Alt + S 打开设置对话框<br>Ctrl + Tab 切换选项卡和工具窗口</p>
+    <title>为什么 TCP 建立连接需要三次握手?</title>
+    <url>/2021/12/19/%E4%B8%BA%E4%BB%80%E4%B9%88-TCP-%E5%BB%BA%E7%AB%8B%E8%BF%9E%E6%8E%A5%E9%9C%80%E8%A6%81%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B/</url>
+    <content><![CDATA[<p>因为这是为了防止出现失效的连接请求报文段被服务端接收的情况，从而产生错误。</p>
+<p>可以想象如下场景。客户端发送了一个连接请求 A，但是因为网络原因造成了超时，这时 TCP 会启动超时重传的机制再次发送一个连接请求 B。此时请求顺利到达服务端，服务端应答完就建立了请求，然后接收数据后释放了连接。</p>
+<p>假设这时候连接请求 A 在两端关闭后终于抵达了服务端，那么此时服务端会认为客户端又需要建立 TCP 连接，从而应答了该请求并进入 ESTABLISHED 状态。但是客户端其实是 CLOSED 的状态，那么就会导致服务端一直等待，造成资源的浪费。</p>
+<p>PS：在建立连接中，任意一端掉线，TCP 都会重发 SYN 包，一般会重试五次，在建立连接中可能会遇到 SYN Flood 攻击。遇到这种情况你可以选择调低重试次数或者干脆在不能处理的情况下拒绝请求。</p>
 ]]></content>
       <categories>
-        <category>编辑器</category>
+        <category>HTTP</category>
       </categories>
       <tags>
-        <tag>编辑器</tag>
+        <tag>HTTP</tag>
       </tags>
   </entry>
   <entry>
@@ -1191,6 +1206,23 @@
       </tags>
   </entry>
   <entry>
+    <title>去掉inline-block元素间隙</title>
+    <url>/2021/12/18/%E5%8E%BB%E6%8E%89inline-block%E5%85%83%E7%B4%A0%E9%97%B4%E9%9A%99/</url>
+    <content><![CDATA[<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>做页面时，如果用到inline-block元素来布局，就无可避免都会遇到一个问题，就是inline-block元素之间的间隙。这些间隙会导致一些布局上的问题，需要把间隙去掉。</p>
+<h2 id="1、标签写在一行，移除标签间的空格"><a href="#1、标签写在一行，移除标签间的空格" class="headerlink" title="1、标签写在一行，移除标签间的空格"></a>1、标签写在一行，移除标签间的空格</h2><figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;demo&quot;</span>&gt;</span></span><br><span class="line">   <span class="tag">&lt;<span class="name">span</span>&gt;</span>我是一个span<span class="tag">&lt;/<span class="name">span</span>&gt;</span><span class="tag">&lt;<span class="name">span</span>&gt;</span>我是一个span<span class="tag">&lt;/<span class="name">span</span>&gt;</span><span class="tag">&lt;<span class="name">span</span>&gt;</span>我是一个span<span class="tag">&lt;/<span class="name">span</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="2、利用HTML注释标签"><a href="#2、利用HTML注释标签" class="headerlink" title="2、利用HTML注释标签"></a>2、利用HTML注释标签</h2><figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;demo&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">span</span>&gt;</span>我是一个span<span class="tag">&lt;/<span class="name">span</span>&gt;</span><span class="comment">&lt;!-- </span></span><br><span class="line"><span class="comment">    --&gt;</span><span class="tag">&lt;<span class="name">span</span>&gt;</span>我是一个span<span class="tag">&lt;/<span class="name">span</span>&gt;</span><span class="comment">&lt;!-- </span></span><br><span class="line"><span class="comment">    --&gt;</span><span class="tag">&lt;<span class="name">span</span>&gt;</span>我是一个span<span class="tag">&lt;/<span class="name">span</span>&gt;</span><span class="comment">&lt;!-- </span></span><br><span class="line"><span class="comment">    --&gt;</span><span class="tag">&lt;<span class="name">span</span>&gt;</span>我是一个span<span class="tag">&lt;/<span class="name">span</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h2 id="3、在父容器上使用font-size-0-可以消除间隙"><a href="#3、在父容器上使用font-size-0-可以消除间隙" class="headerlink" title="3、在父容器上使用font-size:0;可以消除间隙"></a>3、在父容器上使用font-size:0;可以消除间隙</h2><figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;demo&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">span</span>&gt;</span>我是一个span</span><br><span class="line">    <span class="tag">&lt;<span class="name">span</span>&gt;</span>我是一个span</span><br><span class="line">    <span class="tag">&lt;<span class="name">span</span>&gt;</span>我是一个span</span><br><span class="line">    <span class="tag">&lt;<span class="name">span</span>&gt;</span>我是一个span<span class="tag">&lt;/<span class="name">span</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight css"><table><tr><td class="code"><pre><span class="line"><span class="selector-class">.demo</span> &#123;<span class="attribute">font-size</span>: <span class="number">0</span>;&#125;</span><br><span class="line"><span class="selector-class">.demo</span> <span class="selector-tag">span</span>&#123;</span><br><span class="line">     <span class="attribute">background</span>:<span class="number">#ddd</span>;</span><br><span class="line">     <span class="attribute">display</span>: inline-block;</span><br><span class="line">     <span class="attribute">font-size</span>: <span class="number">14px</span>; <span class="comment">/*要设置相应的字号*/</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>CSS</category>
+      </categories>
+      <tags>
+        <tag>CSS</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>深度剖析Javascript继承</title>
     <url>/2021/12/13/%E6%B7%B1%E5%BA%A6%E5%89%96%E6%9E%90Javascript%E7%BB%A7%E6%89%BF/</url>
     <content><![CDATA[<h2 id="1-原型链"><a href="#1-原型链" class="headerlink" title="1. 原型链"></a>1. 原型链</h2><p>此种继承方式的基本思想是：利用原型让一个引用类型继承另一个引用类型的属性和方法。</p>
@@ -1245,38 +1277,6 @@
       </categories>
       <tags>
         <tag>JavaScript</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>为什么 TCP 建立连接需要三次握手?</title>
-    <url>/2021/12/19/%E4%B8%BA%E4%BB%80%E4%B9%88-TCP-%E5%BB%BA%E7%AB%8B%E8%BF%9E%E6%8E%A5%E9%9C%80%E8%A6%81%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B/</url>
-    <content><![CDATA[<p>因为这是为了防止出现失效的连接请求报文段被服务端接收的情况，从而产生错误。</p>
-<p>可以想象如下场景。客户端发送了一个连接请求 A，但是因为网络原因造成了超时，这时 TCP 会启动超时重传的机制再次发送一个连接请求 B。此时请求顺利到达服务端，服务端应答完就建立了请求，然后接收数据后释放了连接。</p>
-<p>假设这时候连接请求 A 在两端关闭后终于抵达了服务端，那么此时服务端会认为客户端又需要建立 TCP 连接，从而应答了该请求并进入 ESTABLISHED 状态。但是客户端其实是 CLOSED 的状态，那么就会导致服务端一直等待，造成资源的浪费。</p>
-<p>PS：在建立连接中，任意一端掉线，TCP 都会重发 SYN 包，一般会重试五次，在建立连接中可能会遇到 SYN Flood 攻击。遇到这种情况你可以选择调低重试次数或者干脆在不能处理的情况下拒绝请求。</p>
-]]></content>
-      <categories>
-        <category>HTTP</category>
-      </categories>
-      <tags>
-        <tag>HTTP</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>去掉inline-block元素间隙</title>
-    <url>/2021/12/18/%E5%8E%BB%E6%8E%89inline-block%E5%85%83%E7%B4%A0%E9%97%B4%E9%9A%99/</url>
-    <content><![CDATA[<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>做页面时，如果用到inline-block元素来布局，就无可避免都会遇到一个问题，就是inline-block元素之间的间隙。这些间隙会导致一些布局上的问题，需要把间隙去掉。</p>
-<h2 id="1、标签写在一行，移除标签间的空格"><a href="#1、标签写在一行，移除标签间的空格" class="headerlink" title="1、标签写在一行，移除标签间的空格"></a>1、标签写在一行，移除标签间的空格</h2><figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;demo&quot;</span>&gt;</span></span><br><span class="line">   <span class="tag">&lt;<span class="name">span</span>&gt;</span>我是一个span<span class="tag">&lt;/<span class="name">span</span>&gt;</span><span class="tag">&lt;<span class="name">span</span>&gt;</span>我是一个span<span class="tag">&lt;/<span class="name">span</span>&gt;</span><span class="tag">&lt;<span class="name">span</span>&gt;</span>我是一个span<span class="tag">&lt;/<span class="name">span</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-<h2 id="2、利用HTML注释标签"><a href="#2、利用HTML注释标签" class="headerlink" title="2、利用HTML注释标签"></a>2、利用HTML注释标签</h2><figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;demo&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">span</span>&gt;</span>我是一个span<span class="tag">&lt;/<span class="name">span</span>&gt;</span><span class="comment">&lt;!-- </span></span><br><span class="line"><span class="comment">    --&gt;</span><span class="tag">&lt;<span class="name">span</span>&gt;</span>我是一个span<span class="tag">&lt;/<span class="name">span</span>&gt;</span><span class="comment">&lt;!-- </span></span><br><span class="line"><span class="comment">    --&gt;</span><span class="tag">&lt;<span class="name">span</span>&gt;</span>我是一个span<span class="tag">&lt;/<span class="name">span</span>&gt;</span><span class="comment">&lt;!-- </span></span><br><span class="line"><span class="comment">    --&gt;</span><span class="tag">&lt;<span class="name">span</span>&gt;</span>我是一个span<span class="tag">&lt;/<span class="name">span</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<h2 id="3、在父容器上使用font-size-0-可以消除间隙"><a href="#3、在父容器上使用font-size-0-可以消除间隙" class="headerlink" title="3、在父容器上使用font-size:0;可以消除间隙"></a>3、在父容器上使用font-size:0;可以消除间隙</h2><figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;demo&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">span</span>&gt;</span>我是一个span</span><br><span class="line">    <span class="tag">&lt;<span class="name">span</span>&gt;</span>我是一个span</span><br><span class="line">    <span class="tag">&lt;<span class="name">span</span>&gt;</span>我是一个span</span><br><span class="line">    <span class="tag">&lt;<span class="name">span</span>&gt;</span>我是一个span<span class="tag">&lt;/<span class="name">span</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<figure class="highlight css"><table><tr><td class="code"><pre><span class="line"><span class="selector-class">.demo</span> &#123;<span class="attribute">font-size</span>: <span class="number">0</span>;&#125;</span><br><span class="line"><span class="selector-class">.demo</span> <span class="selector-tag">span</span>&#123;</span><br><span class="line">     <span class="attribute">background</span>:<span class="number">#ddd</span>;</span><br><span class="line">     <span class="attribute">display</span>: inline-block;</span><br><span class="line">     <span class="attribute">font-size</span>: <span class="number">14px</span>; <span class="comment">/*要设置相应的字号*/</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>CSS</category>
-      </categories>
-      <tags>
-        <tag>CSS</tag>
       </tags>
   </entry>
   <entry>
