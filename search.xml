@@ -1,6 +1,49 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>ES6的let到底存不存在变量提升</title>
+    <url>/2021/12/12/ES6%E7%9A%84let%E5%88%B0%E5%BA%95%E5%AD%98%E4%B8%8D%E5%AD%98%E5%9C%A8%E5%8F%98%E9%87%8F%E6%8F%90%E5%8D%87/</url>
+    <content><![CDATA[<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>关于ES6中的let存不存在变量提升的问题，我想大部分人都认为是不存在变量提升的，而官方文档关于这点也曾做过改动，最初是认为存在变量提升，后来又改成了不存在变量提升。而最近我在CSDN上看到一篇文章在探讨这个问题，于是自己就试验了一下。实践是检验真理的唯一标准，那么今天我们就来探讨一下到底let存不存在变量提升的问题。</p>
+<h2 id="变量提升"><a href="#变量提升" class="headerlink" title="变量提升"></a>变量提升</h2><p><strong>定义：函数声明和变量声明总是被JavaScript解释器隐式地提升(hoist)到包含他们的作用域的最顶端。</strong></p>
+<p>通过定义我们可以知道，只有变量的声明和函数的声明存在变量提升这一说，那么在ES6出现之前，JavaScript声明变量的方式是通过关键字var实现的，声明函数自然通过function啦，ES6中我们用let，const来声明变量和常量。</p>
+<p>话不多说，直接上一段代码： <code>&#123; console.log(a) // 报错，a is not defined let a=2; &#125;</code></p>
+<hr>
+<p>这和官方文档所说的存在暂时性死区是一致的。<br>如果let存在变量提升，那么上述代码就相当于下面这样</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&#123; let a; console.log(a) //undefined a=2; &#125;```  </span><br><span class="line"> 由此可见，let并不存在变量提升。此外，ES6新增了块级作用域的概念，块级作用域简单的来说就是用&#123;&#125;包裹起来的就是块级作用域。不妨再来看一个例子：  </span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>{ let a =11; console.log(a); //11 }```</p>
+<p>console.log(a); //报错，a is not defined<br>因此，我们可以得出结论，let声明的变量不能跨块访问。</p>
+]]></content>
+      <categories>
+        <category>JavaScript</category>
+      </categories>
+      <tags>
+        <tag>JavaScript</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>JS事件对象(event)的一些兼容性写法</title>
+    <url>/2021/12/12/JS%E4%BA%8B%E4%BB%B6%E5%AF%B9%E8%B1%A1-event-%E7%9A%84%E4%B8%80%E4%BA%9B%E5%85%BC%E5%AE%B9%E6%80%A7%E5%86%99%E6%B3%95/</url>
+    <content><![CDATA[<h2 id="获得event对象兼容性写法"><a href="#获得event对象兼容性写法" class="headerlink" title="获得event对象兼容性写法"></a>获得event对象兼容性写法</h2><pre><code>event || (event = window.event);
+</code></pre>
+<h2 id="获得target兼容型写法"><a href="#获得target兼容型写法" class="headerlink" title="获得target兼容型写法"></a>获得target兼容型写法</h2><pre><code>event.target||event.srcElement
+</code></pre>
+<h2 id="阻止浏览器默认行为兼容性写法"><a href="#阻止浏览器默认行为兼容性写法" class="headerlink" title="阻止浏览器默认行为兼容性写法"></a>阻止浏览器默认行为兼容性写法</h2><pre><code>event.preventDefault ? event.preventDefault() : (event.returnValue = false);
+</code></pre>
+<h2 id="阻止冒泡写法"><a href="#阻止冒泡写法" class="headerlink" title="阻止冒泡写法"></a>阻止冒泡写法</h2><pre><code>event.stopPropagation ? event.stopPropagation() : (event.cancelBubble = true);
+</code></pre>
+<h2 id="添加事件监听和取消事件监听"><a href="#添加事件监听和取消事件监听" class="headerlink" title="添加事件监听和取消事件监听"></a>添加事件监听和取消事件监听</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">//添加事件监听兼容函数</span><br><span class="line">function addHandler(target, eventType, handler)&#123;</span><br><span class="line">	if(target.addEventListener)&#123;//主流浏览器</span><br><span class="line">		addHandler = function(target, eventType, handler)&#123;</span><br><span class="line">			target.addEventListener(eventType, handler, false);</span><br><span class="line">		&#125;;</span><br><span class="line">	&#125;else&#123;//IE</span><br><span class="line">		addHandler = function(target, eventType, handler)&#123;</span><br><span class="line">			target.attachEvent(&quot;on&quot;+eventType, handler);</span><br><span class="line">		&#125;;		</span><br><span class="line">	&#125;</span><br><span class="line">	//执行新的函数</span><br><span class="line">	addHandler(target, eventType, handler);</span><br><span class="line">&#125;</span><br><span class="line">//删除事件监听兼容函数</span><br><span class="line">function removeHandler(target, eventType, handler)&#123;</span><br><span class="line">	if(target.removeEventListener)&#123;//主流浏览器</span><br><span class="line">		removeHandler = function(target, eventType, handler)&#123;</span><br><span class="line">			target.removeEventListener(eventType, handler, false);</span><br><span class="line">		&#125;		</span><br><span class="line">	&#125;else&#123;//IE</span><br><span class="line">		removeHandler = function(target, eventType, handler)&#123;</span><br><span class="line">			target.detachEvent(&quot;on&quot;+eventType, handler);</span><br><span class="line">		&#125;		</span><br><span class="line">	&#125;</span><br><span class="line">	//执行新的函数</span><br><span class="line">	removeHandler(target, eventType, handler);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<pre><code>注：后者皆为兼容IE的兼容性写法。
+</code></pre>
+]]></content>
+      <categories>
+        <category>JavaScript</category>
+      </categories>
+      <tags>
+        <tag>JavaScript</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>HTTP状态码详解</title>
     <url>/2021/12/12/HTTP%E7%8A%B6%E6%80%81%E7%A0%81%E8%AF%A6%E8%A7%A3/</url>
     <content><![CDATA[<p>HTTP状态码负责表示客户端HTTP请求的返回结果、标记服务器端的处理是否正常、通知出现的错误等工作。</p>
@@ -70,27 +113,6 @@
       </tags>
   </entry>
   <entry>
-    <title>ES6的let到底存不存在变量提升</title>
-    <url>/2021/12/12/ES6%E7%9A%84let%E5%88%B0%E5%BA%95%E5%AD%98%E4%B8%8D%E5%AD%98%E5%9C%A8%E5%8F%98%E9%87%8F%E6%8F%90%E5%8D%87/</url>
-    <content><![CDATA[<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>关于ES6中的let存不存在变量提升的问题，我想大部分人都认为是不存在变量提升的，而官方文档关于这点也曾做过改动，最初是认为存在变量提升，后来又改成了不存在变量提升。而最近我在CSDN上看到一篇文章在探讨这个问题，于是自己就试验了一下。实践是检验真理的唯一标准，那么今天我们就来探讨一下到底let存不存在变量提升的问题。</p>
-<h2 id="变量提升"><a href="#变量提升" class="headerlink" title="变量提升"></a>变量提升</h2><p><strong>定义：函数声明和变量声明总是被JavaScript解释器隐式地提升(hoist)到包含他们的作用域的最顶端。</strong></p>
-<p>通过定义我们可以知道，只有变量的声明和函数的声明存在变量提升这一说，那么在ES6出现之前，JavaScript声明变量的方式是通过关键字var实现的，声明函数自然通过function啦，ES6中我们用let，const来声明变量和常量。</p>
-<p>话不多说，直接上一段代码： <code>&#123; console.log(a) // 报错，a is not defined let a=2; &#125;</code></p>
-<hr>
-<p>这和官方文档所说的存在暂时性死区是一致的。<br>如果let存在变量提升，那么上述代码就相当于下面这样</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&#123; let a; console.log(a) //undefined a=2; &#125;```  </span><br><span class="line"> 由此可见，let并不存在变量提升。此外，ES6新增了块级作用域的概念，块级作用域简单的来说就是用&#123;&#125;包裹起来的就是块级作用域。不妨再来看一个例子：  </span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>{ let a =11; console.log(a); //11 }```</p>
-<p>console.log(a); //报错，a is not defined<br>因此，我们可以得出结论，let声明的变量不能跨块访问。</p>
-]]></content>
-      <categories>
-        <category>JavaScript</category>
-      </categories>
-      <tags>
-        <tag>JavaScript</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>JS中构造函数中有return的分析</title>
     <url>/2021/12/13/JS%E4%B8%AD%E6%9E%84%E9%80%A0%E5%87%BD%E6%95%B0%E4%B8%AD%E6%9C%89return%E7%9A%84%E5%88%86%E6%9E%90/</url>
     <content><![CDATA[<h2 id="写在前面"><a href="#写在前面" class="headerlink" title="写在前面"></a>写在前面</h2><p>简单的总结来说就一句话：如果return的值是基本数据类型的话，则忽略return，直接返回实例化的对象；如果return的值是引用类型的话，则不再返回实例化的对象，而是直接返回return返回的引用类型的值。</p>
@@ -148,19 +170,35 @@
       </tags>
   </entry>
   <entry>
-    <title>JS事件对象(event)的一些兼容性写法</title>
-    <url>/2021/12/12/JS%E4%BA%8B%E4%BB%B6%E5%AF%B9%E8%B1%A1-event-%E7%9A%84%E4%B8%80%E4%BA%9B%E5%85%BC%E5%AE%B9%E6%80%A7%E5%86%99%E6%B3%95/</url>
-    <content><![CDATA[<h2 id="获得event对象兼容性写法"><a href="#获得event对象兼容性写法" class="headerlink" title="获得event对象兼容性写法"></a>获得event对象兼容性写法</h2><pre><code>event || (event = window.event);
-</code></pre>
-<h2 id="获得target兼容型写法"><a href="#获得target兼容型写法" class="headerlink" title="获得target兼容型写法"></a>获得target兼容型写法</h2><pre><code>event.target||event.srcElement
-</code></pre>
-<h2 id="阻止浏览器默认行为兼容性写法"><a href="#阻止浏览器默认行为兼容性写法" class="headerlink" title="阻止浏览器默认行为兼容性写法"></a>阻止浏览器默认行为兼容性写法</h2><pre><code>event.preventDefault ? event.preventDefault() : (event.returnValue = false);
-</code></pre>
-<h2 id="阻止冒泡写法"><a href="#阻止冒泡写法" class="headerlink" title="阻止冒泡写法"></a>阻止冒泡写法</h2><pre><code>event.stopPropagation ? event.stopPropagation() : (event.cancelBubble = true);
-</code></pre>
-<h2 id="添加事件监听和取消事件监听"><a href="#添加事件监听和取消事件监听" class="headerlink" title="添加事件监听和取消事件监听"></a>添加事件监听和取消事件监听</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">//添加事件监听兼容函数</span><br><span class="line">function addHandler(target, eventType, handler)&#123;</span><br><span class="line">	if(target.addEventListener)&#123;//主流浏览器</span><br><span class="line">		addHandler = function(target, eventType, handler)&#123;</span><br><span class="line">			target.addEventListener(eventType, handler, false);</span><br><span class="line">		&#125;;</span><br><span class="line">	&#125;else&#123;//IE</span><br><span class="line">		addHandler = function(target, eventType, handler)&#123;</span><br><span class="line">			target.attachEvent(&quot;on&quot;+eventType, handler);</span><br><span class="line">		&#125;;		</span><br><span class="line">	&#125;</span><br><span class="line">	//执行新的函数</span><br><span class="line">	addHandler(target, eventType, handler);</span><br><span class="line">&#125;</span><br><span class="line">//删除事件监听兼容函数</span><br><span class="line">function removeHandler(target, eventType, handler)&#123;</span><br><span class="line">	if(target.removeEventListener)&#123;//主流浏览器</span><br><span class="line">		removeHandler = function(target, eventType, handler)&#123;</span><br><span class="line">			target.removeEventListener(eventType, handler, false);</span><br><span class="line">		&#125;		</span><br><span class="line">	&#125;else&#123;//IE</span><br><span class="line">		removeHandler = function(target, eventType, handler)&#123;</span><br><span class="line">			target.detachEvent(&quot;on&quot;+eventType, handler);</span><br><span class="line">		&#125;		</span><br><span class="line">	&#125;</span><br><span class="line">	//执行新的函数</span><br><span class="line">	removeHandler(target, eventType, handler);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<pre><code>注：后者皆为兼容IE的兼容性写法。
-</code></pre>
+    <title>JS尾调用</title>
+    <url>/2021/12/13/JS%E5%B0%BE%E8%B0%83%E7%94%A8/</url>
+    <content><![CDATA[<h2 id="1-尾调用"><a href="#1-尾调用" class="headerlink" title="1. 尾调用"></a>1. 尾调用</h2><p>尾调用（Tail Call）是函数式编程的一个重要的概念，简单的来说就是：某个函数的最后一步是调用另一个函数。</p>
+<p>例如下面的例子就是尾调用：</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">f</span>(<span class="params">x</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> g(x)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="2-尾调用的特点"><a href="#2-尾调用的特点" class="headerlink" title="2. 尾调用的特点"></a>2. 尾调用的特点</h2><p>那么，我们来总结一下，尾调用的特点：</p>
+<p>首先，尾调用必须满足，函数的最后一步是return另一个函数（如上述例子），这里和闭包有点像；</p>
+<p>其次，return 后面的表达式必须仅仅是某个函数的调用，除此之外不能包含其它任何别的操作；</p>
+<p>看下面的例子，我们来分析：</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">f</span>(<span class="params">x</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> a = <span class="number">3</span></span><br><span class="line">    <span class="keyword">return</span> a + g(x)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>上面这个例子，就不是尾调用，因为return 后的表达式除了函数调用还包含了加法操作，所以这不是尾调用。</p>
+<p>再来看一个例子：</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">f</span>(<span class="params">x</span>) </span>&#123;</span><br><span class="line">    g(x)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这仍然不是尾调用，因为上述例子相当于：</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">f</span>(<span class="params">x</span>) </span>&#123;</span><br><span class="line">    g(x)</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">undefined</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>可以看出，原来的函数并没有return 表达式，相当于返回了undefined，所以此例中的最后一步操作相当于return undefined，所以明显不属于尾调用。</p>
+<p>再来看一个例子：</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">f</span>(<span class="params">x</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">let</span> a = g(x)</span><br><span class="line">    <span class="keyword">return</span> a</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>此例仍然不属于尾调用，因为最后return 的是函数g(x)的调用返回的结果，所以不是尾调用。</p>
+<p>综上所述，判断是不是尾调用，看一看我们总结的那两个条件是否同时满足。</p>
+<p>再看一个，你能否判断出下面这个例子是否是尾调用呢？</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">f</span>(<span class="params">x</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (x &gt; <span class="number">0</span>) <span class="keyword">return</span> g(x)</span><br><span class="line">    <span class="keyword">return</span> h(x)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这是否是尾调用呢？写下你的答案吧！</p>
 ]]></content>
       <categories>
         <category>JavaScript</category>
@@ -252,44 +290,6 @@
       </tags>
   </entry>
   <entry>
-    <title>JS尾调用</title>
-    <url>/2021/12/13/JS%E5%B0%BE%E8%B0%83%E7%94%A8/</url>
-    <content><![CDATA[<h2 id="1-尾调用"><a href="#1-尾调用" class="headerlink" title="1. 尾调用"></a>1. 尾调用</h2><p>尾调用（Tail Call）是函数式编程的一个重要的概念，简单的来说就是：某个函数的最后一步是调用另一个函数。</p>
-<p>例如下面的例子就是尾调用：</p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">f</span>(<span class="params">x</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> g(x)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h2 id="2-尾调用的特点"><a href="#2-尾调用的特点" class="headerlink" title="2. 尾调用的特点"></a>2. 尾调用的特点</h2><p>那么，我们来总结一下，尾调用的特点：</p>
-<p>首先，尾调用必须满足，函数的最后一步是return另一个函数（如上述例子），这里和闭包有点像；</p>
-<p>其次，return 后面的表达式必须仅仅是某个函数的调用，除此之外不能包含其它任何别的操作；</p>
-<p>看下面的例子，我们来分析：</p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">f</span>(<span class="params">x</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> a = <span class="number">3</span></span><br><span class="line">    <span class="keyword">return</span> a + g(x)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>上面这个例子，就不是尾调用，因为return 后的表达式除了函数调用还包含了加法操作，所以这不是尾调用。</p>
-<p>再来看一个例子：</p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">f</span>(<span class="params">x</span>) </span>&#123;</span><br><span class="line">    g(x)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>这仍然不是尾调用，因为上述例子相当于：</p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">f</span>(<span class="params">x</span>) </span>&#123;</span><br><span class="line">    g(x)</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">undefined</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>可以看出，原来的函数并没有return 表达式，相当于返回了undefined，所以此例中的最后一步操作相当于return undefined，所以明显不属于尾调用。</p>
-<p>再来看一个例子：</p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">f</span>(<span class="params">x</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">let</span> a = g(x)</span><br><span class="line">    <span class="keyword">return</span> a</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>此例仍然不属于尾调用，因为最后return 的是函数g(x)的调用返回的结果，所以不是尾调用。</p>
-<p>综上所述，判断是不是尾调用，看一看我们总结的那两个条件是否同时满足。</p>
-<p>再看一个，你能否判断出下面这个例子是否是尾调用呢？</p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">f</span>(<span class="params">x</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (x &gt; <span class="number">0</span>) <span class="keyword">return</span> g(x)</span><br><span class="line">    <span class="keyword">return</span> h(x)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>这是否是尾调用呢？写下你的答案吧！</p>
-]]></content>
-      <categories>
-        <category>JavaScript</category>
-      </categories>
-      <tags>
-        <tag>JavaScript</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>JS数组扁平化</title>
     <url>/2021/12/14/JS%E6%95%B0%E7%BB%84%E6%89%81%E5%B9%B3%E5%8C%96/</url>
     <content><![CDATA[<p>今天看到一个话题讨论JavaScript数组扁平化，忍不住自己也实现一下，在下采用的方式和别人不同，talk is cheap，show you the code!</p>
@@ -349,29 +349,6 @@
       </tags>
   </entry>
   <entry>
-    <title>JavaScript冒泡排序</title>
-    <url>/2021/12/14/JavaScript%E5%86%92%E6%B3%A1%E6%8E%92%E5%BA%8F/</url>
-    <content><![CDATA[<h2 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h2><p><strong>冒泡排序</strong>（英语：Bubble Sort）又称为泡式排序，是一种简单的排序算法。它重复地走访过要排序的数列，一次比较两个元素，如果它们的顺序错误就把它们交换过来。走访数列的工作是重复地进行直到没有再需要交换，也就是说该数列已经排序完成。这个算法的名字由来是因为越小的元素会经由交换慢慢“浮”到数列的顶端。</p>
-<p>冒泡排序之所以叫冒泡排序，是因为使用这种算法进行排序时，数据值会像气泡一样从数组的一端漂浮到另一端。假设正在将一组数字按照升序排列，较大的值会浮动到数组的右侧，而较小的值会浮动到数组的左侧。之所以产生这种现象是因为算法会多次在数组中移动，比较相邻的数据，而左侧值大于右侧值时将它们进行互换。</p>
-<h2 id="算法实现逻辑"><a href="#算法实现逻辑" class="headerlink" title="算法实现逻辑"></a>算法实现逻辑</h2><p>冒泡排序算法的运作如下：</p>
-<ol>
-<li>比较相邻的元素。如果第一个比第二个大，就交换它们两个。</li>
-<li>对每一对相邻元素作同样的工作，从开始第一对到结尾的最后一对。这步做完后，最后的元素会是最大的数。</li>
-<li>针对所有的元素重复以上的步骤，除了最后一个。</li>
-<li>持续每次对越来越少的元素重复上面的步骤，直到没有任何一对数字需要比较。</li>
-</ol>
-<h2 id="JavaScript代码实现冒泡排序"><a href="#JavaScript代码实现冒泡排序" class="headerlink" title="JavaScript代码实现冒泡排序"></a>JavaScript代码实现冒泡排序</h2><h3 id="写法一："><a href="#写法一：" class="headerlink" title="写法一："></a>写法一：</h3><figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>, len = arr.length; i &lt; len - <span class="number">1</span>; i++) &#123;</span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">let</span> j = <span class="number">0</span>; j &lt; len - i - <span class="number">1</span>; j++) &#123;</span><br><span class="line">    <span class="keyword">if</span> (arr[j] &gt; arr[j + <span class="number">1</span>]) &#123;</span><br><span class="line">      <span class="keyword">let</span> temp = arr[j];</span><br><span class="line">      arr[j] = arr[j + <span class="number">1</span>];</span><br><span class="line">      arr[j + <span class="number">1</span>] = temp;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h3 id="写法二："><a href="#写法二：" class="headerlink" title="写法二："></a>写法二：</h3><figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">for</span> (<span class="keyword">let</span> i = arr.length - <span class="number">1</span>; i &gt; <span class="number">1</span>; i--) &#123;</span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">let</span> j = <span class="number">0</span>; j &lt; i; j++) &#123;</span><br><span class="line">    <span class="keyword">if</span> (arr[j] &gt; arr[j + <span class="number">1</span>]) &#123;</span><br><span class="line">      <span class="comment">// 一行代码实现两变量互换</span></span><br><span class="line">      [arr[j], arr[j + <span class="number">1</span>]] = [arr[j + <span class="number">1</span>], arr[j]]</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>算法</category>
-      </categories>
-      <tags>
-        <tag>算法</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>JS闭包巧用</title>
     <url>/2021/12/13/JS%E9%97%AD%E5%8C%85%E5%B7%A7%E7%94%A8/</url>
     <content><![CDATA[<h2 id="写在前面"><a href="#写在前面" class="headerlink" title="写在前面"></a>写在前面</h2><p>什么是闭包？闭包有什么作用？这是我遇到闭包时的第一反应。</p>
@@ -397,6 +374,29 @@
       </categories>
       <tags>
         <tag>JavaScript</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>JavaScript冒泡排序</title>
+    <url>/2021/12/14/JavaScript%E5%86%92%E6%B3%A1%E6%8E%92%E5%BA%8F/</url>
+    <content><![CDATA[<h2 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h2><p><strong>冒泡排序</strong>（英语：Bubble Sort）又称为泡式排序，是一种简单的排序算法。它重复地走访过要排序的数列，一次比较两个元素，如果它们的顺序错误就把它们交换过来。走访数列的工作是重复地进行直到没有再需要交换，也就是说该数列已经排序完成。这个算法的名字由来是因为越小的元素会经由交换慢慢“浮”到数列的顶端。</p>
+<p>冒泡排序之所以叫冒泡排序，是因为使用这种算法进行排序时，数据值会像气泡一样从数组的一端漂浮到另一端。假设正在将一组数字按照升序排列，较大的值会浮动到数组的右侧，而较小的值会浮动到数组的左侧。之所以产生这种现象是因为算法会多次在数组中移动，比较相邻的数据，而左侧值大于右侧值时将它们进行互换。</p>
+<h2 id="算法实现逻辑"><a href="#算法实现逻辑" class="headerlink" title="算法实现逻辑"></a>算法实现逻辑</h2><p>冒泡排序算法的运作如下：</p>
+<ol>
+<li>比较相邻的元素。如果第一个比第二个大，就交换它们两个。</li>
+<li>对每一对相邻元素作同样的工作，从开始第一对到结尾的最后一对。这步做完后，最后的元素会是最大的数。</li>
+<li>针对所有的元素重复以上的步骤，除了最后一个。</li>
+<li>持续每次对越来越少的元素重复上面的步骤，直到没有任何一对数字需要比较。</li>
+</ol>
+<h2 id="JavaScript代码实现冒泡排序"><a href="#JavaScript代码实现冒泡排序" class="headerlink" title="JavaScript代码实现冒泡排序"></a>JavaScript代码实现冒泡排序</h2><h3 id="写法一："><a href="#写法一：" class="headerlink" title="写法一："></a>写法一：</h3><figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>, len = arr.length; i &lt; len - <span class="number">1</span>; i++) &#123;</span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">let</span> j = <span class="number">0</span>; j &lt; len - i - <span class="number">1</span>; j++) &#123;</span><br><span class="line">    <span class="keyword">if</span> (arr[j] &gt; arr[j + <span class="number">1</span>]) &#123;</span><br><span class="line">      <span class="keyword">let</span> temp = arr[j];</span><br><span class="line">      arr[j] = arr[j + <span class="number">1</span>];</span><br><span class="line">      arr[j + <span class="number">1</span>] = temp;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="写法二："><a href="#写法二：" class="headerlink" title="写法二："></a>写法二：</h3><figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">for</span> (<span class="keyword">let</span> i = arr.length - <span class="number">1</span>; i &gt; <span class="number">1</span>; i--) &#123;</span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">let</span> j = <span class="number">0</span>; j &lt; i; j++) &#123;</span><br><span class="line">    <span class="keyword">if</span> (arr[j] &gt; arr[j + <span class="number">1</span>]) &#123;</span><br><span class="line">      <span class="comment">// 一行代码实现两变量互换</span></span><br><span class="line">      [arr[j], arr[j + <span class="number">1</span>]] = [arr[j + <span class="number">1</span>], arr[j]]</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>算法</category>
+      </categories>
+      <tags>
+        <tag>算法</tag>
       </tags>
   </entry>
   <entry>
@@ -470,6 +470,46 @@
       </tags>
   </entry>
   <entry>
+    <title>JavaScript快速排序</title>
+    <url>/2021/12/18/JavaScript%E5%BF%AB%E9%80%9F%E6%8E%92%E5%BA%8F/</url>
+    <content><![CDATA[<h2 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h2><p>快速排序（英语：Quicksort），又称分区交换排序（partition-exchange sort），简称快排，一种排序算法，最早由东尼·霍尔提出。在平均状况下，排序 n 个项目要 O(nlogn) 次比较。在最坏状况下则需要 O(n^2) 次比较，但这种状况并不常见。事实上，快速排序 (nlogn) 通常明显比其他算法更快，因为它的内部循环（inner loop）可以在大部分的架构上很有效率地达成。</p>
+<h2 id="算法逻辑思想"><a href="#算法逻辑思想" class="headerlink" title="算法逻辑思想"></a>算法逻辑思想</h2><p>快速排序使用<strong>分治法</strong>（Divide and conquer）策略来把一个序列（list）分为较小和较大的2个子序列，然后递归地排序两个子序列。</p>
+<p>步骤为：</p>
+<ol>
+<li>挑选基准值：从数列中挑出一个元素，称为“基准”（pivot），</li>
+<li>分割：重新排序数列，所有比基准值小的元素摆放在基准前面，所有比基准值大的元素摆在基准后面（与基准值相等的数可以到任何一边）。在这个分割结束之后，对基准值的排序就已经完成，</li>
+<li>递归排序子序列：递归地将小于基准值元素的子序列和大于基准值元素的子序列排序。</li>
+</ol>
+<p>递归到最底部的判断条件是数列的大小是零或一，此时该数列显然已经有序。</p>
+<p>选取基准值有数种具体方法，此选取方法对排序的时间性能有决定性影响。</p>
+<h2 id="JavaScript代码实现快速排序"><a href="#JavaScript代码实现快速排序" class="headerlink" title="JavaScript代码实现快速排序"></a>JavaScript代码实现快速排序</h2><figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">quickSort</span>(<span class="params">list</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> rec = <span class="function"><span class="params">arr</span> =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (!arr.length) <span class="keyword">return</span> []</span><br><span class="line">    <span class="keyword">const</span> left = []</span><br><span class="line">    <span class="keyword">const</span> right = []</span><br><span class="line">    <span class="keyword">const</span> mid = arr[<span class="number">0</span>]</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">1</span>; i &lt; arr.length; i++) &#123;</span><br><span class="line">      <span class="keyword">if</span> (arr[i] &lt; mid) &#123;</span><br><span class="line">        left.push(arr[i])</span><br><span class="line">      &#125; <span class="keyword">else</span> right.push(arr[i])</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> [...rec(left), mid, ...rec(right)]</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> rec(list)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>算法</category>
+      </categories>
+      <tags>
+        <tag>算法</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>JavaScript手写new操作符</title>
+    <url>/2021/12/24/JavaScript%E6%89%8B%E5%86%99new%E6%93%8D%E4%BD%9C%E7%AC%A6/</url>
+    <content><![CDATA[<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>想要实现new操作符，首先得知道new操作符干了哪些事情：</p>
+<h2 id="第一步"><a href="#第一步" class="headerlink" title="第一步"></a>第一步</h2><p>第一、new操作符会创建一个对象并返回，且此对象的<code>__proto__</code>等于此函数的原型<code>prototype</code>（这里需要注意<code>__proto__</code>和<code>prototype</code>的区别和联系，原型<code>prototype</code>是函数才有的，务必记住，而<code>__proto__</code>可以理解为对象的某个属性，此属性指向对象的构造函数的prototype，是不是很绕。举个例子）；<br>比如，new函数A创建了对象a，则<code>a.__proto__ =  A.prototype</code>，代码如下：</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">A</span>(<span class="params">age</span>) </span>&#123;</span><br><span class="line">	<span class="built_in">this</span>.age = age</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> a = <span class="keyword">new</span> A(<span class="number">18</span>)</span><br><span class="line"><span class="built_in">console</span>.log(a.__proto__ === A.prototype)</span><br><span class="line"><span class="comment">// true</span></span><br></pre></td></tr></table></figure>
+<h2 id="第二步"><a href="#第二步" class="headerlink" title="第二步"></a>第二步</h2><p>第二、函数体中的this指向new操作符所创建的对象；</p>
+<h2 id="第三步"><a href="#第三步" class="headerlink" title="第三步"></a>第三步</h2><p>第三、如果此函数的返回值为对象，则函数的返回值则为函数体中所写的返回值，否则new操作符则创建一个对象并返回；<br>弄清楚了这三件事，下面就可以入手开始实现自己的new了：</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">myNew</span>(<span class="params">fn, ...args</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> obj = <span class="built_in">Object</span>.create(fn.prototype)</span><br><span class="line">  <span class="keyword">const</span> res = fn.apply(obj, args)</span><br><span class="line">  <span class="keyword">return</span> <span class="keyword">typeof</span> res === <span class="string">&#x27;object&#x27;</span> ? res : obj</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>有更好的写法，欢迎指出。</p>
+]]></content>
+      <categories>
+        <category>手写代码</category>
+      </categories>
+      <tags>
+        <tag>手写代码</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>JavaScript插入排序</title>
     <url>/2021/12/18/JavaScript%E6%8F%92%E5%85%A5%E6%8E%92%E5%BA%8F/</url>
     <content><![CDATA[<h2 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h2><p><strong>插入排序</strong>（英语：Insertion Sort）是一种简单直观的排序算法。它的工作原理是通过构建有序序列，对于未排序数据，在已排序序列中从后向前扫描，找到相应位置并插入。插入排序在实现上，通常采用in-place排序（即只需用到O(1)的额外空间的排序），因而在从后向前扫描过程中，需要反复把已排序元素逐步向后挪位，为最新元素提供插入空间。</p>
@@ -493,25 +533,329 @@
       </tags>
   </entry>
   <entry>
-    <title>JavaScript快速排序</title>
-    <url>/2021/12/18/JavaScript%E5%BF%AB%E9%80%9F%E6%8E%92%E5%BA%8F/</url>
-    <content><![CDATA[<h2 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h2><p>快速排序（英语：Quicksort），又称分区交换排序（partition-exchange sort），简称快排，一种排序算法，最早由东尼·霍尔提出。在平均状况下，排序 n 个项目要 O(nlogn) 次比较。在最坏状况下则需要 O(n^2) 次比较，但这种状况并不常见。事实上，快速排序 (nlogn) 通常明显比其他算法更快，因为它的内部循环（inner loop）可以在大部分的架构上很有效率地达成。</p>
-<h2 id="算法逻辑思想"><a href="#算法逻辑思想" class="headerlink" title="算法逻辑思想"></a>算法逻辑思想</h2><p>快速排序使用<strong>分治法</strong>（Divide and conquer）策略来把一个序列（list）分为较小和较大的2个子序列，然后递归地排序两个子序列。</p>
-<p>步骤为：</p>
-<ol>
-<li>挑选基准值：从数列中挑出一个元素，称为“基准”（pivot），</li>
-<li>分割：重新排序数列，所有比基准值小的元素摆放在基准前面，所有比基准值大的元素摆在基准后面（与基准值相等的数可以到任何一边）。在这个分割结束之后，对基准值的排序就已经完成，</li>
-<li>递归排序子序列：递归地将小于基准值元素的子序列和大于基准值元素的子序列排序。</li>
-</ol>
-<p>递归到最底部的判断条件是数列的大小是零或一，此时该数列显然已经有序。</p>
-<p>选取基准值有数种具体方法，此选取方法对排序的时间性能有决定性影响。</p>
-<h2 id="JavaScript代码实现快速排序"><a href="#JavaScript代码实现快速排序" class="headerlink" title="JavaScript代码实现快速排序"></a>JavaScript代码实现快速排序</h2><figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">quickSort</span>(<span class="params">list</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> rec = <span class="function"><span class="params">arr</span> =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (!arr.length) <span class="keyword">return</span> []</span><br><span class="line">    <span class="keyword">const</span> left = []</span><br><span class="line">    <span class="keyword">const</span> right = []</span><br><span class="line">    <span class="keyword">const</span> mid = arr[<span class="number">0</span>]</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">1</span>; i &lt; arr.length; i++) &#123;</span><br><span class="line">      <span class="keyword">if</span> (arr[i] &lt; mid) &#123;</span><br><span class="line">        left.push(arr[i])</span><br><span class="line">      &#125; <span class="keyword">else</span> right.push(arr[i])</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> [...rec(left), mid, ...rec(right)]</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> rec(list)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+    <title>JavaScript正则表达式精华总结</title>
+    <url>/2021/12/25/JavaScript%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F%E7%B2%BE%E5%8D%8E%E6%80%BB%E7%BB%93/</url>
+    <content><![CDATA[<h2 id="写在前面"><a href="#写在前面" class="headerlink" title="写在前面"></a>写在前面</h2><p>正则表达式(Regular Expression)是一种文本模式，包括普通字符（例如，a 到 z 之间的字母）和特殊字符（称为”元字符”）。</p>
+<p>正则表达式使用单个字符串来描述、匹配一系列匹配某个句法规则的字符串。</p>
+<p>正则表达式是繁琐的，但它是强大的，学会之后的应用会让你除了提高效率外，会给你带来绝对的成就感。只要认真阅读本文，加上应用的时候进行一定的参考，掌握正则表达式不是问题。</p>
+<h2 id="创建正则表达式的两种方式"><a href="#创建正则表达式的两种方式" class="headerlink" title="创建正则表达式的两种方式"></a>创建正则表达式的两种方式</h2><h3 id="1-字面量方式"><a href="#1-字面量方式" class="headerlink" title="1. 字面量方式"></a>1. 字面量方式</h3><figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> reg = <span class="regexp">/\d/g</span></span><br></pre></td></tr></table></figure>
+
+<p>如上代码所示，即是字面量方式创建正则表达式。</p>
+<h3 id="2-构造函数方式"><a href="#2-构造函数方式" class="headerlink" title="2. 构造函数方式"></a>2. 构造函数方式</h3><figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> reg = <span class="keyword">new</span> <span class="built_in">RegExp</span>(<span class="string">&#x27;\d&#x27;</span>, <span class="string">&#x27;g&#x27;</span>)</span><br></pre></td></tr></table></figure>
+<p>RegExp 为创建正则表达式的构造函数，有两个参数，第二个参数不是必传的。第一个参数是一个字符串，指定了正则表达式的模式或其他正则表达式，第二个参数是一个可选的字符串，包含属性 “g”、”i” 和 “m”，分别用于指定全局匹配、区分大小写的匹配和多行匹配。ECMAScript 标准化之前，不支持 m 属性。如果第一个参数是正则表达式，而不是字符串，则必须省略该参数。</p>
+<p>返回值为一个新的 RegExp 对象，具有指定的模式和标志。如果第一个参数是正则表达式而不是字符串，那么 RegExp() 构造函数将用与指定的 RegExp 相同的模式和标志创建一个新的 RegExp 对象。</p>
+<p>如果不用 new 运算符，而将 RegExp() 作为函数调用，那么它的行为与用 new 运算符调用时一样，只是当第一个参数是正则表达式时，它只返回第一个参数，而不再创建一个新的 RegExp 对象。</p>
+<h2 id="元字符"><a href="#元字符" class="headerlink" title="元字符"></a>元字符</h2><table>
+<thead>
+<tr>
+<th>字符</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>\</td>
+<td>将下一个字符标记为一个特殊字符、或一个原义字符、或一个 向后引用、或一个八进制转义符。例如，’n’ 匹配字符 “n”。’\n’ 匹配一个换行符。序列 ‘\‘ 匹配 “&quot; 而 “(“ 则匹配 “(“。</td>
+</tr>
+<tr>
+<td>^</td>
+<td>匹配输入字符串的开始位置。如果设置了 RegExp 对象的 Multiline 属性，^ 也匹配 ‘\n’ 或 ‘\r’ 之后的位置。</td>
+</tr>
+<tr>
+<td>$</td>
+<td>匹配输入字符串的结束位置。如果设置了RegExp 对象的 Multiline 属性，$ 也匹配 ‘\n’ 或 ‘\r’ 之前的位置。</td>
+</tr>
+<tr>
+<td>*</td>
+<td>匹配前面的子表达式零次或多次。例如，zo* 能匹配 “z” 以及 “zoo”。* 等价于{0,}。</td>
+</tr>
+<tr>
+<td>+</td>
+<td>匹配前面的子表达式一次或多次。例如，’zo+’ 能匹配 “zo” 以及 “zoo”，但不能匹配 “z”。+ 等价于 {1,}。</td>
+</tr>
+<tr>
+<td>?</td>
+<td>匹配前面的子表达式零次或一次。例如，”do(es)?” 可以匹配 “do” 或 “does” 。? 等价于 {0,1}。</td>
+</tr>
+<tr>
+<td>{n}</td>
+<td>n 是一个非负整数。匹配确定的 n 次。例如，’o{2}’ 不能匹配 “Bob” 中的 ‘o’，但是能匹配 “food” 中的两个 o。</td>
+</tr>
+<tr>
+<td>{n,}</td>
+<td>n 是一个非负整数。至少匹配n 次。例如，’o{2,}’ 不能匹配 “Bob” 中的 ‘o’，但能匹配 “foooood” 中的所有 o。’o{1,}’ 等价于 ‘o+’。’o{0,}’ 则等价于 ‘o*’。</td>
+</tr>
+<tr>
+<td>{n,m}</td>
+<td>m 和 n 均为非负整数，其中n &lt;= m。最少匹配 n 次且最多匹配 m 次。例如，”o{1,3}” 将匹配 “fooooood” 中的前三个 o。’o{0,1}’ 等价于 ‘o?’。请注意在逗号和两个数之间不能有空格。</td>
+</tr>
+<tr>
+<td>?</td>
+<td>当该字符紧跟在任何一个其他限制符 (*, +, ?, {n}, {n,}, {n,m}) 后面时，匹配模式是非贪婪的。非贪婪模式尽可能少的匹配所搜索的字符串，而默认的贪婪模式则尽可能多的匹配所搜索的字符串。例如，对于字符串 “oooo”，’o+?’ 将匹配单个 “o”，而 ‘o+’ 将匹配所有 ‘o’。</td>
+</tr>
+<tr>
+<td>.</td>
+<td>匹配除换行符（\n、\r）之外的任何单个字符。要匹配包括 ‘\n’ 在内的任何字符，请使用像”(.&#124;\n)”的模式。</td>
+</tr>
+<tr>
+<td>(pattern)</td>
+<td>匹配 pattern 并获取这一匹配。所获取的匹配可以从产生的 Matches 集合得到，在VBScript 中使用 SubMatches 集合，在JScript 中则使用 $0…$9 属性。要匹配圆括号字符，请使用 ‘′或′’。</td>
+</tr>
+<tr>
+<td>(?:pattern)</td>
+<td>匹配 pattern 但不获取匹配结果，也就是说这是一个非获取匹配，不进行存储供以后使用。这在使用 “或” 字符 (&#124;) 来组合一个模式的各个部分是很有用。例如， ‘industr(?:y&#124;ies) 就是一个比 ‘industry&#124;industries’ 更简略的表达式。</td>
+</tr>
+<tr>
+<td>(?=pattern)</td>
+<td>正向肯定预查（look ahead positive assert），在任何匹配pattern的字符串开始处匹配查找字符串。这是一个非获取匹配，也就是说，该匹配不需要获取供以后使用。例如，”Windows(?=95&#124;98&#124;NT&#124;2000)”能匹配”Windows2000”中的”Windows”，但不能匹配”Windows3.1”中的”Windows”。预查不消耗字符，也就是说，在一个匹配发生后，在最后一次匹配之后立即开始下一次匹配的搜索，而不是从包含预查的字符之后开始。</td>
+</tr>
+<tr>
+<td>(?!pattern)</td>
+<td>正向否定预查(negative assert)，在任何不匹配pattern的字符串开始处匹配查找字符串。这是一个非获取匹配，也就是说，该匹配不需要获取供以后使用。例如”Windows(?!95&#124;98&#124;NT&#124;2000)”能匹配”Windows3.1”中的”Windows”，但不能匹配”Windows2000”中的”Windows”。预查不消耗字符，也就是说，在一个匹配发生后，在最后一次匹配之后立即开始下一次匹配的搜索，而不是从包含预查的字符之后开始。</td>
+</tr>
+<tr>
+<td>(?&lt;=pattern)</td>
+<td>反向(look behind)肯定预查，与正向肯定预查类似，只是方向相反。例如，”(?&lt;=95&#124;98&#124;NT&#124;2000)Windows”能匹配”2000Windows”中的”Windows”，但不能匹配”3.1Windows”中的”Windows”。</td>
+</tr>
+<tr>
+<td>(?&lt;!pattern)</td>
+<td>反向否定预查，与正向否定预查类似，只是方向相反。例如”(?&lt;!95&#124;98&#124;NT&#124;2000)Windows”能匹配”3.1Windows”中的”Windows”，但不能匹配”2000Windows”中的”Windows”。</td>
+</tr>
+<tr>
+<td>x&#124;y</td>
+<td>匹配 x 或 y。例如，’z&#124;food’ 能匹配 “z” 或 “food”。’(z&#124;f)ood’ 则匹配 “zood” 或 “food”。</td>
+</tr>
+<tr>
+<td>[xyz]</td>
+<td>字符集合。匹配所包含的任意一个字符。例如， ‘[abc]’ 可以匹配 “plain” 中的 ‘a’。</td>
+</tr>
+<tr>
+<td>[^xyz]</td>
+<td>负值字符集合。匹配未包含的任意字符。例如， ‘[^abc]’ 可以匹配 “plain” 中的’p’、’l’、’i’、’n’。</td>
+</tr>
+<tr>
+<td>[a-z]</td>
+<td>字符范围。匹配指定范围内的任意字符。例如，’[a-z]’ 可以匹配 ‘a’ 到 ‘z’ 范围内的任意小写字母字符。</td>
+</tr>
+<tr>
+<td>[^a-z]</td>
+<td>负值字符范围。匹配任何不在指定范围内的任意字符。例如，’[^a-z]’ 可以匹配任何不在 ‘a’ 到 ‘z’ 范围内的任意字符。</td>
+</tr>
+<tr>
+<td>\b</td>
+<td>匹配一个单词边界，也就是指单词和空格间的位置。例如， ‘er\b’ 可以匹配”never” 中的 ‘er’，但不能匹配 “verb” 中的 ‘er’。</td>
+</tr>
+<tr>
+<td>\B</td>
+<td>匹配非单词边界。’er\B’ 能匹配 “verb” 中的 ‘er’，但不能匹配 “never” 中的 ‘er’。</td>
+</tr>
+<tr>
+<td>\cx</td>
+<td>匹配由 x 指明的控制字符。例如， \cM 匹配一个 Control-M 或回车符。x 的值必须为 A-Z 或 a-z 之一。否则，将 c 视为一个原义的 ‘c’ 字符。</td>
+</tr>
+<tr>
+<td>\d</td>
+<td>匹配一个数字字符。等价于 [0-9]。</td>
+</tr>
+<tr>
+<td>\D</td>
+<td>匹配一个非数字字符。等价于 [^0-9]。</td>
+</tr>
+<tr>
+<td>\f</td>
+<td>匹配一个换页符。等价于 \x0c 和 \cL。</td>
+</tr>
+<tr>
+<td>\n</td>
+<td>匹配一个换行符。等价于 \x0a 和 \cJ。</td>
+</tr>
+<tr>
+<td>\r</td>
+<td>匹配一个回车符。等价于 \x0d 和 \cM。</td>
+</tr>
+<tr>
+<td>\s</td>
+<td>匹配任何空白字符，包括空格、制表符、换页符等等。等价于 [ \f\n\r\t\v]。</td>
+</tr>
+<tr>
+<td>\S</td>
+<td>匹配任何非空白字符。等价于 [^ \f\n\r\t\v]。</td>
+</tr>
+<tr>
+<td>\t</td>
+<td>匹配一个制表符。等价于 \x09 和 \cI。</td>
+</tr>
+<tr>
+<td>\v</td>
+<td>匹配一个垂直制表符。等价于 \x0b 和 \cK。</td>
+</tr>
+<tr>
+<td>\w</td>
+<td>匹配字母、数字、下划线。等价于’[A-Za-z0-9_]’。</td>
+</tr>
+<tr>
+<td>\W</td>
+<td>匹配非字母、数字、下划线。等价于 ‘[^A-Za-z0-9_]’。</td>
+</tr>
+<tr>
+<td>\xn</td>
+<td>匹配 n，其中 n 为十六进制转义值。十六进制转义值必须为确定的两个数字长。例如，’\x41’ 匹配 “A”。’\x041’ 则等价于 ‘\x04’ &amp; “1”。正则表达式中可以使用 ASCII 编码。</td>
+</tr>
+<tr>
+<td>\num</td>
+<td>匹配 num，其中 num 是一个正整数。对所获取的匹配的引用。例如，’(.)\1’ 匹配两个连续的相同字符。</td>
+</tr>
+<tr>
+<td>\n</td>
+<td>标识一个八进制转义值或一个向后引用。如果 \n 之前至少 n 个获取的子表达式，则 n 为向后引用。否则，如果 n 为八进制数字 (0-7)，则 n 为一个八进制转义值。</td>
+</tr>
+<tr>
+<td>\nm</td>
+<td>标识一个八进制转义值或一个向后引用。如果 \nm 之前至少有 nm 个获得子表达式，则 nm 为向后引用。如果 \nm 之前至少有 n 个获取，则 n 为一个后跟文字 m 的向后引用。如果前面的条件都不满足，若 n 和 m 均为八进制数字 (0-7)，则 \nm 将匹配八进制转义值 nm。</td>
+</tr>
+<tr>
+<td>\nml</td>
+<td>如果 n 为八进制数字 (0-3)，且 m 和 l 均为八进制数字 (0-7)，则匹配八进制转义值 nml。</td>
+</tr>
+<tr>
+<td>\un</td>
+<td>匹配 n，其中 n 是一个用四个十六进制数字表示的 Unicode 字符。例如， \u00A9 匹配版权符号 (?)。</td>
+</tr>
+</tbody></table>
+<h2 id="正则的捕获exec"><a href="#正则的捕获exec" class="headerlink" title="正则的捕获exec"></a>正则的捕获exec</h2><p>exec() 方法用于检索字符串中的正则表达式的匹配。</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">RegExpObject.exec(string)</span><br></pre></td></tr></table></figure>
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>string</td>
+<td>必需。要检索的字符串。</td>
+</tr>
+</tbody></table>
+<p>返回值：返回一个数组，其中存放匹配的结果。如果未找到匹配，则返回值为 null。</p>
+<h3 id="（1）懒惰性"><a href="#（1）懒惰性" class="headerlink" title="（1）懒惰性"></a>（1）懒惰性</h3><p>来看一个例子：</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> reg = <span class="regexp">/\d+/</span></span><br><span class="line"><span class="keyword">let</span> str = <span class="string">&#x27;112hello456world789&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(reg.exec(str));</span><br><span class="line"><span class="built_in">console</span>.log(reg.exec(str));</span><br><span class="line"><span class="built_in">console</span>.log(reg.exec(str));</span><br></pre></td></tr></table></figure>
+<p>上述三个打印输出的都是一样的：<br><a href="https://img-blog.csdnimg.cn/2019051311074580.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MDkyMDk1Mw==,size_16,color_FFFFFF,t_70"><img src="https://img-blog.csdnimg.cn/2019051311074580.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MDkyMDk1Mw==,size_16,color_FFFFFF,t_70"></a></p>
+<p>我们可以发现，每次匹配到的结果都是相同的，而且索引index的值一直没变，始终指向第一次匹配到的字符串的起始位置，这就是正则的<strong>懒惰性</strong>，只匹配第一次匹配到的结果，不再向后匹配。</p>
+<p>怎么解决懒惰性问题呢？很容易，加个全局修饰符即可。</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> reg = <span class="regexp">/\d+/g</span></span><br><span class="line"><span class="keyword">let</span> str = <span class="string">&#x27;112hello456world789&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(reg.exec(str));</span><br><span class="line"><span class="built_in">console</span>.log(reg.exec(str));</span><br><span class="line"><span class="built_in">console</span>.log(reg.exec(str));</span><br><span class="line"><span class="built_in">console</span>.log(reg.exec(str));</span><br></pre></td></tr></table></figure>
+<p>如上，我们加上全局修饰符之后，再来看输出结果：<br><a href="https://img-blog.csdnimg.cn/20190513111421282.png"><img src="https://img-blog.csdnimg.cn/20190513111421282.png"></a></p>
+<p>我们可以看到，112，456，789这三个数字在原始字符串中都被捕获到了，并且每次的index值也发生了变化；第四个输出为null，表示捕获结束，后面再没有可以捕获的内容了。如此就解决了正则的懒惰性问题。</p>
+<h3 id="（2）贪婪性"><a href="#（2）贪婪性" class="headerlink" title="（2）贪婪性"></a>（2）贪婪性</h3><p>还是以上述例子来讲：</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> reg = <span class="regexp">/\d+/g</span></span><br><span class="line"><span class="keyword">let</span> str = <span class="string">&#x27;112hello456world789&#x27;</span></span><br></pre></td></tr></table></figure>
+<p>如果，我们现在想单独捕获到每一个数字，即1，1，2，4，5，6，7，8，9，此时该怎么办呢？</p>
+<p>若像上述例子中那样捕获到，则捕获到的内容是数字112，456，789，这三个三位数，显然这把满足要求的连续数字都给一次性捕获到了，这其实就是正则的贪婪性。</p>
+<p>那么，如何解决正则的贪婪性呢？即，我们要单独获取到1，1，2，4，5，6，7，8，9这些单个数字：</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> reg = <span class="regexp">/\d+?/g</span></span><br><span class="line"><span class="keyword">let</span> str = <span class="string">&#x27;112hello456world789&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(reg.exec(str));</span><br><span class="line"><span class="built_in">console</span>.log(reg.exec(str));</span><br><span class="line"><span class="built_in">console</span>.log(reg.exec(str));</span><br><span class="line"><span class="built_in">console</span>.log(reg.exec(str));</span><br><span class="line"><span class="built_in">console</span>.log(reg.exec(str));</span><br><span class="line"><span class="built_in">console</span>.log(reg.exec(str));</span><br><span class="line"><span class="built_in">console</span>.log(reg.exec(str));</span><br><span class="line"><span class="built_in">console</span>.log(reg.exec(str));</span><br><span class="line"><span class="built_in">console</span>.log(reg.exec(str));</span><br><span class="line"><span class="built_in">console</span>.log(reg.exec(str));</span><br></pre></td></tr></table></figure>
+<p>解决贪婪性也很简单，即在+后面加一个问号（？）即可。</p>
+<p>我们来看加了问号之后的输出：<br><a href="https://img-blog.csdnimg.cn/20190513113709574.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MDkyMDk1Mw==,size_16,color_FFFFFF,t_70"><img src="https://img-blog.csdnimg.cn/20190513113709574.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MDkyMDk1Mw==,size_16,color_FFFFFF,t_70"></a></p>
+<p>解决正则的贪婪性很简单，即在量词元字符的后面加问号（？）即可，此例中的量词元字符为+。</p>
+<h2 id="正则捕获（字符串的match方法）"><a href="#正则捕获（字符串的match方法）" class="headerlink" title="正则捕获（字符串的match方法）"></a>正则捕获（字符串的match方法）</h2><p>match() 方法可在字符串内检索指定的值，或找到一个或多个正则表达式的匹配。</p>
+<p>该方法类似 indexOf() 和 lastIndexOf()，但是它返回指定的值，而不是字符串的位置。</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">stringObject.match(searchvalue)</span><br><span class="line">stringObject.match(regexp)</span><br></pre></td></tr></table></figure>
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>searchvalue</td>
+<td>必需。规定要检索的字符串值。</td>
+</tr>
+<tr>
+<td>regexp</td>
+<td>必需。规定要匹配的模式的 RegExp 对象。如果该参数不是 RegExp 对象，则需要首先把它传递给 RegExp 构造函数，将其转换为 RegExp 对象。</td>
+</tr>
+</tbody></table>
+<p>返回值存放匹配结果的数组。该数组的内容依赖于 regexp 是否具有全局标志 g。</p>
+<p>match() 方法将检索字符串 stringObject，以找到一个或多个与 regexp 匹配的文本。这个方法的行为在很大程度上有赖于 regexp 是否具有标志 g。</p>
+<p>如果 regexp 没有标志 g，那么 match() 方法就只能在 stringObject 中执行一次匹配。如果没有找到任何匹配的文本， match() 将返回 null。否则，它将返回一个数组，其中存放了与它找到的匹配文本有关的信息。该数组的第 0 个元素存放的是匹配文本，而其余的元素存放的是与正则表达式的子表达式匹配的文本。除了这些常规的数组元素之外，返回的数组还含有两个对象属性。index 属性声明的是匹配文本的起始字符在 stringObject 中的位置，input 属性声明的是对 stringObject 的引用。</p>
+<p>如果 regexp 具有标志 g，则 match() 方法将执行全局检索，找到 stringObject 中的所有匹配子字符串。若没有找到任何匹配的子串，则返回 null。如果找到了一个或多个匹配子串，则返回一个数组。不过全局匹配返回的数组的内容与前者大不相同，它的数组元素中存放的是 stringObject 中所有的匹配子串，而且也没有 index 属性或 input 属性。</p>
+<p>注意：在全局检索模式下，match() 即不提供与子表达式匹配的文本的信息，也不声明每个匹配子串的位置。如果您需要这些全局检索的信息，可以使用 RegExp.exec()。</p>
+<p>还是以上述的例子来说：</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> reg = <span class="regexp">/\d+/g</span></span><br><span class="line"><span class="keyword">let</span> str = <span class="string">&#x27;112hello456world789&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(str.match(reg));</span><br></pre></td></tr></table></figure>
+<p>输出如下：<br><a href="https://img-blog.csdnimg.cn/20190513115053752.png"><img src="https://img-blog.csdnimg.cn/20190513115053752.png"></a></p>
+<p>可以看到，一次性把满足条件的内容全部都给捕获到了，然后放在了一个数组中。</p>
+<p>再来看，消除贪婪性后的match方法捕获的结果：</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> reg = <span class="regexp">/\d+?/g</span></span><br><span class="line"><span class="keyword">let</span> str = <span class="string">&#x27;112hello456world789&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(str.match(reg));</span><br></pre></td></tr></table></figure>
+<p>输出如下：<br><a href="https://img-blog.csdnimg.cn/20190513115256928.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MDkyMDk1Mw==,size_16,color_FFFFFF,t_70"><img src="https://img-blog.csdnimg.cn/20190513115256928.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MDkyMDk1Mw==,size_16,color_FFFFFF,t_70"></a></p>
+<p>可以看到，满足条件的内容都捕获到了。</p>
+<h3 id="match的缺点"><a href="#match的缺点" class="headerlink" title="match的缺点"></a>match的缺点</h3><p>match方法虽然很好用，但是在分组捕获中满足子表达式的内容，使用match方法是无法捕获到的。继续往下看分组捕获时会仔细讲解match。</p>
+<h2 id="分组捕获"><a href="#分组捕获" class="headerlink" title="分组捕获"></a>分组捕获</h2><p>我们已经知道直接在字符后面加上限定符就可以重复单个字符，那么多个字符的重复又该如何实现呢？你可以使用小括号来指定子表达式（也称为分组），然后对于这个子表达式的重复次数你就可以自行规定了，子表达式也可以进行一些其他的操作，这个在后面会进行介绍。</p>
+<h3 id="（1）改变优先级"><a href="#（1）改变优先级" class="headerlink" title="（1）改变优先级"></a>（1）改变优先级</h3><p>来看一个例子：</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> reg = <span class="regexp">/^15|16$/</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(reg.test(<span class="string">&quot;15&quot;</span>));  </span><br><span class="line"><span class="built_in">console</span>.log(reg.test(<span class="string">&quot;16&quot;</span>));</span><br><span class="line"><span class="built_in">console</span>.log(reg.test(<span class="string">&quot;159&quot;</span>));</span><br><span class="line"><span class="built_in">console</span>.log(reg.test(<span class="string">&quot;1569&quot;</span>));</span><br><span class="line"><span class="built_in">console</span>.log(reg.test(<span class="string">&quot;216&quot;</span>));</span><br><span class="line"><span class="built_in">console</span>.log(reg.test(<span class="string">&quot;6216&quot;</span>));</span><br><span class="line"><span class="built_in">console</span>.log(reg.test(<span class="string">&quot;326&quot;</span>));</span><br></pre></td></tr></table></figure>
+<p>输出如下：<br><a href="https://img-blog.csdnimg.cn/20190513140908536.png"><img src="https://img-blog.csdnimg.cn/20190513140908536.png"></a></p>
+<p>很显然，以15开头或者以16结尾的所有字符串都符合条件。那如果我们的原意是想匹配156或116呢？此时只需要加个小括号进行分组即可，修改如下：</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> reg = <span class="regexp">/^1(5|1)6$/</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(reg.test(<span class="string">&quot;15&quot;</span>));</span><br><span class="line"><span class="built_in">console</span>.log(reg.test(<span class="string">&quot;16&quot;</span>));</span><br><span class="line"><span class="built_in">console</span>.log(reg.test(<span class="string">&quot;159&quot;</span>));</span><br><span class="line"><span class="built_in">console</span>.log(reg.test(<span class="string">&quot;1569&quot;</span>));</span><br><span class="line"><span class="built_in">console</span>.log(reg.test(<span class="string">&quot;216&quot;</span>));</span><br><span class="line"><span class="built_in">console</span>.log(reg.test(<span class="string">&quot;6216&quot;</span>));</span><br><span class="line"><span class="built_in">console</span>.log(reg.test(<span class="string">&quot;326&quot;</span>));</span><br><span class="line"><span class="built_in">console</span>.log(reg.test(<span class="string">&quot;116&quot;</span>));</span><br><span class="line"><span class="built_in">console</span>.log(reg.test(<span class="string">&quot;156&quot;</span>));</span><br></pre></td></tr></table></figure>
+
+<p>输出如下：<br><a href="https://img-blog.csdnimg.cn/20190513141226828.png"><img src="https://img-blog.csdnimg.cn/20190513141226828.png"></a></p>
+<p>很显然此时只匹配156或116了。加了小括号之后改变了|元字符的作用范围。</p>
+<h3 id="（2）后向引用"><a href="#（2）后向引用" class="headerlink" title="（2）后向引用"></a>（2）后向引用</h3><p>假设现在我们想匹配一个字符串中连续重复的字符该怎么办呢？此时，我们便可以利用正则表达式分组中的后向引用。</p>
+<p>对一个正则表达式模式或部分模式两边添加圆括号将导致相关匹配存储到一个临时缓冲区中，所捕获的每个子匹配都按照在正则表达式模式中从左到右出现的顺序存储。缓冲区编号从 1 开始，最多可存储 99 个捕获的子表达式。每个缓冲区都可以使用 \n 访问，其中 n 为一个标识特定缓冲区的一位或两位十进制数。</p>
+<p>那么，对于想要匹配一个字符串中连续重复的字符，我们可以利用后向引用来解决：</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> reg = <span class="regexp">/(\w)\1+/g</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> str = <span class="string">&#x27;ppfhhhdfhdddskkk96fff&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(str.match(reg));</span><br></pre></td></tr></table></figure>
+<p>输出如下：<br><a href="https://img-blog.csdnimg.cn/20190513143008628.png"><img src="https://img-blog.csdnimg.cn/20190513143008628.png"></a></p>
+<p>其中 reg 中的 \1 是对前面第一个小括号里面匹配到的内容的引用，于是就解决重复的问题。</p>
+<p>例如， /(a)(b)\1\2/可以匹配”abab”，其中 \1,\2分别是对第一个小括号（第一个分组）和第二个小括号（第二个分组）里面匹配到的内容的引用。</p>
+<p>需要注意的是，如果引用了越界或者不存在的编号的话，就被被解析为普通的表达式：</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> reg = <span class="regexp">/(\w&#123;3&#125;) is \6/</span>;</span><br><span class="line">reg.test( <span class="string">&#x27;kid is kid&#x27;</span> ); <span class="comment">// false</span></span><br><span class="line">reg.test( <span class="string">&#x27;kid is \6&#x27;</span> );  <span class="comment">// true</span></span><br></pre></td></tr></table></figure>
+<h3 id="（3）非捕获型分组"><a href="#（3）非捕获型分组" class="headerlink" title="（3）非捕获型分组"></a>（3）非捕获型分组</h3><p>使用非捕获元字符 ?:、?= 或 ?! 来重写捕获，忽略对相关匹配的保存。</p>
+<p>在一个分组中最开头使用？开头，则此分组为非捕获型分组，即此分组匹配结果不会被缓存，使用exec也不会捕获到此分组内的内容，此分组不存在分组序号，即此分组不存在 \n ，也就是说不存在后向引用的操作。</p>
+<p>正向前瞻型分组：你站在原地往前看，如果前方是指定的东西就返回true，否则为false。</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> reg = <span class="regexp">/kid is a (?=doubi)/</span></span><br><span class="line">reg.test(<span class="string">&#x27;kid is a doubi&#x27;</span>) <span class="comment">// true</span></span><br><span class="line">reg.test(<span class="string">&#x27;kid is a shabi&#x27;</span>) <span class="comment">// false</span></span><br></pre></td></tr></table></figure>
+<p>反向前瞻型分组：你站在原地往前看，如果前方不是指定的东西则返回true，如果是则返回false。</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> reg = <span class="regexp">/kid is a (?!doubi)/</span></span><br><span class="line">reg.test(<span class="string">&#x27;kid is a doubi&#x27;</span>) <span class="comment">// false</span></span><br><span class="line">reg.test(<span class="string">&#x27;kid is a shabi&#x27;</span>) <span class="comment">// true</span></span><br></pre></td></tr></table></figure>
+<p>假如现在有这样一个需求，将一个数字字符串每三位中间以逗号分隔，例如，123456789变为123,456,789这样。</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> reg = <span class="regexp">/\B(?=(\d&#123;3&#125;)+(?!\d))/g</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> str = <span class="string">&#x27;36545454551&#x27;</span></span><br><span class="line"></span><br><span class="line">str = str.replace(reg, <span class="string">&#x27;,&#x27;</span>)</span><br><span class="line"><span class="built_in">console</span>.log(str);    <span class="comment">// 36,545,454,551</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="字符串replace方法"><a href="#字符串replace方法" class="headerlink" title="字符串replace方法"></a>字符串replace方法</h2><p>replace() 方法用于在字符串中用一些字符替换另一些字符，或替换一个与正则表达式匹配的子串。</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">stringObject.replace(regexp/substr,replacement)</span><br></pre></td></tr></table></figure>
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>regexp/substr</td>
+<td>必需。规定子字符串或要替换的模式的 RegExp 对象。</td>
+</tr>
+</tbody></table>
+<p>请注意，如果该值是一个字符串，则将它作为要检索的直接量文本模式，而不是首先被转换为 RegExp 对象。</p>
+<p>replacement    必需。一个字符串值。规定了替换文本或生成替换文本的函数。<br>返回值为一个新的字符串，是用 replacement 替换了 regexp 的第一次匹配或所有匹配之后得到的。</p>
+<p>当第一个参数为字符串时，每次替换只会替换第一次匹配到的字符串，例如：</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> str = <span class="string">&#x27;ggghhhggg&#x27;</span></span><br><span class="line">str = str.replace(<span class="string">&#x27;ggg&#x27;</span>, <span class="string">&#x27;kkk&#x27;</span>)</span><br><span class="line"><span class="built_in">console</span>.log(str);   <span class="comment">// kkkhhhggg</span></span><br></pre></td></tr></table></figure>
+
+<p>那若是我们想要替换掉所有匹配到的内容呢？此时第一个参数则需要传入一个正则表达式，例如：</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> str = <span class="string">&#x27;ggghhhggg&#x27;</span></span><br><span class="line">str = str.replace(<span class="regexp">/g&#123;3&#125;/g</span>, <span class="string">&#x27;kkk&#x27;</span>)</span><br><span class="line"><span class="built_in">console</span>.log(str);   <span class="comment">// kkkhhhkkk</span></span><br></pre></td></tr></table></figure>
+<p>第二个参数除了传字符串之外，还可以传入一个函数，我们来看：</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> str = <span class="string">&#x27;ggg123hhh456ggg78&#x27;</span></span><br><span class="line"><span class="keyword">let</span> reg = <span class="regexp">/(\d)&#123;3&#125;/g</span></span><br><span class="line">str = str.replace(reg, <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">	<span class="built_in">console</span>.log(<span class="built_in">arguments</span>);</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<p>输出如下：<br><a href="https://img-blog.csdnimg.cn/20190513164857738.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MDkyMDk1Mw==,size_16,color_FFFFFF,t_70"><img src="https://img-blog.csdnimg.cn/20190513164857738.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MDkyMDk1Mw==,size_16,color_FFFFFF,t_70"></a></p>
+<p>可见输出了两次，分为为匹配到的123和456。</p>
+<p>我们使用exec和match分别来匹配试一下：</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> str = <span class="string">&#x27;ggg123hhh456ggg78&#x27;</span></span><br><span class="line"><span class="keyword">let</span> reg = <span class="regexp">/(\d)&#123;3&#125;/g</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(reg.exec(str));</span><br><span class="line"><span class="built_in">console</span>.log(reg.exec(str));</span><br><span class="line"><span class="built_in">console</span>.log(reg.exec(str));</span><br></pre></td></tr></table></figure>
+
+<p>输出如下：<br><a href="https://img-blog.csdnimg.cn/20190513170018314.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MDkyMDk1Mw==,size_16,color_FFFFFF,t_70"><img src="https://img-blog.csdnimg.cn/20190513170018314.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MDkyMDk1Mw==,size_16,color_FFFFFF,t_70"></a></p>
+<p>再来看看match的结果：<br><a href="https://img-blog.csdnimg.cn/20190513170125678.png"><img src="https://img-blog.csdnimg.cn/20190513170125678.png"></a></p>
+<p>综上所述，我们不难看出 replace 函数的第二个参数为函数时，此匿名函数的参数为 replace 函数的第一个参数的正则表达式对原始字符串每次执行 exec 后的结果。</p>
+<p>此时，也可以点出match函数虽然可以直接得到符合条件的数组，这一点非常好用，毋庸置疑。但是 match 函数的的不足之处在于，它无法捕获到分组中的小正则表达式匹配的内容，如此例中的（\d）匹配到的内容，match 方法无法捕获到，但是小正则中匹配到的内容，exec 函数却可以捕获到。</p>
+<p>假如此例中，我们需要把连续三个数字替换为666，则我们可以利用 replace 函数这样做：</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> str = <span class="string">&#x27;ggg123hhh456ggg78&#x27;</span></span><br><span class="line"><span class="keyword">let</span> reg = <span class="regexp">/(\d)&#123;3&#125;/g</span></span><br><span class="line"></span><br><span class="line">str = str.replace(reg, <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">	<span class="keyword">return</span> <span class="string">&#x27;666&#x27;</span></span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(str);    <span class="comment">// ggg666hhh666ggg78</span></span><br></pre></td></tr></table></figure>
+
+<p>replace 函数每次返回的值即为替代每次匹配到的内容。</p>
 ]]></content>
       <categories>
-        <category>算法</category>
+        <category>正则</category>
       </categories>
       <tags>
-        <tag>算法</tag>
+        <tag>正则</tag>
       </tags>
   </entry>
   <entry>
@@ -527,21 +871,6 @@
       </categories>
       <tags>
         <tag>算法</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>cnpm全局安装（淘宝镜像）</title>
-    <url>/2021/12/12/cnpm%E5%85%A8%E5%B1%80%E5%AE%89%E8%A3%85%EF%BC%88%E6%B7%98%E5%AE%9D%E9%95%9C%E5%83%8F%EF%BC%89/</url>
-    <content><![CDATA[<p>安装淘宝npm（cnpm）</p>
-<p>安装cnpm</p>
-<p>输入以下命令</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">npm install -g cnpm --registry=https://registry.npmmirror.com</span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>前端工具</category>
-      </categories>
-      <tags>
-        <tag>npm</tag>
       </tags>
   </entry>
   <entry>
@@ -648,6 +977,21 @@
       </categories>
       <tags>
         <tag>算法</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>cnpm全局安装（淘宝镜像）</title>
+    <url>/2021/12/12/cnpm%E5%85%A8%E5%B1%80%E5%AE%89%E8%A3%85%EF%BC%88%E6%B7%98%E5%AE%9D%E9%95%9C%E5%83%8F%EF%BC%89/</url>
+    <content><![CDATA[<p>安装淘宝npm（cnpm）</p>
+<p>安装cnpm</p>
+<p>输入以下命令</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">npm install -g cnpm --registry=https://registry.npmmirror.com</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>前端工具</category>
+      </categories>
+      <tags>
+        <tag>npm</tag>
       </tags>
   </entry>
   <entry>
@@ -835,34 +1179,6 @@
       </tags>
   </entry>
   <entry>
-    <title>vue插槽slot踩坑--父组件通信</title>
-    <url>/2021/12/19/vue%E6%8F%92%E6%A7%BDslot%E8%B8%A9%E5%9D%91-%E7%88%B6%E7%BB%84%E4%BB%B6%E9%80%9A%E4%BF%A1/</url>
-    <content><![CDATA[<p>当我们在封装vue组件时，难免会用到插槽slot来进行子组件的嵌套，那么，当slot插槽处的内容组件需要和父组件进行通信时，怎么办呢？场景代码如下：</p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="comment">// parent.vue</span></span><br><span class="line">&lt;template&gt;</span><br><span class="line">    <span class="xml"><span class="tag">&lt;<span class="name">div</span>&gt;</span></span></span><br><span class="line"><span class="xml">        <span class="tag">&lt;<span class="name">slot</span>&gt;</span><span class="tag">&lt;/<span class="name">slot</span>&gt;</span></span></span><br><span class="line"><span class="xml">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span></span><br><span class="line">&lt;/template&gt;</span><br><span class="line"><span class="xml"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"></span></span></span><br><span class="line"><span class="javascript"><span class="xml">    <span class="keyword">export</span> <span class="keyword">default</span> &#123;</span></span></span><br><span class="line"><span class="javascript"><span class="xml">        <span class="attr">methods</span>: &#123;</span></span></span><br><span class="line"><span class="javascript"><span class="xml">            </span></span></span><br><span class="line"><span class="javascript"><span class="xml">        &#125;,</span></span></span><br><span class="line"><span class="javascript"><span class="xml">    &#125;</span></span></span><br><span class="line"><span class="javascript"><span class="xml"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span></span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line"><span class="comment">// child.vue</span></span><br><span class="line"><span class="xml"><span class="tag">&lt;<span class="name">template</span>&gt;</span></span></span><br><span class="line"><span class="xml">    <span class="tag">&lt;<span class="name">div</span>&gt;</span></span></span><br><span class="line"><span class="xml">        <span class="tag">&lt;<span class="name">input</span> @<span class="attr">input</span>=<span class="string">&quot;onInput&quot;</span>&gt;</span></span></span><br><span class="line"><span class="xml">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span></span><br><span class="line"><span class="xml"><span class="tag">&lt;/<span class="name">template</span>&gt;</span></span></span><br><span class="line"><span class="xml"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"></span></span></span><br><span class="line"><span class="javascript"><span class="xml">    <span class="keyword">export</span> <span class="keyword">default</span> &#123;</span></span></span><br><span class="line"><span class="javascript"><span class="xml">        <span class="attr">methods</span>: &#123;</span></span></span><br><span class="line"><span class="javascript"><span class="xml">            <span class="function"><span class="title">onInput</span>(<span class="params"></span>)</span>&#123;&#125;</span></span></span><br><span class="line"><span class="javascript"><span class="xml">        &#125;,</span></span></span><br><span class="line"><span class="javascript"><span class="xml">    &#125;</span></span></span><br><span class="line"><span class="javascript"><span class="xml"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span></span><br></pre></td></tr></table></figure>
-<p>使用的时候，如下：</p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">&lt;parent&gt;</span><br><span class="line">    <span class="xml"><span class="tag">&lt;<span class="name">child</span>&gt;</span><span class="tag">&lt;/<span class="name">child</span>&gt;</span></span></span><br><span class="line">&lt;/parent&gt;</span><br></pre></td></tr></table></figure>
-<p>首先，我们都知道，在vue中，子组件向父组件进行通信传值时，是借用在子组件中派发自定义事件，然后在父组件中的子组件引用之处进行监听自定义事件，如下(@test=”demo”)：</p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="comment">// parent.vue</span></span><br><span class="line">&lt;template&gt;</span><br><span class="line">    <span class="xml"><span class="tag">&lt;<span class="name">div</span>&gt;</span></span></span><br><span class="line"><span class="xml">        <span class="tag">&lt;<span class="name">child</span> @<span class="attr">test</span>=<span class="string">&quot;demo&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">child</span>&gt;</span></span></span><br><span class="line"><span class="xml">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span></span><br><span class="line">&lt;/template&gt;</span><br><span class="line"><span class="xml"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"></span></span></span><br><span class="line"><span class="javascript"><span class="xml">    <span class="keyword">import</span> child <span class="keyword">from</span> <span class="string">&#x27;child.vue&#x27;</span></span></span></span><br><span class="line"><span class="javascript"><span class="xml">    <span class="keyword">export</span> <span class="keyword">default</span> &#123;</span></span></span><br><span class="line"><span class="javascript"><span class="xml">        <span class="attr">components</span>:&#123;child&#125;,</span></span></span><br><span class="line"><span class="javascript"><span class="xml">        <span class="attr">methods</span>: &#123;</span></span></span><br><span class="line"><span class="javascript"><span class="xml">            <span class="function"><span class="title">demo</span>(<span class="params">val</span>)</span> &#123;</span></span></span><br><span class="line"><span class="javascript"><span class="xml">                <span class="built_in">console</span>.log(val)</span></span></span><br><span class="line"><span class="javascript"><span class="xml">            &#125;</span></span></span><br><span class="line"><span class="javascript"><span class="xml">        &#125;,</span></span></span><br><span class="line"><span class="javascript"><span class="xml">    &#125;</span></span></span><br><span class="line"><span class="javascript"><span class="xml"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span></span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line"><span class="comment">// child.vue</span></span><br><span class="line"><span class="xml"><span class="tag">&lt;<span class="name">template</span>&gt;</span></span></span><br><span class="line"><span class="xml">    <span class="tag">&lt;<span class="name">div</span>&gt;</span></span></span><br><span class="line"><span class="xml">        <span class="tag">&lt;<span class="name">input</span> @<span class="attr">input</span>=<span class="string">&quot;onInput&quot;</span>&gt;</span></span></span><br><span class="line"><span class="xml">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span></span><br><span class="line"><span class="xml"><span class="tag">&lt;/<span class="name">template</span>&gt;</span></span></span><br><span class="line"><span class="xml"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"></span></span></span><br><span class="line"><span class="javascript"><span class="xml">    <span class="keyword">export</span> <span class="keyword">default</span> &#123;</span></span></span><br><span class="line"><span class="javascript"><span class="xml">        <span class="attr">methods</span>: &#123;</span></span></span><br><span class="line"><span class="javascript"><span class="xml">            <span class="function"><span class="title">onInput</span>(<span class="params">e</span>)</span> &#123;</span></span></span><br><span class="line"><span class="javascript"><span class="xml">                <span class="built_in">this</span>.$emit(<span class="string">&#x27;test&#x27;</span>, e.target.value)</span></span></span><br><span class="line"><span class="javascript"><span class="xml">            &#125;</span></span></span><br><span class="line"><span class="javascript"><span class="xml">        &#125;,</span></span></span><br><span class="line"><span class="javascript"><span class="xml">    &#125;</span></span></span><br><span class="line"><span class="javascript"><span class="xml"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span></span><br></pre></td></tr></table></figure>
-<p>但是，插槽slot是无法进行自定义事件的监听的，换言之，此种写法会报错：</p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">&lt;slot @test=<span class="string">&quot;fn&quot;</span>&gt;&lt;/slot&gt;</span><br></pre></td></tr></table></figure>
-<p>那么，怎么解决这种问题呢？其实方法有很多，笔者这里说下自己的解决方案：</p>
-<p>我们可以在子组件中调用父组件去触发一个自定义事件，然后在父组件自己的生命周期函数中对这个自定义事件进行监听，code如下：</p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="comment">// parent.vue</span></span><br><span class="line">&lt;template&gt;</span><br><span class="line">    <span class="xml"><span class="tag">&lt;<span class="name">div</span>&gt;</span></span></span><br><span class="line"><span class="xml">        <span class="tag">&lt;<span class="name">slot</span>&gt;</span><span class="tag">&lt;/<span class="name">slot</span>&gt;</span></span></span><br><span class="line"><span class="xml">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span></span><br><span class="line">&lt;/template&gt;</span><br><span class="line"><span class="xml"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"></span></span></span><br><span class="line"><span class="javascript"><span class="xml">    <span class="keyword">export</span> <span class="keyword">default</span> &#123;</span></span></span><br><span class="line"><span class="javascript"><span class="xml">        <span class="function"><span class="title">mounted</span>(<span class="params"></span>)</span>&#123;</span></span></span><br><span class="line"><span class="javascript"><span class="xml">            <span class="built_in">this</span>.$on(<span class="string">&#x27;test&#x27;</span>, <span class="built_in">this</span>.fn)</span></span></span><br><span class="line"><span class="javascript"><span class="xml">        &#125;,</span></span></span><br><span class="line"><span class="javascript"><span class="xml">        <span class="attr">methods</span>: &#123;</span></span></span><br><span class="line"><span class="javascript"><span class="xml">            <span class="function"><span class="title">fn</span>(<span class="params">val</span>)</span>&#123;</span></span></span><br><span class="line"><span class="javascript"><span class="xml">                <span class="built_in">console</span>.log(val)</span></span></span><br><span class="line"><span class="javascript"><span class="xml">            &#125;</span></span></span><br><span class="line"><span class="javascript"><span class="xml">        &#125;,</span></span></span><br><span class="line"><span class="javascript"><span class="xml">    &#125;</span></span></span><br><span class="line"><span class="javascript"><span class="xml"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span></span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line"><span class="comment">// child.vue</span></span><br><span class="line"><span class="xml"><span class="tag">&lt;<span class="name">template</span>&gt;</span></span></span><br><span class="line"><span class="xml">    <span class="tag">&lt;<span class="name">div</span>&gt;</span></span></span><br><span class="line"><span class="xml">        <span class="tag">&lt;<span class="name">input</span> @<span class="attr">input</span>=<span class="string">&quot;onInput&quot;</span>&gt;</span></span></span><br><span class="line"><span class="xml">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span></span><br><span class="line"><span class="xml"><span class="tag">&lt;/<span class="name">template</span>&gt;</span></span></span><br><span class="line"><span class="xml"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"></span></span></span><br><span class="line"><span class="javascript"><span class="xml">    <span class="keyword">export</span> <span class="keyword">default</span> &#123;</span></span></span><br><span class="line"><span class="javascript"><span class="xml">        <span class="attr">methods</span>: &#123;</span></span></span><br><span class="line"><span class="javascript"><span class="xml">            <span class="function"><span class="title">onInput</span>(<span class="params">e</span>)</span>&#123;</span></span></span><br><span class="line"><span class="javascript"><span class="xml">                <span class="built_in">this</span>.$parent.$emit(<span class="string">&quot;test&quot;</span>, e.target.value)</span></span></span><br><span class="line"><span class="javascript"><span class="xml">            &#125;</span></span></span><br><span class="line"><span class="javascript"><span class="xml">        &#125;,</span></span></span><br><span class="line"><span class="javascript"><span class="xml">    &#125;</span></span></span><br><span class="line"><span class="javascript"><span class="xml"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span></span><br></pre></td></tr></table></figure>
-<p>在这里说白了，就是要找到包含slot的组件的Vue实例的引用，然后让这个组件的实例自己去触发那个约定好的自定义事件，然后由于它自己在自己的Vue实例初始化的时候已经对这个自定义事件进行了监听$on，所以当它自己的实例以$emit的形式触发该自定义事件的时候，所监听的事件就会触发相应的回调，从而达到通信的目的。</p>
-<p>要找到此实例也很容易，像上述利用$parent($children)的形式只是其中的一种，我们再来看一下另外一种形式($refs)：</p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="comment">// parent.vue （包含slot的组件）</span></span><br><span class="line">&lt;template&gt;</span><br><span class="line">    <span class="xml"><span class="tag">&lt;<span class="name">div</span>&gt;</span></span></span><br><span class="line"><span class="xml">        <span class="tag">&lt;<span class="name">slot</span>&gt;</span><span class="tag">&lt;/<span class="name">slot</span>&gt;</span></span></span><br><span class="line"><span class="xml">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span></span><br><span class="line">&lt;/template&gt;</span><br><span class="line"><span class="xml"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"></span></span></span><br><span class="line"><span class="javascript"><span class="xml">    <span class="keyword">export</span> <span class="keyword">default</span> &#123;</span></span></span><br><span class="line"><span class="javascript"><span class="xml">        <span class="function"><span class="title">mounted</span>(<span class="params"></span>)</span>&#123;</span></span></span><br><span class="line"><span class="javascript"><span class="xml">            <span class="built_in">this</span>.$on(<span class="string">&#x27;test&#x27;</span>, <span class="built_in">this</span>.fn)</span></span></span><br><span class="line"><span class="javascript"><span class="xml">        &#125;,</span></span></span><br><span class="line"><span class="javascript"><span class="xml">        <span class="attr">methods</span>: &#123;</span></span></span><br><span class="line"><span class="javascript"><span class="xml">            <span class="function"><span class="title">fn</span>(<span class="params">val</span>)</span>&#123;</span></span></span><br><span class="line"><span class="javascript"><span class="xml">                <span class="built_in">console</span>.log(val)</span></span></span><br><span class="line"><span class="javascript"><span class="xml">            &#125;</span></span></span><br><span class="line"><span class="javascript"><span class="xml">        &#125;,</span></span></span><br><span class="line"><span class="javascript"><span class="xml">    &#125;</span></span></span><br><span class="line"><span class="javascript"><span class="xml"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 引用组件parent的地方</span></span><br><span class="line"><span class="comment">// Test.vue</span></span><br><span class="line"><span class="xml"><span class="tag">&lt;<span class="name">template</span>&gt;</span></span></span><br><span class="line"><span class="xml">    <span class="tag">&lt;<span class="name">div</span>&gt;</span></span></span><br><span class="line"><span class="xml">        <span class="tag">&lt;<span class="name">parent</span> <span class="attr">ref</span>=<span class="string">&#x27;parent&#x27;</span>&gt;</span></span></span><br><span class="line"><span class="xml">            <span class="tag">&lt;<span class="name">button</span> @<span class="attr">click</span>=<span class="string">&#x27;clickFn&#x27;</span>&gt;</span>点我<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span></span><br><span class="line"><span class="xml">        <span class="tag">&lt;/<span class="name">parent</span>&gt;</span></span></span><br><span class="line"><span class="xml">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span></span><br><span class="line"><span class="xml"><span class="tag">&lt;/<span class="name">template</span>&gt;</span></span></span><br><span class="line"><span class="xml"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"></span></span></span><br><span class="line"><span class="javascript"><span class="xml">    <span class="keyword">import</span> Parent <span class="keyword">from</span> <span class="string">&#x27;./parent.vue&#x27;</span></span></span></span><br><span class="line"><span class="javascript"><span class="xml">    <span class="keyword">export</span> <span class="keyword">default</span> &#123;</span></span></span><br><span class="line"><span class="javascript"><span class="xml">        <span class="attr">components</span>: &#123;parent&#125;,</span></span></span><br><span class="line"><span class="javascript"><span class="xml">        <span class="attr">methods</span>: &#123;</span></span></span><br><span class="line"><span class="javascript"><span class="xml">            <span class="function"><span class="title">clickFn</span>(<span class="params"></span>)</span> &#123;</span></span></span><br><span class="line"><span class="javascript"><span class="xml">                <span class="built_in">this</span>.$refs.parent.$emit(<span class="string">&#x27;test&#x27;</span>, <span class="number">666</span>)</span></span></span><br><span class="line"><span class="javascript"><span class="xml">            &#125;</span></span></span><br><span class="line"><span class="javascript"><span class="xml">        &#125;,</span></span></span><br><span class="line"><span class="javascript"><span class="xml">    &#125;</span></span></span><br><span class="line"><span class="javascript"><span class="xml"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span></span><br></pre></td></tr></table></figure>
-<p>还有一种方式是利用在Vue的原型上挂载一个Vue实例，即eventBus，利用Vue实例的eventBus进行跨组件间的通信；再更进一步也可以利用vuex，但是个人觉得无此必要。</p>
-<p>这样即可解决slot插槽与其父组件的通信问题了！</p>
-<p>另符vue官方文档对于监听自定义事件的说明：<a href="https://cn.vuejs.org/v2/api/#vm-on" title="vue中$on的说明">vue中$on的说明</a></p>
-]]></content>
-      <categories>
-        <category>Vue</category>
-      </categories>
-      <tags>
-        <tag>Vue</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>vue无痕刷新组件</title>
     <url>/2021/12/14/vue%E6%97%A0%E7%97%95%E5%88%B7%E6%96%B0%E7%BB%84%E4%BB%B6/</url>
     <content><![CDATA[<p>在vue项目中，很多场景需要我们刷新组件，一般常用的两种刷新方法：</p>
@@ -884,6 +1200,34 @@
 <figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">&lt;script&gt;</span><br><span class="line"><span class="keyword">export</span>  <span class="keyword">default</span>&#123;</span><br><span class="line">    <span class="attr">inject</span>:[<span class="string">&#x27;reload&#x27;</span>],</span><br><span class="line">    <span class="function"><span class="title">mounted</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">        <span class="built_in">this</span>.reload();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">&lt;/script&gt;</span><br></pre></td></tr></table></figure>
 
 <p>如此，就可以随时刷新当前组件了！</p>
+]]></content>
+      <categories>
+        <category>Vue</category>
+      </categories>
+      <tags>
+        <tag>Vue</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>vue插槽slot踩坑--父组件通信</title>
+    <url>/2021/12/19/vue%E6%8F%92%E6%A7%BDslot%E8%B8%A9%E5%9D%91-%E7%88%B6%E7%BB%84%E4%BB%B6%E9%80%9A%E4%BF%A1/</url>
+    <content><![CDATA[<p>当我们在封装vue组件时，难免会用到插槽slot来进行子组件的嵌套，那么，当slot插槽处的内容组件需要和父组件进行通信时，怎么办呢？场景代码如下：</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="comment">// parent.vue</span></span><br><span class="line">&lt;template&gt;</span><br><span class="line">    <span class="xml"><span class="tag">&lt;<span class="name">div</span>&gt;</span></span></span><br><span class="line"><span class="xml">        <span class="tag">&lt;<span class="name">slot</span>&gt;</span><span class="tag">&lt;/<span class="name">slot</span>&gt;</span></span></span><br><span class="line"><span class="xml">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span></span><br><span class="line">&lt;/template&gt;</span><br><span class="line"><span class="xml"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"></span></span></span><br><span class="line"><span class="javascript"><span class="xml">    <span class="keyword">export</span> <span class="keyword">default</span> &#123;</span></span></span><br><span class="line"><span class="javascript"><span class="xml">        <span class="attr">methods</span>: &#123;</span></span></span><br><span class="line"><span class="javascript"><span class="xml">            </span></span></span><br><span class="line"><span class="javascript"><span class="xml">        &#125;,</span></span></span><br><span class="line"><span class="javascript"><span class="xml">    &#125;</span></span></span><br><span class="line"><span class="javascript"><span class="xml"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span></span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line"><span class="comment">// child.vue</span></span><br><span class="line"><span class="xml"><span class="tag">&lt;<span class="name">template</span>&gt;</span></span></span><br><span class="line"><span class="xml">    <span class="tag">&lt;<span class="name">div</span>&gt;</span></span></span><br><span class="line"><span class="xml">        <span class="tag">&lt;<span class="name">input</span> @<span class="attr">input</span>=<span class="string">&quot;onInput&quot;</span>&gt;</span></span></span><br><span class="line"><span class="xml">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span></span><br><span class="line"><span class="xml"><span class="tag">&lt;/<span class="name">template</span>&gt;</span></span></span><br><span class="line"><span class="xml"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"></span></span></span><br><span class="line"><span class="javascript"><span class="xml">    <span class="keyword">export</span> <span class="keyword">default</span> &#123;</span></span></span><br><span class="line"><span class="javascript"><span class="xml">        <span class="attr">methods</span>: &#123;</span></span></span><br><span class="line"><span class="javascript"><span class="xml">            <span class="function"><span class="title">onInput</span>(<span class="params"></span>)</span>&#123;&#125;</span></span></span><br><span class="line"><span class="javascript"><span class="xml">        &#125;,</span></span></span><br><span class="line"><span class="javascript"><span class="xml">    &#125;</span></span></span><br><span class="line"><span class="javascript"><span class="xml"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span></span><br></pre></td></tr></table></figure>
+<p>使用的时候，如下：</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">&lt;parent&gt;</span><br><span class="line">    <span class="xml"><span class="tag">&lt;<span class="name">child</span>&gt;</span><span class="tag">&lt;/<span class="name">child</span>&gt;</span></span></span><br><span class="line">&lt;/parent&gt;</span><br></pre></td></tr></table></figure>
+<p>首先，我们都知道，在vue中，子组件向父组件进行通信传值时，是借用在子组件中派发自定义事件，然后在父组件中的子组件引用之处进行监听自定义事件，如下(@test=”demo”)：</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="comment">// parent.vue</span></span><br><span class="line">&lt;template&gt;</span><br><span class="line">    <span class="xml"><span class="tag">&lt;<span class="name">div</span>&gt;</span></span></span><br><span class="line"><span class="xml">        <span class="tag">&lt;<span class="name">child</span> @<span class="attr">test</span>=<span class="string">&quot;demo&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">child</span>&gt;</span></span></span><br><span class="line"><span class="xml">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span></span><br><span class="line">&lt;/template&gt;</span><br><span class="line"><span class="xml"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"></span></span></span><br><span class="line"><span class="javascript"><span class="xml">    <span class="keyword">import</span> child <span class="keyword">from</span> <span class="string">&#x27;child.vue&#x27;</span></span></span></span><br><span class="line"><span class="javascript"><span class="xml">    <span class="keyword">export</span> <span class="keyword">default</span> &#123;</span></span></span><br><span class="line"><span class="javascript"><span class="xml">        <span class="attr">components</span>:&#123;child&#125;,</span></span></span><br><span class="line"><span class="javascript"><span class="xml">        <span class="attr">methods</span>: &#123;</span></span></span><br><span class="line"><span class="javascript"><span class="xml">            <span class="function"><span class="title">demo</span>(<span class="params">val</span>)</span> &#123;</span></span></span><br><span class="line"><span class="javascript"><span class="xml">                <span class="built_in">console</span>.log(val)</span></span></span><br><span class="line"><span class="javascript"><span class="xml">            &#125;</span></span></span><br><span class="line"><span class="javascript"><span class="xml">        &#125;,</span></span></span><br><span class="line"><span class="javascript"><span class="xml">    &#125;</span></span></span><br><span class="line"><span class="javascript"><span class="xml"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span></span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line"><span class="comment">// child.vue</span></span><br><span class="line"><span class="xml"><span class="tag">&lt;<span class="name">template</span>&gt;</span></span></span><br><span class="line"><span class="xml">    <span class="tag">&lt;<span class="name">div</span>&gt;</span></span></span><br><span class="line"><span class="xml">        <span class="tag">&lt;<span class="name">input</span> @<span class="attr">input</span>=<span class="string">&quot;onInput&quot;</span>&gt;</span></span></span><br><span class="line"><span class="xml">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span></span><br><span class="line"><span class="xml"><span class="tag">&lt;/<span class="name">template</span>&gt;</span></span></span><br><span class="line"><span class="xml"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"></span></span></span><br><span class="line"><span class="javascript"><span class="xml">    <span class="keyword">export</span> <span class="keyword">default</span> &#123;</span></span></span><br><span class="line"><span class="javascript"><span class="xml">        <span class="attr">methods</span>: &#123;</span></span></span><br><span class="line"><span class="javascript"><span class="xml">            <span class="function"><span class="title">onInput</span>(<span class="params">e</span>)</span> &#123;</span></span></span><br><span class="line"><span class="javascript"><span class="xml">                <span class="built_in">this</span>.$emit(<span class="string">&#x27;test&#x27;</span>, e.target.value)</span></span></span><br><span class="line"><span class="javascript"><span class="xml">            &#125;</span></span></span><br><span class="line"><span class="javascript"><span class="xml">        &#125;,</span></span></span><br><span class="line"><span class="javascript"><span class="xml">    &#125;</span></span></span><br><span class="line"><span class="javascript"><span class="xml"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span></span><br></pre></td></tr></table></figure>
+<p>但是，插槽slot是无法进行自定义事件的监听的，换言之，此种写法会报错：</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">&lt;slot @test=<span class="string">&quot;fn&quot;</span>&gt;&lt;/slot&gt;</span><br></pre></td></tr></table></figure>
+<p>那么，怎么解决这种问题呢？其实方法有很多，笔者这里说下自己的解决方案：</p>
+<p>我们可以在子组件中调用父组件去触发一个自定义事件，然后在父组件自己的生命周期函数中对这个自定义事件进行监听，code如下：</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="comment">// parent.vue</span></span><br><span class="line">&lt;template&gt;</span><br><span class="line">    <span class="xml"><span class="tag">&lt;<span class="name">div</span>&gt;</span></span></span><br><span class="line"><span class="xml">        <span class="tag">&lt;<span class="name">slot</span>&gt;</span><span class="tag">&lt;/<span class="name">slot</span>&gt;</span></span></span><br><span class="line"><span class="xml">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span></span><br><span class="line">&lt;/template&gt;</span><br><span class="line"><span class="xml"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"></span></span></span><br><span class="line"><span class="javascript"><span class="xml">    <span class="keyword">export</span> <span class="keyword">default</span> &#123;</span></span></span><br><span class="line"><span class="javascript"><span class="xml">        <span class="function"><span class="title">mounted</span>(<span class="params"></span>)</span>&#123;</span></span></span><br><span class="line"><span class="javascript"><span class="xml">            <span class="built_in">this</span>.$on(<span class="string">&#x27;test&#x27;</span>, <span class="built_in">this</span>.fn)</span></span></span><br><span class="line"><span class="javascript"><span class="xml">        &#125;,</span></span></span><br><span class="line"><span class="javascript"><span class="xml">        <span class="attr">methods</span>: &#123;</span></span></span><br><span class="line"><span class="javascript"><span class="xml">            <span class="function"><span class="title">fn</span>(<span class="params">val</span>)</span>&#123;</span></span></span><br><span class="line"><span class="javascript"><span class="xml">                <span class="built_in">console</span>.log(val)</span></span></span><br><span class="line"><span class="javascript"><span class="xml">            &#125;</span></span></span><br><span class="line"><span class="javascript"><span class="xml">        &#125;,</span></span></span><br><span class="line"><span class="javascript"><span class="xml">    &#125;</span></span></span><br><span class="line"><span class="javascript"><span class="xml"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span></span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line"><span class="comment">// child.vue</span></span><br><span class="line"><span class="xml"><span class="tag">&lt;<span class="name">template</span>&gt;</span></span></span><br><span class="line"><span class="xml">    <span class="tag">&lt;<span class="name">div</span>&gt;</span></span></span><br><span class="line"><span class="xml">        <span class="tag">&lt;<span class="name">input</span> @<span class="attr">input</span>=<span class="string">&quot;onInput&quot;</span>&gt;</span></span></span><br><span class="line"><span class="xml">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span></span><br><span class="line"><span class="xml"><span class="tag">&lt;/<span class="name">template</span>&gt;</span></span></span><br><span class="line"><span class="xml"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"></span></span></span><br><span class="line"><span class="javascript"><span class="xml">    <span class="keyword">export</span> <span class="keyword">default</span> &#123;</span></span></span><br><span class="line"><span class="javascript"><span class="xml">        <span class="attr">methods</span>: &#123;</span></span></span><br><span class="line"><span class="javascript"><span class="xml">            <span class="function"><span class="title">onInput</span>(<span class="params">e</span>)</span>&#123;</span></span></span><br><span class="line"><span class="javascript"><span class="xml">                <span class="built_in">this</span>.$parent.$emit(<span class="string">&quot;test&quot;</span>, e.target.value)</span></span></span><br><span class="line"><span class="javascript"><span class="xml">            &#125;</span></span></span><br><span class="line"><span class="javascript"><span class="xml">        &#125;,</span></span></span><br><span class="line"><span class="javascript"><span class="xml">    &#125;</span></span></span><br><span class="line"><span class="javascript"><span class="xml"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span></span><br></pre></td></tr></table></figure>
+<p>在这里说白了，就是要找到包含slot的组件的Vue实例的引用，然后让这个组件的实例自己去触发那个约定好的自定义事件，然后由于它自己在自己的Vue实例初始化的时候已经对这个自定义事件进行了监听$on，所以当它自己的实例以$emit的形式触发该自定义事件的时候，所监听的事件就会触发相应的回调，从而达到通信的目的。</p>
+<p>要找到此实例也很容易，像上述利用$parent($children)的形式只是其中的一种，我们再来看一下另外一种形式($refs)：</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="comment">// parent.vue （包含slot的组件）</span></span><br><span class="line">&lt;template&gt;</span><br><span class="line">    <span class="xml"><span class="tag">&lt;<span class="name">div</span>&gt;</span></span></span><br><span class="line"><span class="xml">        <span class="tag">&lt;<span class="name">slot</span>&gt;</span><span class="tag">&lt;/<span class="name">slot</span>&gt;</span></span></span><br><span class="line"><span class="xml">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span></span><br><span class="line">&lt;/template&gt;</span><br><span class="line"><span class="xml"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"></span></span></span><br><span class="line"><span class="javascript"><span class="xml">    <span class="keyword">export</span> <span class="keyword">default</span> &#123;</span></span></span><br><span class="line"><span class="javascript"><span class="xml">        <span class="function"><span class="title">mounted</span>(<span class="params"></span>)</span>&#123;</span></span></span><br><span class="line"><span class="javascript"><span class="xml">            <span class="built_in">this</span>.$on(<span class="string">&#x27;test&#x27;</span>, <span class="built_in">this</span>.fn)</span></span></span><br><span class="line"><span class="javascript"><span class="xml">        &#125;,</span></span></span><br><span class="line"><span class="javascript"><span class="xml">        <span class="attr">methods</span>: &#123;</span></span></span><br><span class="line"><span class="javascript"><span class="xml">            <span class="function"><span class="title">fn</span>(<span class="params">val</span>)</span>&#123;</span></span></span><br><span class="line"><span class="javascript"><span class="xml">                <span class="built_in">console</span>.log(val)</span></span></span><br><span class="line"><span class="javascript"><span class="xml">            &#125;</span></span></span><br><span class="line"><span class="javascript"><span class="xml">        &#125;,</span></span></span><br><span class="line"><span class="javascript"><span class="xml">    &#125;</span></span></span><br><span class="line"><span class="javascript"><span class="xml"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 引用组件parent的地方</span></span><br><span class="line"><span class="comment">// Test.vue</span></span><br><span class="line"><span class="xml"><span class="tag">&lt;<span class="name">template</span>&gt;</span></span></span><br><span class="line"><span class="xml">    <span class="tag">&lt;<span class="name">div</span>&gt;</span></span></span><br><span class="line"><span class="xml">        <span class="tag">&lt;<span class="name">parent</span> <span class="attr">ref</span>=<span class="string">&#x27;parent&#x27;</span>&gt;</span></span></span><br><span class="line"><span class="xml">            <span class="tag">&lt;<span class="name">button</span> @<span class="attr">click</span>=<span class="string">&#x27;clickFn&#x27;</span>&gt;</span>点我<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span></span><br><span class="line"><span class="xml">        <span class="tag">&lt;/<span class="name">parent</span>&gt;</span></span></span><br><span class="line"><span class="xml">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span></span><br><span class="line"><span class="xml"><span class="tag">&lt;/<span class="name">template</span>&gt;</span></span></span><br><span class="line"><span class="xml"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"></span></span></span><br><span class="line"><span class="javascript"><span class="xml">    <span class="keyword">import</span> Parent <span class="keyword">from</span> <span class="string">&#x27;./parent.vue&#x27;</span></span></span></span><br><span class="line"><span class="javascript"><span class="xml">    <span class="keyword">export</span> <span class="keyword">default</span> &#123;</span></span></span><br><span class="line"><span class="javascript"><span class="xml">        <span class="attr">components</span>: &#123;parent&#125;,</span></span></span><br><span class="line"><span class="javascript"><span class="xml">        <span class="attr">methods</span>: &#123;</span></span></span><br><span class="line"><span class="javascript"><span class="xml">            <span class="function"><span class="title">clickFn</span>(<span class="params"></span>)</span> &#123;</span></span></span><br><span class="line"><span class="javascript"><span class="xml">                <span class="built_in">this</span>.$refs.parent.$emit(<span class="string">&#x27;test&#x27;</span>, <span class="number">666</span>)</span></span></span><br><span class="line"><span class="javascript"><span class="xml">            &#125;</span></span></span><br><span class="line"><span class="javascript"><span class="xml">        &#125;,</span></span></span><br><span class="line"><span class="javascript"><span class="xml">    &#125;</span></span></span><br><span class="line"><span class="javascript"><span class="xml"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span></span><br></pre></td></tr></table></figure>
+<p>还有一种方式是利用在Vue的原型上挂载一个Vue实例，即eventBus，利用Vue实例的eventBus进行跨组件间的通信；再更进一步也可以利用vuex，但是个人觉得无此必要。</p>
+<p>这样即可解决slot插槽与其父组件的通信问题了！</p>
+<p>另符vue官方文档对于监听自定义事件的说明：<a href="https://cn.vuejs.org/v2/api/#vm-on" title="vue中$on的说明">vue中$on的说明</a></p>
 ]]></content>
       <categories>
         <category>Vue</category>
@@ -916,32 +1260,6 @@
       </categories>
       <tags>
         <tag>Vue</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>webpack使用proxy代理时pathRewrite不生效的分析</title>
-    <url>/2021/12/12/webpack%E4%BD%BF%E7%94%A8proxy%E4%BB%A3%E7%90%86%E6%97%B6pathRewrite%E4%B8%8D%E7%94%9F%E6%95%88%E7%9A%84%E5%88%86%E6%9E%90/</url>
-    <content><![CDATA[<h2 id="写在前面"><a href="#写在前面" class="headerlink" title="写在前面"></a>写在前面</h2><p>近日来，连续高压的做项目，都没时间来写点东西，今天浏览帖子时发现好多同学在问proxy使用pathRewrite重写路径时不生效的问题，一时兴起就想写篇文章告诉还不清楚的同学们。</p>
-<hr>
-<h2 id="概述前端打包工具"><a href="#概述前端打包工具" class="headerlink" title="概述前端打包工具"></a>概述前端打包工具</h2><p>由于近些年来react、vue等MVVM框架的流行，使得前端的打包工具更倾向于webpack，相比传统的打包工具gulp，grunt等，webpack对于使用vue、react等构建的单页面应用有着超强的亲和力，再加上前端模块化的大趋势，webpack对于处理模块化有着天生的神力，由此webpack自然从众多的打包工具中脱颖而出。</p>
-<hr>
-<h2 id="直入主题pathRewrite"><a href="#直入主题pathRewrite" class="headerlink" title="直入主题pathRewrite"></a>直入主题pathRewrite</h2><p>简单来说，pathRewrite是使用proxy进行代理时，对请求路径进行重定向以匹配到正确的请求地址，话不多说，上代码，我们先来看看不使用pathRewrite的配置：</p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">proxy: &#123;</span><br><span class="line">  <span class="string">&#x27;/csdn&#x27;</span>: &#123;</span><br><span class="line">      <span class="attr">target</span>: <span class="string">&#x27;https://blog.csdn.net&#x27;</span>,</span><br><span class="line">      <span class="attr">changeOrigin</span>: <span class="literal">true</span></span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>如上所示，我们现在想请求CSDN中某一个页面的某个接口，配置代理如上，请求代码附上：</p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">axios.get(<span class="string">&quot;/csdn/u014427391/article/getSideArticles?                    </span></span><br><span class="line"><span class="string">         pageindex=3&amp;articleId=84980219&amp;length=20&quot;</span>)</span><br><span class="line">         .then(<span class="function"><span class="keyword">function</span>(<span class="params">response</span>) </span>&#123;</span><br><span class="line">           <span class="built_in">console</span>.log(response);</span><br><span class="line">         &#125;);</span><br></pre></td></tr></table></figure>
-
-<p>如上所示，我们简单的使用axios进行请求。实际上，我们要请求的接口地址是：<code>https://blog.csdn.net/u014427391/article/getSideArticles?pageindex=3&amp;articleId=84980219&amp;length=20</code>，配置代理<code>/csdn</code>对应的target为:<code>https://blog.csdn.net</code>，那么当我们不使用pathRewrite进行路径重定向的时候，加入我们像上述axios的代码那样进行请求时，我们代码中的GET请求是”/csdn/u014427391/article/getSideArticles?pageindex=3&amp;articleId=84980219&amp;length=20”，此时由于proxy的配置，此请求会被代理成<code>https://blog.csdn.net/csdn/u014427391/article/getSideArticles?pageindex=3&amp;articleId=84980219&amp;length=20</code>，显然可以看出，我们的请求地址中多了个<code>/csdn</code>，此时浏览器会报404错误，此时我们就需要用到pathRewrite重定向功能。</p>
-<p>其实，不难看出，当我们配置了代理后，我们请求的地址前面会自动的加上我们所代理的地址，就上述我们的配置举个例子来说，就是，当我们代码中请求的地址是<code>/csdn/abc</code>的时候，我们真实请求的地址是<code>https://blog.csdn.net/csdn/abc</code>(前面会自动的加上我们所代理的地址)。</p>
-<p>回归到最初的例子，当我们请求<code>/csdn/u014427391/article/getSideArticles?pageindex=3&amp;articleId=84980219&amp;length=20</code>时，我们实际上请求的是<code>https://blog.csdn.net/csdn/u014427391/article/getSideArticles?pageindex=3&amp;articleId=84980219&amp;length=20</code>，而真实的正确地址是<code>https://blog.csdn.net/u014427391/article/getSideArticles?pageindex=3&amp;articleId=84980219&amp;length=20</code>，由此发现多了个”/csdn”，由此导致浏览器报404的错误，所以由此分析，我们需要去掉请求路径中多余的”/csdn”，此时我们就需要用到pathRewrite进行路径的重定向了。直接上代码如下：</p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">proxy: &#123;</span><br><span class="line">      <span class="string">&#x27;/csdn&#x27;</span>: &#123;</span><br><span class="line">        <span class="attr">target</span>: <span class="string">&#x27;https://blog.csdn.net&#x27;</span>,</span><br><span class="line">        <span class="attr">changeOrigin</span>: <span class="literal">true</span>,</span><br><span class="line">        <span class="attr">pathRewrite</span>: &#123;</span><br><span class="line">          <span class="string">&#x27;^/csdn&#x27;</span>: <span class="string">&#x27;/&#x27;</span></span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
-<p>我们加了路径的重定向代码pathRewrite，上述代码以正则匹配规则将以”/csdn”开头的请求地址修改为””，也就是说，我们这样配置后，当我们请求”/csdn/abc”的时候，会被重写为请求”/abc”，直接在请求地址中将”/csdn”变成了””，由此刚好去掉了请求地址中多余的”/csdn”，由此，上述的404错误就得到了解决。</p>
-]]></content>
-      <categories>
-        <category>webpack</category>
-      </categories>
-      <tags>
-        <tag>webpack</tag>
       </tags>
   </entry>
   <entry>
@@ -987,6 +1305,32 @@
 <p>webpack 提供许多开箱可用的插件！具体可以查阅<a href="https://webpack.js.org/plugins/" title="webpack官方文档">webpack官方文档</a>。</p>
 <h3 id="2-5-mode（模式）"><a href="#2-5-mode（模式）" class="headerlink" title="2.5 mode（模式）"></a>2.5 mode（模式）</h3><p>通过选择 development 或 production 之中的一个，来设置 mode 参数，你可以启用相应模式下的 webpack 内置的优化。</p>
 <figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="comment">// webpack.config.js</span></span><br><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">  <span class="attr">mode</span>: <span class="string">&#x27;production&#x27;</span>  <span class="comment">// &quot;production&quot; | &quot;development&quot; | &quot;none&quot;</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>webpack</category>
+      </categories>
+      <tags>
+        <tag>webpack</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>webpack使用proxy代理时pathRewrite不生效的分析</title>
+    <url>/2021/12/12/webpack%E4%BD%BF%E7%94%A8proxy%E4%BB%A3%E7%90%86%E6%97%B6pathRewrite%E4%B8%8D%E7%94%9F%E6%95%88%E7%9A%84%E5%88%86%E6%9E%90/</url>
+    <content><![CDATA[<h2 id="写在前面"><a href="#写在前面" class="headerlink" title="写在前面"></a>写在前面</h2><p>近日来，连续高压的做项目，都没时间来写点东西，今天浏览帖子时发现好多同学在问proxy使用pathRewrite重写路径时不生效的问题，一时兴起就想写篇文章告诉还不清楚的同学们。</p>
+<hr>
+<h2 id="概述前端打包工具"><a href="#概述前端打包工具" class="headerlink" title="概述前端打包工具"></a>概述前端打包工具</h2><p>由于近些年来react、vue等MVVM框架的流行，使得前端的打包工具更倾向于webpack，相比传统的打包工具gulp，grunt等，webpack对于使用vue、react等构建的单页面应用有着超强的亲和力，再加上前端模块化的大趋势，webpack对于处理模块化有着天生的神力，由此webpack自然从众多的打包工具中脱颖而出。</p>
+<hr>
+<h2 id="直入主题pathRewrite"><a href="#直入主题pathRewrite" class="headerlink" title="直入主题pathRewrite"></a>直入主题pathRewrite</h2><p>简单来说，pathRewrite是使用proxy进行代理时，对请求路径进行重定向以匹配到正确的请求地址，话不多说，上代码，我们先来看看不使用pathRewrite的配置：</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">proxy: &#123;</span><br><span class="line">  <span class="string">&#x27;/csdn&#x27;</span>: &#123;</span><br><span class="line">      <span class="attr">target</span>: <span class="string">&#x27;https://blog.csdn.net&#x27;</span>,</span><br><span class="line">      <span class="attr">changeOrigin</span>: <span class="literal">true</span></span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>如上所示，我们现在想请求CSDN中某一个页面的某个接口，配置代理如上，请求代码附上：</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">axios.get(<span class="string">&quot;/csdn/u014427391/article/getSideArticles?                    </span></span><br><span class="line"><span class="string">         pageindex=3&amp;articleId=84980219&amp;length=20&quot;</span>)</span><br><span class="line">         .then(<span class="function"><span class="keyword">function</span>(<span class="params">response</span>) </span>&#123;</span><br><span class="line">           <span class="built_in">console</span>.log(response);</span><br><span class="line">         &#125;);</span><br></pre></td></tr></table></figure>
+
+<p>如上所示，我们简单的使用axios进行请求。实际上，我们要请求的接口地址是：<code>https://blog.csdn.net/u014427391/article/getSideArticles?pageindex=3&amp;articleId=84980219&amp;length=20</code>，配置代理<code>/csdn</code>对应的target为:<code>https://blog.csdn.net</code>，那么当我们不使用pathRewrite进行路径重定向的时候，加入我们像上述axios的代码那样进行请求时，我们代码中的GET请求是”/csdn/u014427391/article/getSideArticles?pageindex=3&amp;articleId=84980219&amp;length=20”，此时由于proxy的配置，此请求会被代理成<code>https://blog.csdn.net/csdn/u014427391/article/getSideArticles?pageindex=3&amp;articleId=84980219&amp;length=20</code>，显然可以看出，我们的请求地址中多了个<code>/csdn</code>，此时浏览器会报404错误，此时我们就需要用到pathRewrite重定向功能。</p>
+<p>其实，不难看出，当我们配置了代理后，我们请求的地址前面会自动的加上我们所代理的地址，就上述我们的配置举个例子来说，就是，当我们代码中请求的地址是<code>/csdn/abc</code>的时候，我们真实请求的地址是<code>https://blog.csdn.net/csdn/abc</code>(前面会自动的加上我们所代理的地址)。</p>
+<p>回归到最初的例子，当我们请求<code>/csdn/u014427391/article/getSideArticles?pageindex=3&amp;articleId=84980219&amp;length=20</code>时，我们实际上请求的是<code>https://blog.csdn.net/csdn/u014427391/article/getSideArticles?pageindex=3&amp;articleId=84980219&amp;length=20</code>，而真实的正确地址是<code>https://blog.csdn.net/u014427391/article/getSideArticles?pageindex=3&amp;articleId=84980219&amp;length=20</code>，由此发现多了个”/csdn”，由此导致浏览器报404的错误，所以由此分析，我们需要去掉请求路径中多余的”/csdn”，此时我们就需要用到pathRewrite进行路径的重定向了。直接上代码如下：</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">proxy: &#123;</span><br><span class="line">      <span class="string">&#x27;/csdn&#x27;</span>: &#123;</span><br><span class="line">        <span class="attr">target</span>: <span class="string">&#x27;https://blog.csdn.net&#x27;</span>,</span><br><span class="line">        <span class="attr">changeOrigin</span>: <span class="literal">true</span>,</span><br><span class="line">        <span class="attr">pathRewrite</span>: &#123;</span><br><span class="line">          <span class="string">&#x27;^/csdn&#x27;</span>: <span class="string">&#x27;/&#x27;</span></span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>我们加了路径的重定向代码pathRewrite，上述代码以正则匹配规则将以”/csdn”开头的请求地址修改为””，也就是说，我们这样配置后，当我们请求”/csdn/abc”的时候，会被重写为请求”/abc”，直接在请求地址中将”/csdn”变成了””，由此刚好去掉了请求地址中多余的”/csdn”，由此，上述的404错误就得到了解决。</p>
 ]]></content>
       <categories>
         <category>webpack</category>
@@ -1048,6 +1392,27 @@
       </tags>
   </entry>
   <entry>
+    <title>webstorm快捷键（win版）</title>
+    <url>/2021/12/12/webstorm%E5%BF%AB%E6%8D%B7%E9%94%AE%EF%BC%88win%E7%89%88%EF%BC%89/</url>
+    <content><![CDATA[<h2 id="编辑"><a href="#编辑" class="headerlink" title="编辑"></a>编辑</h2><p>Ctrl + Space 基本代码完成 （任何类、 方法或变量名称）<br>Ctrl + Shift + Enter 完整的语句<br>Ctrl + P （在方法调用参数） 内的参数信息<br>Ctrl + Q 快速的文件查找<br>Ctrl + mouse 在简短的信息的代码<br>Ctrl + F1 在插入符号显示错误或警告的说明<br>Alt + Insert 生成代码…<br>Ctrl + Alt + T 以…（如果……否则，尝试。抓住，等等。）<br>Ctrl + / 行注释与取消注释<br>Ctrl + Shift + / 块注释与取消注释<br>Ctrl + W 选择先后提高代码块<br>Ctrl + Shift + W 减少当前所选内容到以前的状态<br>Alt + Q 上下文信息 Alt + enter 键显示意图采取行动和快速修复<br>Ctrl + Alt + L 格式化代码<br>Ctrl + Alt + I 自动缩进的行数<br>Tab / Shift + Tab 缩进/取消缩进选定的行<br>Ctrl + X , Shift + Delete 剪切到剪贴板的当前行或者所选代码块<br>Ctrl + C，Ctrl + 插入复制当前行或者所选代码块到剪贴板<br>Ctrl + V，Shift + 从剪贴板插入粘贴<br>Ctrl + Shift + V 粘贴从最近缓冲区…<br>Ctrl + D 复制当前行或者所选代码块<br>Ctrl + Y 删除线在插入符号<br>Ctrl + Shift + J 加入行<br>Ctrl + enter 键分割线<br>Shift + Enter 开始新行<br>Ctrl + Shift + U 切换案例在插入符号或所选代码块的词<br>按住 Ctrl + Shift +] / [选择直到代码块结束/开始<br>Ctrl + Delete 删除单词结束 Ctrl + 退格键删除单词的开始<br>Ctrl + 滑鼠 + /-展开/折叠代码块<br>Ctrl + Shift + 滑鼠 + 全部展开<br>Ctrl + Shift + 滑鼠-崩溃<br>Ctrl + F4 关闭活动的编辑器标签</p>
+<h2 id="多个插入符号和选择"><a href="#多个插入符号和选择" class="headerlink" title="多个插入符号和选择"></a>多个插入符号和选择</h2><p>Alt + 单击添加或插入符号<br>Shift + Ctrl + Alt + J 选择全部删除按住<br>Alt + J 选择下一个出现<br>Alt + Shift + J 取消选择发生按<br>Esc 取消选择所有事件或插入符号</p>
+<h2 id="运行"><a href="#运行" class="headerlink" title="运行"></a>运行</h2><p>Alt + Shift + F10/F9 选择配置和运行/调试<br>Shift + F10/F9 运行/调试<br>Ctrl + Shift + F10/F9 运行/调试上下文配置从编辑器<br>Alt + Shift + R 重新运行测试</p>
+<h2 id="调试"><a href="#调试" class="headerlink" title="调试"></a>调试</h2><p>F8 步骤<br>F7 一步成<br>Shift + F7 智能踏入<br>Shift + F8 踏出<br>Alt + F9 运行到光标<br>Alt + F8 计算表达式的值<br>F9 简历<br>Ctrl + f8 键切换断点<br>Ctrl + Shift + F8 查看断点</p>
+<h2 id="导航"><a href="#导航" class="headerlink" title="导航"></a>导航</h2><p>Ctrl + N 去某个类<br>Ctrl + Shift + N 转到文件<br>Ctrl + Alt + 转变 + N 转到符号<br>Alt + 权利转到下一个编辑器选项卡<br>Alt + 左转到上一个编辑器选项卡<br>f12 键回到上一个工具窗口<br>esc 键转到编辑器 （在工具窗口中）<br>Shift + Esc 隐藏活动或最后一个活动窗口<br>Ctrl + Shift + F4 关闭活动运行/消息/查找 /……选项卡<br>Ctrl + G 转到线<br>Ctrl + E 最近文件弹出式<br>Ctrl + Alt + 左/右导航回 /转发<br>Ctrl + Shift + 退格键导航最后编辑位置<br>Alt + F1 选择当前文件或符号在任何视图中<br>Ctrl + B，<br>Ctrl + 单击转到声明<br>Ctrl + Alt + B 去实现<br>Ctrl + Shift + I，打开快速定义查找<br>Ctrl + Shift + B 去键入宣言<br>Ctrl + U 转到超级方法/超级类<br>Alt + 上下转到上一页/下一页方法<br>Ctrl +] / [移动到代码块结束/启动<br>Ctrl + f12 键文件结构弹出<br>Ctrl + H 类型层次结构<br>Ctrl + Alt + H 调用层次结构<br>F2 / Shift + F2 下一页/上一页突出显示错误 F4，<br>Ctrl + Ente 跳转到源<br>Alt + home 跳转到导航栏<br>F11 切换书签<br>Ctrl + F11 切换书签助记键<br>Ctrl + #[0-9] 去带编号的书签<br>Shift + F11 显示书签</p>
+<h2 id="VCS-当地历史"><a href="#VCS-当地历史" class="headerlink" title="VCS/当地历史"></a>VCS/当地历史</h2><p>Alt + 反引号 (‘) ‘VCS’ 快速弹出<br>Ctrl + K 提交项目到 VCS<br>Ctrl + T 更新项目从 VCS<br>Alt + Shift + C 查看最近的更改</p>
+<h2 id="搜索-替换"><a href="#搜索-替换" class="headerlink" title="搜索/替换"></a>搜索/替换</h2><p>Ctrl + F 查找<br>F3 查找下一步<br>Shift + F3 查找上一个<br>Ctrl + R 替换<br>Ctrl + Shift + F 在路径中找到<br>Ctrl + Shift + R 替换路径中</p>
+<h2 id="使用搜索"><a href="#使用搜索" class="headerlink" title="使用搜索"></a>使用搜索</h2><p>Alt + f7 键 / Ctrl + f7 键查找使用实例 / 找到用法在文件<br>Ctrl + Shift + f7 键突出显示用法在文件<br>Ctrl + Alt + F7 显示用法</p>
+<h2 id="重构"><a href="#重构" class="headerlink" title="重构"></a>重构</h2><p>F5 副本<br>F6 移动<br>Alt + delete 安全删除<br>Shift + F6 重命名<br>Ctrl + Alt + N 内联可变<br>Ctrl + Alt + M 提取方法<br>Ctrl + Alt + V 引进可变<br>Ctrl + Alt + C 引入的恒定<br>Ctrl + Alt + P 介绍参数<br>Ctrl + F6 变化函数签名</p>
+<h2 id="一般"><a href="#一般" class="headerlink" title="一般"></a>一般</h2><p>Ctrl + Shift +a 查找操作<br>双击shift 查找所有的（包括文件、命令等）<br>Alt + #[0-9] 打开相应的工具窗口<br>Ctrl + Shift + f12 键切换最大化编辑器<br>Alt + Shift + F 将添加到收藏夹<br>Alt + Shift + I 检查当前文件与当前配置文件<br>Ctrl + 反引号 (‘) 快速切换当前计划<br>Ctrl + Alt + S 打开设置对话框<br>Ctrl + Tab 切换选项卡和工具窗口</p>
+]]></content>
+      <categories>
+        <category>编辑器</category>
+      </categories>
+      <tags>
+        <tag>编辑器</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>webstorm快捷键（Mac版）</title>
     <url>/2021/12/12/webstorm%E5%BF%AB%E6%8D%B7%E9%94%AE%EF%BC%88Mac%E7%89%88%EF%BC%89/</url>
     <content><![CDATA[<p>⌘——Command</p>
@@ -1073,42 +1438,6 @@
       </tags>
   </entry>
   <entry>
-    <title>webstorm快捷键（win版）</title>
-    <url>/2021/12/12/webstorm%E5%BF%AB%E6%8D%B7%E9%94%AE%EF%BC%88win%E7%89%88%EF%BC%89/</url>
-    <content><![CDATA[<h2 id="编辑"><a href="#编辑" class="headerlink" title="编辑"></a>编辑</h2><p>Ctrl + Space 基本代码完成 （任何类、 方法或变量名称）<br>Ctrl + Shift + Enter 完整的语句<br>Ctrl + P （在方法调用参数） 内的参数信息<br>Ctrl + Q 快速的文件查找<br>Ctrl + mouse 在简短的信息的代码<br>Ctrl + F1 在插入符号显示错误或警告的说明<br>Alt + Insert 生成代码…<br>Ctrl + Alt + T 以…（如果……否则，尝试。抓住，等等。）<br>Ctrl + / 行注释与取消注释<br>Ctrl + Shift + / 块注释与取消注释<br>Ctrl + W 选择先后提高代码块<br>Ctrl + Shift + W 减少当前所选内容到以前的状态<br>Alt + Q 上下文信息 Alt + enter 键显示意图采取行动和快速修复<br>Ctrl + Alt + L 格式化代码<br>Ctrl + Alt + I 自动缩进的行数<br>Tab / Shift + Tab 缩进/取消缩进选定的行<br>Ctrl + X , Shift + Delete 剪切到剪贴板的当前行或者所选代码块<br>Ctrl + C，Ctrl + 插入复制当前行或者所选代码块到剪贴板<br>Ctrl + V，Shift + 从剪贴板插入粘贴<br>Ctrl + Shift + V 粘贴从最近缓冲区…<br>Ctrl + D 复制当前行或者所选代码块<br>Ctrl + Y 删除线在插入符号<br>Ctrl + Shift + J 加入行<br>Ctrl + enter 键分割线<br>Shift + Enter 开始新行<br>Ctrl + Shift + U 切换案例在插入符号或所选代码块的词<br>按住 Ctrl + Shift +] / [选择直到代码块结束/开始<br>Ctrl + Delete 删除单词结束 Ctrl + 退格键删除单词的开始<br>Ctrl + 滑鼠 + /-展开/折叠代码块<br>Ctrl + Shift + 滑鼠 + 全部展开<br>Ctrl + Shift + 滑鼠-崩溃<br>Ctrl + F4 关闭活动的编辑器标签</p>
-<h2 id="多个插入符号和选择"><a href="#多个插入符号和选择" class="headerlink" title="多个插入符号和选择"></a>多个插入符号和选择</h2><p>Alt + 单击添加或插入符号<br>Shift + Ctrl + Alt + J 选择全部删除按住<br>Alt + J 选择下一个出现<br>Alt + Shift + J 取消选择发生按<br>Esc 取消选择所有事件或插入符号</p>
-<h2 id="运行"><a href="#运行" class="headerlink" title="运行"></a>运行</h2><p>Alt + Shift + F10/F9 选择配置和运行/调试<br>Shift + F10/F9 运行/调试<br>Ctrl + Shift + F10/F9 运行/调试上下文配置从编辑器<br>Alt + Shift + R 重新运行测试</p>
-<h2 id="调试"><a href="#调试" class="headerlink" title="调试"></a>调试</h2><p>F8 步骤<br>F7 一步成<br>Shift + F7 智能踏入<br>Shift + F8 踏出<br>Alt + F9 运行到光标<br>Alt + F8 计算表达式的值<br>F9 简历<br>Ctrl + f8 键切换断点<br>Ctrl + Shift + F8 查看断点</p>
-<h2 id="导航"><a href="#导航" class="headerlink" title="导航"></a>导航</h2><p>Ctrl + N 去某个类<br>Ctrl + Shift + N 转到文件<br>Ctrl + Alt + 转变 + N 转到符号<br>Alt + 权利转到下一个编辑器选项卡<br>Alt + 左转到上一个编辑器选项卡<br>f12 键回到上一个工具窗口<br>esc 键转到编辑器 （在工具窗口中）<br>Shift + Esc 隐藏活动或最后一个活动窗口<br>Ctrl + Shift + F4 关闭活动运行/消息/查找 /……选项卡<br>Ctrl + G 转到线<br>Ctrl + E 最近文件弹出式<br>Ctrl + Alt + 左/右导航回 /转发<br>Ctrl + Shift + 退格键导航最后编辑位置<br>Alt + F1 选择当前文件或符号在任何视图中<br>Ctrl + B，<br>Ctrl + 单击转到声明<br>Ctrl + Alt + B 去实现<br>Ctrl + Shift + I，打开快速定义查找<br>Ctrl + Shift + B 去键入宣言<br>Ctrl + U 转到超级方法/超级类<br>Alt + 上下转到上一页/下一页方法<br>Ctrl +] / [移动到代码块结束/启动<br>Ctrl + f12 键文件结构弹出<br>Ctrl + H 类型层次结构<br>Ctrl + Alt + H 调用层次结构<br>F2 / Shift + F2 下一页/上一页突出显示错误 F4，<br>Ctrl + Ente 跳转到源<br>Alt + home 跳转到导航栏<br>F11 切换书签<br>Ctrl + F11 切换书签助记键<br>Ctrl + #[0-9] 去带编号的书签<br>Shift + F11 显示书签</p>
-<h2 id="VCS-当地历史"><a href="#VCS-当地历史" class="headerlink" title="VCS/当地历史"></a>VCS/当地历史</h2><p>Alt + 反引号 (‘) ‘VCS’ 快速弹出<br>Ctrl + K 提交项目到 VCS<br>Ctrl + T 更新项目从 VCS<br>Alt + Shift + C 查看最近的更改</p>
-<h2 id="搜索-替换"><a href="#搜索-替换" class="headerlink" title="搜索/替换"></a>搜索/替换</h2><p>Ctrl + F 查找<br>F3 查找下一步<br>Shift + F3 查找上一个<br>Ctrl + R 替换<br>Ctrl + Shift + F 在路径中找到<br>Ctrl + Shift + R 替换路径中</p>
-<h2 id="使用搜索"><a href="#使用搜索" class="headerlink" title="使用搜索"></a>使用搜索</h2><p>Alt + f7 键 / Ctrl + f7 键查找使用实例 / 找到用法在文件<br>Ctrl + Shift + f7 键突出显示用法在文件<br>Ctrl + Alt + F7 显示用法</p>
-<h2 id="重构"><a href="#重构" class="headerlink" title="重构"></a>重构</h2><p>F5 副本<br>F6 移动<br>Alt + delete 安全删除<br>Shift + F6 重命名<br>Ctrl + Alt + N 内联可变<br>Ctrl + Alt + M 提取方法<br>Ctrl + Alt + V 引进可变<br>Ctrl + Alt + C 引入的恒定<br>Ctrl + Alt + P 介绍参数<br>Ctrl + F6 变化函数签名</p>
-<h2 id="一般"><a href="#一般" class="headerlink" title="一般"></a>一般</h2><p>Ctrl + Shift +a 查找操作<br>双击shift 查找所有的（包括文件、命令等）<br>Alt + #[0-9] 打开相应的工具窗口<br>Ctrl + Shift + f12 键切换最大化编辑器<br>Alt + Shift + F 将添加到收藏夹<br>Alt + Shift + I 检查当前文件与当前配置文件<br>Ctrl + 反引号 (‘) 快速切换当前计划<br>Ctrl + Alt + S 打开设置对话框<br>Ctrl + Tab 切换选项卡和工具窗口</p>
-]]></content>
-      <categories>
-        <category>编辑器</category>
-      </categories>
-      <tags>
-        <tag>编辑器</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>为什么 TCP 建立连接需要三次握手?</title>
-    <url>/2021/12/19/%E4%B8%BA%E4%BB%80%E4%B9%88-TCP-%E5%BB%BA%E7%AB%8B%E8%BF%9E%E6%8E%A5%E9%9C%80%E8%A6%81%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B/</url>
-    <content><![CDATA[<p>因为这是为了防止出现失效的连接请求报文段被服务端接收的情况，从而产生错误。</p>
-<p>可以想象如下场景。客户端发送了一个连接请求 A，但是因为网络原因造成了超时，这时 TCP 会启动超时重传的机制再次发送一个连接请求 B。此时请求顺利到达服务端，服务端应答完就建立了请求，然后接收数据后释放了连接。</p>
-<p>假设这时候连接请求 A 在两端关闭后终于抵达了服务端，那么此时服务端会认为客户端又需要建立 TCP 连接，从而应答了该请求并进入 ESTABLISHED 状态。但是客户端其实是 CLOSED 的状态，那么就会导致服务端一直等待，造成资源的浪费。</p>
-<p>PS：在建立连接中，任意一端掉线，TCP 都会重发 SYN 包，一般会重试五次，在建立连接中可能会遇到 SYN Flood 攻击。遇到这种情况你可以选择调低重试次数或者干脆在不能处理的情况下拒绝请求。</p>
-]]></content>
-      <categories>
-        <category>HTTP</category>
-      </categories>
-      <tags>
-        <tag>HTTP</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>使用npm安装node-sass失败的解决办法</title>
     <url>/2021/12/12/%E4%BD%BF%E7%94%A8npm%E5%AE%89%E8%A3%85node-sass%E5%A4%B1%E8%B4%A5%E7%9A%84%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95/</url>
     <content><![CDATA[<p>使用npm安装node-sass失败时，我们可以这样解决：</p>
@@ -1122,23 +1451,6 @@
       </categories>
       <tags>
         <tag>npm</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>去掉inline-block元素间隙</title>
-    <url>/2021/12/18/%E5%8E%BB%E6%8E%89inline-block%E5%85%83%E7%B4%A0%E9%97%B4%E9%9A%99/</url>
-    <content><![CDATA[<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>做页面时，如果用到inline-block元素来布局，就无可避免都会遇到一个问题，就是inline-block元素之间的间隙。这些间隙会导致一些布局上的问题，需要把间隙去掉。</p>
-<h2 id="1、标签写在一行，移除标签间的空格"><a href="#1、标签写在一行，移除标签间的空格" class="headerlink" title="1、标签写在一行，移除标签间的空格"></a>1、标签写在一行，移除标签间的空格</h2><figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;demo&quot;</span>&gt;</span></span><br><span class="line">   <span class="tag">&lt;<span class="name">span</span>&gt;</span>我是一个span<span class="tag">&lt;/<span class="name">span</span>&gt;</span><span class="tag">&lt;<span class="name">span</span>&gt;</span>我是一个span<span class="tag">&lt;/<span class="name">span</span>&gt;</span><span class="tag">&lt;<span class="name">span</span>&gt;</span>我是一个span<span class="tag">&lt;/<span class="name">span</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-<h2 id="2、利用HTML注释标签"><a href="#2、利用HTML注释标签" class="headerlink" title="2、利用HTML注释标签"></a>2、利用HTML注释标签</h2><figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;demo&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">span</span>&gt;</span>我是一个span<span class="tag">&lt;/<span class="name">span</span>&gt;</span><span class="comment">&lt;!-- </span></span><br><span class="line"><span class="comment">    --&gt;</span><span class="tag">&lt;<span class="name">span</span>&gt;</span>我是一个span<span class="tag">&lt;/<span class="name">span</span>&gt;</span><span class="comment">&lt;!-- </span></span><br><span class="line"><span class="comment">    --&gt;</span><span class="tag">&lt;<span class="name">span</span>&gt;</span>我是一个span<span class="tag">&lt;/<span class="name">span</span>&gt;</span><span class="comment">&lt;!-- </span></span><br><span class="line"><span class="comment">    --&gt;</span><span class="tag">&lt;<span class="name">span</span>&gt;</span>我是一个span<span class="tag">&lt;/<span class="name">span</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<h2 id="3、在父容器上使用font-size-0-可以消除间隙"><a href="#3、在父容器上使用font-size-0-可以消除间隙" class="headerlink" title="3、在父容器上使用font-size:0;可以消除间隙"></a>3、在父容器上使用font-size:0;可以消除间隙</h2><figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;demo&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">span</span>&gt;</span>我是一个span</span><br><span class="line">    <span class="tag">&lt;<span class="name">span</span>&gt;</span>我是一个span</span><br><span class="line">    <span class="tag">&lt;<span class="name">span</span>&gt;</span>我是一个span</span><br><span class="line">    <span class="tag">&lt;<span class="name">span</span>&gt;</span>我是一个span<span class="tag">&lt;/<span class="name">span</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<figure class="highlight css"><table><tr><td class="code"><pre><span class="line"><span class="selector-class">.demo</span> &#123;<span class="attribute">font-size</span>: <span class="number">0</span>;&#125;</span><br><span class="line"><span class="selector-class">.demo</span> <span class="selector-tag">span</span>&#123;</span><br><span class="line">     <span class="attribute">background</span>:<span class="number">#ddd</span>;</span><br><span class="line">     <span class="attribute">display</span>: inline-block;</span><br><span class="line">     <span class="attribute">font-size</span>: <span class="number">14px</span>; <span class="comment">/*要设置相应的字号*/</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>CSS</category>
-      </categories>
-      <tags>
-        <tag>CSS</tag>
       </tags>
   </entry>
   <entry>
@@ -1220,6 +1532,113 @@
       </categories>
       <tags>
         <tag>HTTP</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>为什么 TCP 建立连接需要三次握手?</title>
+    <url>/2021/12/19/%E4%B8%BA%E4%BB%80%E4%B9%88-TCP-%E5%BB%BA%E7%AB%8B%E8%BF%9E%E6%8E%A5%E9%9C%80%E8%A6%81%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B/</url>
+    <content><![CDATA[<p>因为这是为了防止出现失效的连接请求报文段被服务端接收的情况，从而产生错误。</p>
+<p>可以想象如下场景。客户端发送了一个连接请求 A，但是因为网络原因造成了超时，这时 TCP 会启动超时重传的机制再次发送一个连接请求 B。此时请求顺利到达服务端，服务端应答完就建立了请求，然后接收数据后释放了连接。</p>
+<p>假设这时候连接请求 A 在两端关闭后终于抵达了服务端，那么此时服务端会认为客户端又需要建立 TCP 连接，从而应答了该请求并进入 ESTABLISHED 状态。但是客户端其实是 CLOSED 的状态，那么就会导致服务端一直等待，造成资源的浪费。</p>
+<p>PS：在建立连接中，任意一端掉线，TCP 都会重发 SYN 包，一般会重试五次，在建立连接中可能会遇到 SYN Flood 攻击。遇到这种情况你可以选择调低重试次数或者干脆在不能处理的情况下拒绝请求。</p>
+]]></content>
+      <categories>
+        <category>HTTP</category>
+      </categories>
+      <tags>
+        <tag>HTTP</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>性能优化之HTML5离线存储(应用程序缓存)</title>
+    <url>/2021/12/25/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96%E4%B9%8BHTML5%E7%A6%BB%E7%BA%BF%E5%AD%98%E5%82%A8-%E5%BA%94%E7%94%A8%E7%A8%8B%E5%BA%8F%E7%BC%93%E5%AD%98/</url>
+    <content><![CDATA[<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>HTML5 提供一种 应用程序缓存 机制，使得基于web的应用程序可以离线运行。开发者可以使用 <strong>Application Cache</strong> (AppCache) 接口设定浏览器应该缓存的资源并使得离线用户可用。 在处于离线状态时，即使用户点击刷新按钮，应用也能正常加载与工作。</p>
+<h2 id="简介Application-Cache"><a href="#简介Application-Cache" class="headerlink" title="简介Application Cache"></a>简介Application Cache</h2><pre><code>使用 HTML5，通过创建 cache manifest 文件，可以轻松地创建 web 应用的离线版本。
+
+HTML5引入了应用程序缓存，这意味着 web 应用可进行缓存，并可在没有因特网连接时进行访问。 应用程序缓存为应用带来三个优势：
+
+1. 离线浏览 - 用户可在应用离线时使用它们
+2. 速度 - 已缓存资源加载得更快
+3. 减少服务器负载 - 浏览器将只从服务器下载更新过或更改过的资源。
+</code></pre>
+<p>HTML5提出了两大离线存储技术：localstorage与Application Cache，两者各有应用场景；传统还有离线存储技术Cookie。经过实践我们认为localstorage应该存储一些非关键性ajax数据，做锦上添花的事情；Application Cache用于存储静态资源，仍然是干锦上添花的事情；而cookie只能保存一小段文本（4096字节）；所以不能存储大数据，这是cookie与上述缓存技术的差异之一，而因为HTTP是无状态的，服务器为了区分请求是否来源于同一个服务器，需要一个标识字符串，而这个任务就是cookie完成的，这一段文本每次都会在服务器与浏览器之间传递，以验证用户的权限。所以Application Cache的应用场景不一样，所以使用也不一致。</p>
+<h2 id="Cache-Manifest-基础"><a href="#Cache-Manifest-基础" class="headerlink" title="Cache Manifest 基础"></a>Cache Manifest 基础</h2><p>Application Cache的使用要做两方面的工作：</p>
+<p>① 服务器端需要维护一个manifest清单</p>
+<p>② 浏览器上只需要一个简单的设置即可<br>如需启用应用程序缓存，请在文档的 <code>&lt;html&gt;</code> 标签中包含 manifest 属性：</p>
+<figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">html</span>  <span class="attr">manifest</span>=<span class="string">&quot;demo.appcache&quot;</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>每个指定了 manifest 的页面在用户对其访问时都会被缓存。如果未指定 manifest 属性，则页面不会被缓存（除非在 manifest 文件中直接指定了该页面）。</p>
+<p>manifest 文件的建议的文件扩展名是：”.appcache”。</p>
+<p>请注意，manifest 文件需要配置正确的 MIME-type，即 “text/cache-manifest”。必须在 web 服务器上进行配置。</p>
+<p>如上面提到的HTML5的离线存储是基于一个新建的.appcache文件的，通过这个文件上的解析清单离线存储资源，这些资源就会像cookie一样被存储了下来。之后当网络在处于离线状态下时，浏览器会通过被离线存储的数据进行页面展示。</p>
+<h2 id="Manifest-文件"><a href="#Manifest-文件" class="headerlink" title="Manifest 文件"></a>Manifest 文件</h2><p>在开始之前要先了解下manifest（即.appcache文件），上面的解析清单要怎么写。</p>
+<p>manifest 文件是简单的文本文件，它告知浏览器被缓存的内容（以及不缓存的内容）。</p>
+<p>manifest 文件可分为三个部分：</p>
+<ol>
+<li>CACHE MANIFEST - 在此标题下列出的文件将在首次下载后进行缓存；</li>
+<li>NETWORK - 在此标题下列出的文件需要与服务器的连接，且不会被缓存；</li>
+<li>FALLBACK - 在此标题下列出的文件规定当页面无法访问时的回退页面（比如 404 页面）；</li>
+</ol>
+<p>在线的情况下,用户代理每次访问页面，都会去读一次manifest。如果发现其改变, 则重新加载全部清单中的资源。</p>
+<h2 id="CACHE-MANIFEST"><a href="#CACHE-MANIFEST" class="headerlink" title="CACHE MANIFEST"></a>CACHE MANIFEST</h2><p>第一行，CACHE MANIFEST，是必需的：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">CACHE MANIFEST</span><br><span class="line">/theme.css</span><br><span class="line">/logo.gif</span><br><span class="line">/main.js</span><br></pre></td></tr></table></figure>
+<p>上面的 manifest 文件列出了三个资源：一个 CSS 文件，一个 GIF 图像，以及一个 JavaScript 文件。当 manifest 文件加载后，浏览器会从网站的根目录下载这三个文件。然后，无论用户何时与因特网断开连接，这些资源依然是可用的。</p>
+<h2 id="NETWORK"><a href="#NETWORK" class="headerlink" title="NETWORK"></a>NETWORK</h2><pre><code>白名单，使用通配符&quot;*&quot;. 则会进入白名单的open状态. 这种状态下.所有不在相关Cache区域出现的url都默认使用HTTP相关缓存头策略.
+</code></pre>
+<p>下面的 NETWORK 小节规定文件 “login.asp” 永远不会被缓存，且离线时是不可用的：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">NETWORK:</span><br><span class="line">login.asp</span><br></pre></td></tr></table></figure>
+<p>可以使用星号来指示所有其他资源/文件都需要因特网连接：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">NETWORK:</span><br><span class="line">*</span><br><span class="line">```<span class="comment">## FALLBACK</span></span><br><span class="line">下面的 FALLBACK 小节规定如果无法建立因特网连接，则用 <span class="string">&quot;offline.html&quot;</span> 替代 /html5/ 目录中的所有文件：</span><br><span class="line"></span><br><span class="line">```bash</span><br><span class="line">ALLBACK:</span><br><span class="line">/html5/ /404.html</span><br></pre></td></tr></table></figure>
+<p>注释：第一个 URI 是资源，第二个是替补。</p>
+<h3 id="尺寸限制"><a href="#尺寸限制" class="headerlink" title="尺寸限制"></a>尺寸限制</h3><p>注意：Application Cache的尺寸限制统一在5M，建议Application Cache，存储公共资源，不要存储业务资源。</p>
+<h2 id="更新缓存"><a href="#更新缓存" class="headerlink" title="更新缓存"></a>更新缓存</h2><p>一旦应用被缓存，它就会保持缓存直到发生下列情况：</p>
+<ol>
+<li>用户清空浏览器缓存</li>
+<li>manifest 文件被修改</li>
+<li>由程序来更新应用缓存</li>
+</ol>
+<p>对于浏览器来说，manifest的加载是要晚于其他资源的，这就导致check manifest的过程是滞后的。发现manifest改变，所有浏览器的实现都是紧随着做静默更新资源，以保证下次pv，应用到更新。</p>
+<p>由更新机制来说，首次更新manifest时，因为页面加载已经开始甚至已经完成，缓存更新尚未完成，浏览器仍然会使用过期的资源；浏览器是当Application Cache有更新时，该次不会使用新资源，第二次才会使用。这个时候update事件中执行window.reload事件。</p>
+<p>这里，我们来看看更新manifest会走的一些流程：<br><a href="https://img-blog.csdnimg.cn/20190518181908959.jpg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MDkyMDk1Mw==,size_16,color_FFFFFF,t_70"><img src="https://img-blog.csdnimg.cn/20190518181908959.jpg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MDkyMDk1Mw==,size_16,color_FFFFFF,t_70"></a></p>
+<h3 id="缓存立即执行"><a href="#缓存立即执行" class="headerlink" title="缓存立即执行"></a>缓存立即执行</h3><p>我们的产品已经更新了用户却要第二次进来才能够看到，这样用户体验也太差了吧，有什么方式能够解决呢？好在html5给javascript提供了相关的API。</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">applicationCache.onupdateready = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">	applicationCache.swapCache();</span><br><span class="line">	location.reload();</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h2 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h2><ol>
+<li>站点离线存储的容量限制是5M；</li>
+<li>如果manifest文件，或者内部列举的某一个文件不能正常下载，整个更新过程将视为失败，浏览器继续全部使用老的缓存；</li>
+<li>引用manifest的html必须与manifest文件同源，在同一个域下；</li>
+<li>在manifest中使用的相对路径，相对参照物为manifest文件；</li>
+<li>CACHE MANIFEST字符串应在第一行，且必不可少；</li>
+<li>系统会自动缓存引用清单文件的 HTML 文件；</li>
+<li>manifest文件中CACHE则与NETWORK，FALLBACK的位置顺序没有关系，如果是隐式声明需要在最前面；</li>
+<li>FALLBACK中的资源必须和manifest文件同源；</li>
+<li>当一个资源被缓存后，该浏览器直接请求这个绝对路径也会访问缓存中的资源；</li>
+<li>站点中的其他页面即使没有设置manifest属性，请求的资源如果在缓存中也从缓存中访问；</li>
+<li>当manifest文件发生改变时，资源请求本身也会触发更新。</li>
+</ol>
+<p>在此刻使用这里描述的应用程序缓存功能高度不鼓励; 它正在处于从Web平台中被删除的过程。请改用<a href="https://developer.mozilla.org/en-US/docs/Web/API/Service_Worker_API/Using_Service_Workers" title="Service Workers">Service Workers</a> 代替。事实上，在Firefox 44中，当AppCache用于为页面提供离线支持时，控制台中现在显示一条警告消息，建议开发人员改用 <a href="https://developer.mozilla.org/en-US/docs/Web/API/Service_Worker_API/Using_Service_Workers" title="Service Workers">Service Workers</a> 代替。</p>
+]]></content>
+      <categories>
+        <category>性能优化</category>
+      </categories>
+      <tags>
+        <tag>性能优化</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>去掉inline-block元素间隙</title>
+    <url>/2021/12/18/%E5%8E%BB%E6%8E%89inline-block%E5%85%83%E7%B4%A0%E9%97%B4%E9%9A%99/</url>
+    <content><![CDATA[<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>做页面时，如果用到inline-block元素来布局，就无可避免都会遇到一个问题，就是inline-block元素之间的间隙。这些间隙会导致一些布局上的问题，需要把间隙去掉。</p>
+<h2 id="1、标签写在一行，移除标签间的空格"><a href="#1、标签写在一行，移除标签间的空格" class="headerlink" title="1、标签写在一行，移除标签间的空格"></a>1、标签写在一行，移除标签间的空格</h2><figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;demo&quot;</span>&gt;</span></span><br><span class="line">   <span class="tag">&lt;<span class="name">span</span>&gt;</span>我是一个span<span class="tag">&lt;/<span class="name">span</span>&gt;</span><span class="tag">&lt;<span class="name">span</span>&gt;</span>我是一个span<span class="tag">&lt;/<span class="name">span</span>&gt;</span><span class="tag">&lt;<span class="name">span</span>&gt;</span>我是一个span<span class="tag">&lt;/<span class="name">span</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="2、利用HTML注释标签"><a href="#2、利用HTML注释标签" class="headerlink" title="2、利用HTML注释标签"></a>2、利用HTML注释标签</h2><figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;demo&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">span</span>&gt;</span>我是一个span<span class="tag">&lt;/<span class="name">span</span>&gt;</span><span class="comment">&lt;!-- </span></span><br><span class="line"><span class="comment">    --&gt;</span><span class="tag">&lt;<span class="name">span</span>&gt;</span>我是一个span<span class="tag">&lt;/<span class="name">span</span>&gt;</span><span class="comment">&lt;!-- </span></span><br><span class="line"><span class="comment">    --&gt;</span><span class="tag">&lt;<span class="name">span</span>&gt;</span>我是一个span<span class="tag">&lt;/<span class="name">span</span>&gt;</span><span class="comment">&lt;!-- </span></span><br><span class="line"><span class="comment">    --&gt;</span><span class="tag">&lt;<span class="name">span</span>&gt;</span>我是一个span<span class="tag">&lt;/<span class="name">span</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h2 id="3、在父容器上使用font-size-0-可以消除间隙"><a href="#3、在父容器上使用font-size-0-可以消除间隙" class="headerlink" title="3、在父容器上使用font-size:0;可以消除间隙"></a>3、在父容器上使用font-size:0;可以消除间隙</h2><figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;demo&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">span</span>&gt;</span>我是一个span</span><br><span class="line">    <span class="tag">&lt;<span class="name">span</span>&gt;</span>我是一个span</span><br><span class="line">    <span class="tag">&lt;<span class="name">span</span>&gt;</span>我是一个span</span><br><span class="line">    <span class="tag">&lt;<span class="name">span</span>&gt;</span>我是一个span<span class="tag">&lt;/<span class="name">span</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight css"><table><tr><td class="code"><pre><span class="line"><span class="selector-class">.demo</span> &#123;<span class="attribute">font-size</span>: <span class="number">0</span>;&#125;</span><br><span class="line"><span class="selector-class">.demo</span> <span class="selector-tag">span</span>&#123;</span><br><span class="line">     <span class="attribute">background</span>:<span class="number">#ddd</span>;</span><br><span class="line">     <span class="attribute">display</span>: inline-block;</span><br><span class="line">     <span class="attribute">font-size</span>: <span class="number">14px</span>; <span class="comment">/*要设置相应的字号*/</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>CSS</category>
+      </categories>
+      <tags>
+        <tag>CSS</tag>
       </tags>
   </entry>
   <entry>
