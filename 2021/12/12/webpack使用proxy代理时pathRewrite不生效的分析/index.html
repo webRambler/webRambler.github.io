@@ -1,0 +1,203 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>webpack使用proxy代理时pathRewrite不生效的分析 | webRambler-blog</title><meta name="keywords" content="webpack"><meta name="author" content="webRambler"><meta name="copyright" content="webRambler"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="写在前面近日来，连续高压的做项目，都没时间来写点东西，今天浏览帖子时发现好多同学在问proxy使用pathRewrite重写路径时不生效的问题，一时兴起就想写篇文章告诉还不清楚的同学们。  概述前端打包工具由于近些年来react、vue等MVVM框架的流行，使得前端的打包工具更倾向于webpack，相比传统的打包工具gulp，grunt等，webpack对于使用vue、react等构建的单页面应用">
+<meta property="og:type" content="article">
+<meta property="og:title" content="webpack使用proxy代理时pathRewrite不生效的分析">
+<meta property="og:url" content="https://webrambler.github.io/2021/12/12/webpack%E4%BD%BF%E7%94%A8proxy%E4%BB%A3%E7%90%86%E6%97%B6pathRewrite%E4%B8%8D%E7%94%9F%E6%95%88%E7%9A%84%E5%88%86%E6%9E%90/index.html">
+<meta property="og:site_name" content="webRambler-blog">
+<meta property="og:description" content="写在前面近日来，连续高压的做项目，都没时间来写点东西，今天浏览帖子时发现好多同学在问proxy使用pathRewrite重写路径时不生效的问题，一时兴起就想写篇文章告诉还不清楚的同学们。  概述前端打包工具由于近些年来react、vue等MVVM框架的流行，使得前端的打包工具更倾向于webpack，相比传统的打包工具gulp，grunt等，webpack对于使用vue、react等构建的单页面应用">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://webrambler.github.io/img/webpack.png">
+<meta property="article:published_time" content="2021-12-12T14:46:41.000Z">
+<meta property="article:modified_time" content="2023-07-30T09:16:59.588Z">
+<meta property="article:author" content="webRambler">
+<meta property="article:tag" content="webpack">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://webrambler.github.io/img/webpack.png"><link rel="shortcut icon" href="/img/favicon.ico"><link rel="canonical" href="https://webrambler.github.io/2021/12/12/webpack%E4%BD%BF%E7%94%A8proxy%E4%BB%A3%E7%90%86%E6%97%B6pathRewrite%E4%B8%8D%E7%94%9F%E6%95%88%E7%9A%84%E5%88%86%E6%9E%90/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"search.xml","languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: {"defaultEncoding":2,"translateDelay":0,"msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"簡"},
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '天',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: {"limitCount":50,"languages":{"author":"作者: webRambler","link":"链接: ","source":"来源: webRambler-blog","info":"著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。"}},
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    jQuery: 'https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js',
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+    },
+    fancybox: {
+      js: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css'
+    }
+  },
+  isPhotoFigcaption: true,
+  islazyload: false,
+  isanchor: true
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'webpack使用proxy代理时pathRewrite不生效的分析',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2023-07-30 17:16:59'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const fontSizeVal = saveToLocal.get('global-font-size')
+    if (fontSizeVal !== undefined) {
+      document.documentElement.style.setProperty('--global-font-size', fontSizeVal + 'px')
+    }
+    
+    const detectApple = () => {
+      if (GLOBAL_CONFIG_SITE.isHome && /iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><meta name="generator" content="Hexo 5.4.0"></head><body><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/img/webRambler.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">文章</div><div class="length-num">77</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/tags/"><div class="headline">标签</div><div class="length-num">17</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/categories/"><div class="headline">分类</div><div class="length-num">17</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 目录</span></a></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 清单</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> Music</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> Movie</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 链接</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div><div class="menus_item"><a class="site-page" href="/messageboard/"><i class="fa-fw fa fa-comments"></i><span> 留言板</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('/img/webpack.png')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">webRambler-blog</a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 目录</span></a></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 清单</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> Music</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> Movie</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 链接</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div><div class="menus_item"><a class="site-page" href="/messageboard/"><i class="fa-fw fa fa-comments"></i><span> 留言板</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">webpack使用proxy代理时pathRewrite不生效的分析</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2021-12-12T14:46:41.000Z" title="发表于 2021-12-12 22:46:41">2021-12-12</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2023-07-30T09:16:59.588Z" title="更新于 2023-07-30 17:16:59">2023-07-30</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/webpack/">webpack</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="webpack使用proxy代理时pathRewrite不生效的分析"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span><span class="post-meta-separator">|</span><span class="post-meta-commentcount"><i class="far fa-comments fa-fw post-meta-icon"></i><span class="post-meta-label">评论数:</span><a href="/2021/12/12/webpack%E4%BD%BF%E7%94%A8proxy%E4%BB%A3%E7%90%86%E6%97%B6pathRewrite%E4%B8%8D%E7%94%9F%E6%95%88%E7%9A%84%E5%88%86%E6%9E%90/#post-comment" itemprop="discussionUrl"><span class="valine-comment-count" data-xid="/2021/12/12/webpack%E4%BD%BF%E7%94%A8proxy%E4%BB%A3%E7%90%86%E6%97%B6pathRewrite%E4%B8%8D%E7%94%9F%E6%95%88%E7%9A%84%E5%88%86%E6%9E%90/" itemprop="commentCount"></span></a></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h2 id="写在前面"><a href="#写在前面" class="headerlink" title="写在前面"></a>写在前面</h2><p>近日来，连续高压的做项目，都没时间来写点东西，今天浏览帖子时发现好多同学在问proxy使用pathRewrite重写路径时不生效的问题，一时兴起就想写篇文章告诉还不清楚的同学们。</p>
+<hr>
+<h2 id="概述前端打包工具"><a href="#概述前端打包工具" class="headerlink" title="概述前端打包工具"></a>概述前端打包工具</h2><p>由于近些年来react、vue等MVVM框架的流行，使得前端的打包工具更倾向于webpack，相比传统的打包工具gulp，grunt等，webpack对于使用vue、react等构建的单页面应用有着超强的亲和力，再加上前端模块化的大趋势，webpack对于处理模块化有着天生的神力，由此webpack自然从众多的打包工具中脱颖而出。</p>
+<hr>
+<h2 id="直入主题pathRewrite"><a href="#直入主题pathRewrite" class="headerlink" title="直入主题pathRewrite"></a>直入主题pathRewrite</h2><p>简单来说，pathRewrite是使用proxy进行代理时，对请求路径进行重定向以匹配到正确的请求地址，话不多说，上代码，我们先来看看不使用pathRewrite的配置：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">proxy: &#123;</span><br><span class="line">  <span class="string">&#x27;/csdn&#x27;</span>: &#123;</span><br><span class="line">      <span class="attr">target</span>: <span class="string">&#x27;https://blog.csdn.net&#x27;</span>,</span><br><span class="line">      <span class="attr">changeOrigin</span>: <span class="literal">true</span></span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>如上所示，我们现在想请求CSDN中某一个页面的某个接口，配置代理如上，请求代码附上：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">axios.get(<span class="string">&quot;/csdn/u014427391/article/getSideArticles?                    </span></span><br><span class="line"><span class="string">         pageindex=3&amp;articleId=84980219&amp;length=20&quot;</span>)</span><br><span class="line">         .then(<span class="function"><span class="keyword">function</span>(<span class="params">response</span>) </span>&#123;</span><br><span class="line">           <span class="built_in">console</span>.log(response);</span><br><span class="line">         &#125;);</span><br></pre></td></tr></table></figure>
+
+<p>如上所示，我们简单的使用axios进行请求。实际上，我们要请求的接口地址是：<code>https://blog.csdn.net/u014427391/article/getSideArticles?pageindex=3&amp;articleId=84980219&amp;length=20</code>，配置代理<code>/csdn</code>对应的target为:<code>https://blog.csdn.net</code>，那么当我们不使用pathRewrite进行路径重定向的时候，加入我们像上述axios的代码那样进行请求时，我们代码中的GET请求是”/csdn/u014427391/article/getSideArticles?pageindex=3&amp;articleId=84980219&amp;length=20”，此时由于proxy的配置，此请求会被代理成<code>https://blog.csdn.net/csdn/u014427391/article/getSideArticles?pageindex=3&amp;articleId=84980219&amp;length=20</code>，显然可以看出，我们的请求地址中多了个<code>/csdn</code>，此时浏览器会报404错误，此时我们就需要用到pathRewrite重定向功能。</p>
+<p>其实，不难看出，当我们配置了代理后，我们请求的地址前面会自动的加上我们所代理的地址，就上述我们的配置举个例子来说，就是，当我们代码中请求的地址是<code>/csdn/abc</code>的时候，我们真实请求的地址是<code>https://blog.csdn.net/csdn/abc</code>(前面会自动的加上我们所代理的地址)。</p>
+<p>回归到最初的例子，当我们请求<code>/csdn/u014427391/article/getSideArticles?pageindex=3&amp;articleId=84980219&amp;length=20</code>时，我们实际上请求的是<code>https://blog.csdn.net/csdn/u014427391/article/getSideArticles?pageindex=3&amp;articleId=84980219&amp;length=20</code>，而真实的正确地址是<code>https://blog.csdn.net/u014427391/article/getSideArticles?pageindex=3&amp;articleId=84980219&amp;length=20</code>，由此发现多了个”/csdn”，由此导致浏览器报404的错误，所以由此分析，我们需要去掉请求路径中多余的”/csdn”，此时我们就需要用到pathRewrite进行路径的重定向了。直接上代码如下：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">proxy: &#123;</span><br><span class="line">      <span class="string">&#x27;/csdn&#x27;</span>: &#123;</span><br><span class="line">        <span class="attr">target</span>: <span class="string">&#x27;https://blog.csdn.net&#x27;</span>,</span><br><span class="line">        <span class="attr">changeOrigin</span>: <span class="literal">true</span>,</span><br><span class="line">        <span class="attr">pathRewrite</span>: &#123;</span><br><span class="line">          <span class="string">&#x27;^/csdn&#x27;</span>: <span class="string">&#x27;/&#x27;</span></span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>我们加了路径的重定向代码pathRewrite，上述代码以正则匹配规则将以”/csdn”开头的请求地址修改为””，也就是说，我们这样配置后，当我们请求”/csdn/abc”的时候，会被重写为请求”/abc”，直接在请求地址中将”/csdn”变成了””，由此刚好去掉了请求地址中多余的”/csdn”，由此，上述的404错误就得到了解决。</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">webRambler</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://webrambler.github.io/2021/12/12/webpack%E4%BD%BF%E7%94%A8proxy%E4%BB%A3%E7%90%86%E6%97%B6pathRewrite%E4%B8%8D%E7%94%9F%E6%95%88%E7%9A%84%E5%88%86%E6%9E%90/">https://webrambler.github.io/2021/12/12/webpack%E4%BD%BF%E7%94%A8proxy%E4%BB%A3%E7%90%86%E6%97%B6pathRewrite%E4%B8%8D%E7%94%9F%E6%95%88%E7%9A%84%E5%88%86%E6%9E%90/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://webRambler.github.io" target="_blank">webRambler-blog</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/webpack/">webpack</a></div><div class="post_share"><div class="social-share" data-image="/img/webpack.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><div class="post-reward"><div class="reward-button button--animated"><i class="fas fa-qrcode"></i> 打赏</div><div class="reward-main"><ul class="reward-all"><li class="reward-item"><a href="/img/wechat.jpg" target="_blank"><img class="post-qr-code-img" src="/img/wechat.jpg" alt="微信"/></a><div class="post-qr-code-desc">微信</div></li><li class="reward-item"><a href="/img/alipay.jpg" target="_blank"><img class="post-qr-code-img" src="/img/alipay.jpg" alt="支付宝"/></a><div class="post-qr-code-desc">支付宝</div></li></ul></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2021/12/13/vue%E8%84%9A%E6%89%8B%E6%9E%B6%E6%9C%89%E8%AF%9D%E8%AF%B4/"><img class="prev-cover" src="/img/vue.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">vue脚手架有话说</div></div></a></div><div class="next-post pull-right"><a href="/2021/12/12/js%E4%B8%ADviod%E8%BF%90%E7%AE%97%E7%AC%A6%E6%80%BB%E7%BB%93/"><img class="next-cover" src="/img/javascript.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">js中viod运算符总结</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2021/12/19/webpack%E7%B3%BB%E5%88%97%E4%B9%8Bwebpack%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/" title="webpack系列之webpack性能优化"><img class="cover" src="/img/webpack.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-12-19</div><div class="title">webpack系列之webpack性能优化</div></div></a></div><div><a href="/2021/12/18/webpack%E7%B3%BB%E5%88%97%E3%80%8A%E4%B8%80%E3%80%8B%E6%A0%B8%E5%BF%83%E6%A6%82%E5%BF%B5%EF%BC%88%E5%85%A5%E9%97%A8%E7%AF%87%EF%BC%89/" title="webpack系列《一》核心概念（入门篇）"><img class="cover" src="/img/webpack.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-12-18</div><div class="title">webpack系列《一》核心概念（入门篇）</div></div></a></div></div></div><hr/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div class="vcomment" id="vcomment"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/img/webRambler.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">webRambler</div><div class="author-info__description">一个爱生活爱code的程序猿</div></div><div class="card-info-data"><div class="card-info-data-item is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">77</div></a></div><div class="card-info-data-item is-center"><a href="/tags/"><div class="headline">标签</div><div class="length-num">17</div></a></div><div class="card-info-data-item is-center"><a href="/categories/"><div class="headline">分类</div><div class="length-num">17</div></a></div></div><a class="button--animated" id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/webRambler"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/webRambler" target="_blank" title="Github"><i class="fab fa-github"></i></a><a class="social-icon" href="mailto:talent1203@163.com" target="_blank" title="Email"><i class="fas fa-envelope"></i></a><a class="social-icon" href="https://blog.csdn.net/weixin_40920953" target="_blank" title="CSDN"><i class="far fa-newspaper"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn card-announcement-animation"></i><span>公告</span></div><div class="announcement_content">欢迎来到webRambler的博客</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%86%99%E5%9C%A8%E5%89%8D%E9%9D%A2"><span class="toc-number">1.</span> <span class="toc-text">写在前面</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A6%82%E8%BF%B0%E5%89%8D%E7%AB%AF%E6%89%93%E5%8C%85%E5%B7%A5%E5%85%B7"><span class="toc-number">2.</span> <span class="toc-text">概述前端打包工具</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%9B%B4%E5%85%A5%E4%B8%BB%E9%A2%98pathRewrite"><span class="toc-number">3.</span> <span class="toc-text">直入主题pathRewrite</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2023/07/30/%E6%9C%AC%E5%9C%B0%E6%90%AD%E5%BB%BAChatGPT/" title="本地搭建ChatGPT"><img src="/img/docker.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="本地搭建ChatGPT"/></a><div class="content"><a class="title" href="/2023/07/30/%E6%9C%AC%E5%9C%B0%E6%90%AD%E5%BB%BAChatGPT/" title="本地搭建ChatGPT">本地搭建ChatGPT</a><time datetime="2023-07-30T09:23:20.000Z" title="发表于 2023-07-30 17:23:20">2023-07-30</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/07/17/js%E4%B8%AD%E4%B8%80%E4%B8%AA%E5%A5%BD%E7%8E%A9%E7%9A%84api%E4%B9%8BqueueMicrotask/" title="js中一个好玩的api之queueMicrotask"><img src="/img/javascript.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="js中一个好玩的api之queueMicrotask"/></a><div class="content"><a class="title" href="/2022/07/17/js%E4%B8%AD%E4%B8%80%E4%B8%AA%E5%A5%BD%E7%8E%A9%E7%9A%84api%E4%B9%8BqueueMicrotask/" title="js中一个好玩的api之queueMicrotask">js中一个好玩的api之queueMicrotask</a><time datetime="2022-07-17T15:31:10.000Z" title="发表于 2022-07-17 23:31:10">2022-07-17</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/06/21/css%E7%94%BB%E6%AD%A3%E6%96%B9%E4%BD%93/" title="css画正方体"><img src="/img/css.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="css画正方体"/></a><div class="content"><a class="title" href="/2022/06/21/css%E7%94%BB%E6%AD%A3%E6%96%B9%E4%BD%93/" title="css画正方体">css画正方体</a><time datetime="2022-06-21T08:57:19.000Z" title="发表于 2022-06-21 16:57:19">2022-06-21</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/06/19/typescript%E5%AD%A6%E4%B9%A0%E6%97%A5%E8%AE%B0%E3%80%8A%E4%B8%89%E3%80%8B%E5%B8%B8%E7%94%A8%E7%9A%84%E5%86%85%E7%BD%AE%E5%B7%A5%E5%85%B7%E7%B1%BB%E5%9E%8B/" title="typescript学习日记《三》常用的内置工具类型"><img src="/img/ts.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="typescript学习日记《三》常用的内置工具类型"/></a><div class="content"><a class="title" href="/2022/06/19/typescript%E5%AD%A6%E4%B9%A0%E6%97%A5%E8%AE%B0%E3%80%8A%E4%B8%89%E3%80%8B%E5%B8%B8%E7%94%A8%E7%9A%84%E5%86%85%E7%BD%AE%E5%B7%A5%E5%85%B7%E7%B1%BB%E5%9E%8B/" title="typescript学习日记《三》常用的内置工具类型">typescript学习日记《三》常用的内置工具类型</a><time datetime="2022-06-18T17:35:43.000Z" title="发表于 2022-06-19 01:35:43">2022-06-19</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/06/18/TypeScript%E5%AD%A6%E4%B9%A0%E6%97%A5%E8%AE%B0%E3%80%8A%E4%BA%8C%E3%80%8B%E7%B1%BB%E5%9E%8B%E5%85%BC%E5%AE%B9%E6%80%A7%EF%BC%88%E5%8D%8F%E5%8F%98%E3%80%81%E9%80%86%E5%8F%98%E3%80%81%E5%8F%8C%E5%8F%98%E5%92%8C%E6%8A%97%E5%8F%98%EF%BC%89/" title="TypeScript学习日记《二》类型兼容性（协变、逆变、双变和抗变）"><img src="/img/ts.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="TypeScript学习日记《二》类型兼容性（协变、逆变、双变和抗变）"/></a><div class="content"><a class="title" href="/2022/06/18/TypeScript%E5%AD%A6%E4%B9%A0%E6%97%A5%E8%AE%B0%E3%80%8A%E4%BA%8C%E3%80%8B%E7%B1%BB%E5%9E%8B%E5%85%BC%E5%AE%B9%E6%80%A7%EF%BC%88%E5%8D%8F%E5%8F%98%E3%80%81%E9%80%86%E5%8F%98%E3%80%81%E5%8F%8C%E5%8F%98%E5%92%8C%E6%8A%97%E5%8F%98%EF%BC%89/" title="TypeScript学习日记《二》类型兼容性（协变、逆变、双变和抗变）">TypeScript学习日记《二》类型兼容性（协变、逆变、双变和抗变）</a><time datetime="2022-06-18T09:25:24.000Z" title="发表于 2022-06-18 17:25:24">2022-06-18</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2023 By webRambler</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div class="footer_custom_text">欢迎来到<a href="https://webrambler.github.io/">webRambler</a>的博客!</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="font-plus" type="button" title="放大字体"><i class="fas fa-plus"></i></button><button id="font-minus" type="button" title="缩小字体"><i class="fas fa-minus"></i></button><button id="translateLink" type="button" title="简繁转换">繁</button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div id="local-search"><div class="search-dialog"><div class="search-dialog__title" id="local-search-title">本地搜索</div><div id="local-input-panel"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div></div><hr/><div id="local-search-results"></div><span class="search-close-button"><i class="fas fa-times"></i></span></div><div id="search-mask"></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/tw_cn.js"></script><script src="/js/search/local-search.js"></script><div class="js-pjax"><script>function loadValine () {
+  function initValine () {
+    const valine = new Valine(Object.assign({
+      el: '#vcomment',
+      appId: 'GOyNj29x73bx1upNOHjcnbfP-gzGzoHsz',
+      appKey: 'mPtn3xc7mQtKwuOvfUmNdY1X',
+      placeholder: '请输入您的评论',
+      avatar: 'monsterid',
+      meta: 'nick,mail,link'.split(','),
+      pageSize: '10',
+      lang: 'zh-CN',
+      recordIP: false,
+      serverURLs: 'https://goynj29x.lc-cn-n1-shared.com',
+      emojiCDN: '',
+      emojiMaps: "",
+      enableQQ: false,
+      path: window.location.pathname,
+      requiredFields: ["nick,mail"],
+      visitor: false
+    }, null))
+  }
+
+  if (typeof Valine === 'function') initValine() 
+  else getScript('https://cdn.jsdelivr.net/npm/valine/dist/Valine.min.js').then(initValine)
+}
+
+if ('Valine' === 'Valine' || !false) {
+  if (false) btf.loadComment(document.getElementById('vcomment'),loadValine)
+  else setTimeout(loadValine, 0)
+} else {
+  function loadOtherComment () {
+    loadValine()
+  }
+}</script></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>

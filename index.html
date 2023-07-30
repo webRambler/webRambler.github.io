@@ -1,0 +1,331 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>webRambler-blog - 个人博客</title><meta name="keywords" content="前端，程序猿"><meta name="author" content="webRambler"><meta name="copyright" content="webRambler"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="一个爱生活爱code的程序猿">
+<meta property="og:type" content="website">
+<meta property="og:title" content="webRambler-blog">
+<meta property="og:url" content="https://webrambler.github.io/index.html">
+<meta property="og:site_name" content="webRambler-blog">
+<meta property="og:description" content="一个爱生活爱code的程序猿">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://webrambler.github.io/img/webRambler.png">
+<meta property="article:author" content="webRambler">
+<meta property="article:tag" content="前端，程序猿">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://webrambler.github.io/img/webRambler.png"><link rel="shortcut icon" href="/img/favicon.ico"><link rel="canonical" href="https://webrambler.github.io/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"search.xml","languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: {"defaultEncoding":2,"translateDelay":0,"msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"簡"},
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '天',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: {"limitCount":50,"languages":{"author":"作者: webRambler","link":"链接: ","source":"来源: webRambler-blog","info":"著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。"}},
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    jQuery: 'https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js',
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+    },
+    fancybox: {
+      js: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css'
+    }
+  },
+  isPhotoFigcaption: true,
+  islazyload: false,
+  isanchor: true
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'webRambler-blog',
+  isPost: false,
+  isHome: true,
+  isHighlightShrink: false,
+  isToc: false,
+  postUpdate: '2023-07-30 19:24:28'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const fontSizeVal = saveToLocal.get('global-font-size')
+    if (fontSizeVal !== undefined) {
+      document.documentElement.style.setProperty('--global-font-size', fontSizeVal + 'px')
+    }
+    
+    const detectApple = () => {
+      if (GLOBAL_CONFIG_SITE.isHome && /iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><meta name="generator" content="Hexo 5.4.0"></head><body><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/img/webRambler.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">文章</div><div class="length-num">77</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/tags/"><div class="headline">标签</div><div class="length-num">17</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/categories/"><div class="headline">分类</div><div class="length-num">17</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 目录</span></a></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 清单</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> Music</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> Movie</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 链接</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div><div class="menus_item"><a class="site-page" href="/messageboard/"><i class="fa-fw fa fa-comments"></i><span> 留言板</span></a></div></div></div></div><div class="page" id="body-wrap"><header class="full_page" id="page-header" style="background-image: url('/img/category.jpg')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">webRambler-blog</a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 目录</span></a></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 清单</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> Music</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> Movie</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 链接</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div><div class="menus_item"><a class="site-page" href="/messageboard/"><i class="fa-fw fa fa-comments"></i><span> 留言板</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="site-info"><h1 id="site-title">webRambler-blog</h1><div id="site-subtitle"><span id="subtitle"></span></div><div id="site_social_icons"><a class="social-icon" href="https://github.com/webRambler" target="_blank" title="Github"><i class="fab fa-github"></i></a><a class="social-icon" href="mailto:talent1203@163.com" target="_blank" title="Email"><i class="fas fa-envelope"></i></a><a class="social-icon" href="https://blog.csdn.net/weixin_40920953" target="_blank" title="CSDN"><i class="far fa-newspaper"></i></a></div></div><div id="scroll-down"><i class="fas fa-angle-down scroll-down-effects"></i></div></header><main class="layout" id="content-inner"><div class="recent-posts" id="recent-posts"><div class="recent-post-item"><div class="post_cover left_radius"><a href="/2023/07/30/%E6%9C%AC%E5%9C%B0%E6%90%AD%E5%BB%BAChatGPT/" title="本地搭建ChatGPT">     <img class="post_bg" src="/img/docker.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="本地搭建ChatGPT"></a></div><div class="recent-post-info"><a class="article-title" href="/2023/07/30/%E6%9C%AC%E5%9C%B0%E6%90%AD%E5%BB%BAChatGPT/" title="本地搭建ChatGPT">本地搭建ChatGPT</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time class="post-meta-date-created" datetime="2023-07-30T09:23:20.000Z" title="发表于 2023-07-30 17:23:20">2023-07-30</time><span class="article-meta__separator">|</span><i class="fas fa-history"></i><span class="article-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2023-07-30T10:06:56.301Z" title="更新于 2023-07-30 18:06:56">2023-07-30</time></span><span class="article-meta"><span class="article-meta__separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/docker/">docker</a></span><span class="article-meta tags"><span class="article-meta__separator">|</span><i class="fas fa-tag"></i><a class="article-meta__tags" href="/tags/docker/">docker</a></span></div><div class="content">1.下载并安装Docker 【官网下载】
+2.使用开源项目：潘多拉 (Pandora)
+3.一键安装命令(注意以下步骤如果安装不成功，有可能需要科学上网)：先执行
+1docker pull pengzhile/pandora
+
+然后再执行
+1docker run  -e PANDORA_CLOUD=cloud -e PANDORA_SERVER=0.0.0.0:8899 -p 8899:8899 -d pengzhile/pandora
+
+4.登录自己的chatgpt，然后获取自己的 Access TOKEN：http://chat.openai.com/api/auth/session有了Access TOKEN，则可以半个月之内免登录。
+5.访问本地链接：http://127.0.0.1:8899 即可搞定！
+</div></div></div><div class="recent-post-item"><div class="post_cover right_radius"><a href="/2022/07/17/js%E4%B8%AD%E4%B8%80%E4%B8%AA%E5%A5%BD%E7%8E%A9%E7%9A%84api%E4%B9%8BqueueMicrotask/" title="js中一个好玩的api之queueMicrotask">     <img class="post_bg" src="/img/javascript.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="js中一个好玩的api之queueMicrotask"></a></div><div class="recent-post-info"><a class="article-title" href="/2022/07/17/js%E4%B8%AD%E4%B8%80%E4%B8%AA%E5%A5%BD%E7%8E%A9%E7%9A%84api%E4%B9%8BqueueMicrotask/" title="js中一个好玩的api之queueMicrotask">js中一个好玩的api之queueMicrotask</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time class="post-meta-date-created" datetime="2022-07-17T15:31:10.000Z" title="发表于 2022-07-17 23:31:10">2022-07-17</time><span class="article-meta__separator">|</span><i class="fas fa-history"></i><span class="article-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2023-07-30T09:16:59.584Z" title="更新于 2023-07-30 17:16:59">2023-07-30</time></span><span class="article-meta"><span class="article-meta__separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/JavaScript/">JavaScript</a></span><span class="article-meta tags"><span class="article-meta__separator">|</span><i class="fas fa-tag"></i><a class="article-meta__tags" href="/tags/JavaScript/">JavaScript</a></span></div><div class="content">介绍今天闲来无聊，偶然看到个api – queueMicrotask，其MDN地址为queueMicrotask，觉得挺有意思的，于是想写一篇文章来跟大家分享一下。
+
+用法首先，这个api看字面意思就知道和微任务有关，至于js中的宏任务和微任务，我就不多说了，默认大家都知道这些东西，不了解的读者可以去查阅相关的资料。
+1queueMicrotask(function() &#123;/* ... */&#125;)
+可以看到，此api需要传入一个回调函数作为参数，然后以微任务的形式执行此回调函数，换言之，就是把此回调函数放入此次js事件循环的微任务队列中。
+我们不妨来看几个例子：例子1：
+12345678910console.log(111)setTimeout(() =&gt; &#123;	console.log(222)&#125;)queueMicrotask(() =&gt; &#123;	console.log(333)&#125;)console.log(444)
+那么，此例子中的代码执行结果是什么呢？
+1234111444333222
+你猜对了吗？
+
+兼容性详情见que ...</div></div></div><div class="recent-post-item"><div class="post_cover left_radius"><a href="/2022/06/21/css%E7%94%BB%E6%AD%A3%E6%96%B9%E4%BD%93/" title="css画正方体">     <img class="post_bg" src="/img/css.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="css画正方体"></a></div><div class="recent-post-info"><a class="article-title" href="/2022/06/21/css%E7%94%BB%E6%AD%A3%E6%96%B9%E4%BD%93/" title="css画正方体">css画正方体</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time class="post-meta-date-created" datetime="2022-06-21T08:57:19.000Z" title="发表于 2022-06-21 16:57:19">2022-06-21</time><span class="article-meta__separator">|</span><i class="fas fa-history"></i><span class="article-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2023-07-30T09:16:59.583Z" title="更新于 2023-07-30 17:16:59">2023-07-30</time></span><span class="article-meta"><span class="article-meta__separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/CSS/">CSS</a></span><span class="article-meta tags"><span class="article-meta__separator">|</span><i class="fas fa-tag"></i><a class="article-meta__tags" href="/tags/CSS/">CSS</a></span></div><div class="content">怎样利用css画一个正方体呢？话不多说，直接上代码：首先是html结构：
+12345678910&lt;div class=&quot;app&quot;&gt;  &lt;div class=&quot;box&quot;&gt;    &lt;div class=&quot;inner top&quot;&gt;1&lt;/div&gt;    &lt;div class=&quot;inner bottom&quot;&gt;2&lt;/div&gt;    &lt;div class=&quot;inner left&quot;&gt;3&lt;/div&gt;    &lt;div class=&quot;inner right&quot;&gt;4&lt;/div&gt;    &lt;div class=&quot;inner front&quot;&gt;5&lt;/div&gt;    &lt;div class=&quot;inner back&quot;&gt;6&lt;/div&gt;  &lt;/div&gt;&lt;/div&gt;
+然后是样式：
+12345 ...</div></div></div><div class="recent-post-item"><div class="post_cover right_radius"><a href="/2022/06/19/typescript%E5%AD%A6%E4%B9%A0%E6%97%A5%E8%AE%B0%E3%80%8A%E4%B8%89%E3%80%8B%E5%B8%B8%E7%94%A8%E7%9A%84%E5%86%85%E7%BD%AE%E5%B7%A5%E5%85%B7%E7%B1%BB%E5%9E%8B/" title="typescript学习日记《三》常用的内置工具类型">     <img class="post_bg" src="/img/ts.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="typescript学习日记《三》常用的内置工具类型"></a></div><div class="recent-post-info"><a class="article-title" href="/2022/06/19/typescript%E5%AD%A6%E4%B9%A0%E6%97%A5%E8%AE%B0%E3%80%8A%E4%B8%89%E3%80%8B%E5%B8%B8%E7%94%A8%E7%9A%84%E5%86%85%E7%BD%AE%E5%B7%A5%E5%85%B7%E7%B1%BB%E5%9E%8B/" title="typescript学习日记《三》常用的内置工具类型">typescript学习日记《三》常用的内置工具类型</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time class="post-meta-date-created" datetime="2022-06-18T17:35:43.000Z" title="发表于 2022-06-19 01:35:43">2022-06-19</time><span class="article-meta__separator">|</span><i class="fas fa-history"></i><span class="article-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2023-07-30T09:16:59.587Z" title="更新于 2023-07-30 17:16:59">2023-07-30</time></span><span class="article-meta"><span class="article-meta__separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/typescript/">typescript</a></span><span class="article-meta tags"><span class="article-meta__separator">|</span><i class="fas fa-tag"></i><a class="article-meta__tags" href="/tags/typescript/">typescript</a></span></div><div class="content">RecordRecord&lt;keyType, valueType&gt;Record的内部定义，接收两个泛型参数；Record后面的泛型就是对象键和值的类型。定义一个对象的 key 和 value 类型该怎么做呢？这时候就需要用到 TS 的 Record 了。源码：
+1234type Record&lt;K extends string | number | symbol, T&gt; = &#123;    [P in K]: T;&#125;
+1234567891011interface PageInfo &#123;  title: string;&#125;type Page = &quot;home&quot; | &quot;about&quot; | &quot;contact&quot;;const nav: Record&lt;Page, PageInfo&gt; = &#123;  about: &#123; title: &quot;about&quot; &#125;,  contact: &#123; title: &quot;contact&quot;  ...</div></div></div><div class="recent-post-item"><div class="post_cover left_radius"><a href="/2022/06/18/TypeScript%E5%AD%A6%E4%B9%A0%E6%97%A5%E8%AE%B0%E3%80%8A%E4%BA%8C%E3%80%8B%E7%B1%BB%E5%9E%8B%E5%85%BC%E5%AE%B9%E6%80%A7%EF%BC%88%E5%8D%8F%E5%8F%98%E3%80%81%E9%80%86%E5%8F%98%E3%80%81%E5%8F%8C%E5%8F%98%E5%92%8C%E6%8A%97%E5%8F%98%EF%BC%89/" title="TypeScript学习日记《二》类型兼容性（协变、逆变、双变和抗变）">     <img class="post_bg" src="/img/ts.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="TypeScript学习日记《二》类型兼容性（协变、逆变、双变和抗变）"></a></div><div class="recent-post-info"><a class="article-title" href="/2022/06/18/TypeScript%E5%AD%A6%E4%B9%A0%E6%97%A5%E8%AE%B0%E3%80%8A%E4%BA%8C%E3%80%8B%E7%B1%BB%E5%9E%8B%E5%85%BC%E5%AE%B9%E6%80%A7%EF%BC%88%E5%8D%8F%E5%8F%98%E3%80%81%E9%80%86%E5%8F%98%E3%80%81%E5%8F%8C%E5%8F%98%E5%92%8C%E6%8A%97%E5%8F%98%EF%BC%89/" title="TypeScript学习日记《二》类型兼容性（协变、逆变、双变和抗变）">TypeScript学习日记《二》类型兼容性（协变、逆变、双变和抗变）</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time class="post-meta-date-created" datetime="2022-06-18T09:25:24.000Z" title="发表于 2022-06-18 17:25:24">2022-06-18</time><span class="article-meta__separator">|</span><i class="fas fa-history"></i><span class="article-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2023-07-30T09:16:59.583Z" title="更新于 2023-07-30 17:16:59">2023-07-30</time></span><span class="article-meta"><span class="article-meta__separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/typescript/">typescript</a></span><span class="article-meta tags"><span class="article-meta__separator">|</span><i class="fas fa-tag"></i><a class="article-meta__tags" href="/tags/typescript/">typescript</a></span></div><div class="content">类型父子关系的判断像 java 里面的类型都是通过 extends 继承的，如果 A extends B，那 A 就是 B 的子类型。这种叫做名义类型系统（nominal type）。
+而 ts 里不看这个，只要结构上是一致的，那么就可以确定父子关系，这种叫做结构类型系统（structual type）。
+TypeScript结构化类型系统的基本规则是，如果x要兼容y，那么y至少具有与x相同的属性。ts 类型兼容：当一个类型 Y 的值可以赋值给另一个类型 X 的值时， 我们就可以说类型 X 兼容类型 Y。也就是说两者在结构上是一致的，而不一定非得通过 extends 的方式继承而来；接口的兼容性：x = y 只要目标类型 X 的值x中声明的属性变量在源类型 Y 的值y中都存在就是兼容的（ Y 中的类型可以比 X 中的多，但是不能少）；函数的兼容性：x = y  Y 的每个参数必须能在 X 里找到对应类型的参数，参数的名字相同与否无所谓，只看它们的类型（参数可以少但是不能多。与接口的兼容性有区别）。
+支持子类对象赋值给父类对象的情况称之为协变；反之，支持父类对象赋值给子类对象的情况称之为 ...</div></div></div><div class="recent-post-item"><div class="post_cover right_radius"><a href="/2022/06/18/typescript%E5%AD%A6%E4%B9%A0%E6%97%A5%E8%AE%B0%E3%80%8A%E4%B8%80%E3%80%8B%E7%89%B9%E6%AE%8A%E7%AC%A6%E5%8F%B7%E7%9A%84%E5%90%AB%E4%B9%89/" title="typescript学习日记《一》特殊符号的含义">     <img class="post_bg" src="/img/ts.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="typescript学习日记《一》特殊符号的含义"></a></div><div class="recent-post-info"><a class="article-title" href="/2022/06/18/typescript%E5%AD%A6%E4%B9%A0%E6%97%A5%E8%AE%B0%E3%80%8A%E4%B8%80%E3%80%8B%E7%89%B9%E6%AE%8A%E7%AC%A6%E5%8F%B7%E7%9A%84%E5%90%AB%E4%B9%89/" title="typescript学习日记《一》特殊符号的含义">typescript学习日记《一》特殊符号的含义</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time class="post-meta-date-created" datetime="2022-06-18T08:34:35.000Z" title="发表于 2022-06-18 16:34:35">2022-06-18</time><span class="article-meta__separator">|</span><i class="fas fa-history"></i><span class="article-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2023-07-30T09:16:59.586Z" title="更新于 2023-07-30 17:16:59">2023-07-30</time></span><span class="article-meta"><span class="article-meta__separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/typescript/">typescript</a></span><span class="article-meta tags"><span class="article-meta__separator">|</span><i class="fas fa-tag"></i><a class="article-meta__tags" href="/tags/typescript/">typescript</a></span></div><div class="content">?. 可选链 遇到 null 和 undefined 可以立即停止表达式的运行;
+?? 空值合并运算符 当左侧操作数为 null 或 undefined 时，其返回右侧的操作数，否则返回左侧的操作数;
+! 非空断言运算符 x! 将从 x 值域中排除 null 和 undefined;
+!.  在变量名后添加，可以断言排除undefined和null类型;
+_ 数字分割符 分隔符不会改变数值字面量的值，使人更容易读懂数字 1_101_324 = 1101324;
+** 求幂,比如3**2 = 9;
+</div></div></div><div class="recent-post-item"><div class="post_cover left_radius"><a href="/2022/05/10/http%E5%88%A4%E6%96%AD%E7%BC%93%E5%AD%98%E6%98%AF%E5%90%A6%E6%9C%89%E6%95%88%EF%BC%8C%E4%B8%BA%E4%BB%80%E4%B9%88%E6%9C%89%E4%BA%86last-modified%E8%BF%98%E9%9C%80%E8%A6%81etag%E5%91%A2%EF%BC%9F/" title="http判断缓存是否有效，为什么有了last-modified还需要etag呢？">     <img class="post_bg" src="/img/HTTP.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="http判断缓存是否有效，为什么有了last-modified还需要etag呢？"></a></div><div class="recent-post-info"><a class="article-title" href="/2022/05/10/http%E5%88%A4%E6%96%AD%E7%BC%93%E5%AD%98%E6%98%AF%E5%90%A6%E6%9C%89%E6%95%88%EF%BC%8C%E4%B8%BA%E4%BB%80%E4%B9%88%E6%9C%89%E4%BA%86last-modified%E8%BF%98%E9%9C%80%E8%A6%81etag%E5%91%A2%EF%BC%9F/" title="http判断缓存是否有效，为什么有了last-modified还需要etag呢？">http判断缓存是否有效，为什么有了last-modified还需要etag呢？</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time class="post-meta-date-created" datetime="2022-05-10T06:05:41.000Z" title="发表于 2022-05-10 14:05:41">2022-05-10</time><span class="article-meta__separator">|</span><i class="fas fa-history"></i><span class="article-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2023-07-30T09:16:59.584Z" title="更新于 2023-07-30 17:16:59">2023-07-30</time></span><span class="article-meta"><span class="article-meta__separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/HTTP/">HTTP</a></span><span class="article-meta tags"><span class="article-meta__separator">|</span><i class="fas fa-tag"></i><a class="article-meta__tags" href="/tags/HTTP/">HTTP</a></span></div><div class="content">If-Modified-Since：作用： 把浏览器端缓存页面的最后修改时间发送到服务器去，服务器会把这个时间与服务器上实际文件的最后修改时间进行对比。如果时间一致，那么返回304，客户端就直接使用本地缓存文件。如果时间不一致，就会返回200和新的文件内容。客户端接到之后，会丢弃旧文件，把新文件缓存起来，并显示在浏览器中.
+
+ETag：是实体标签（Entity Tag）的缩写， 根据实体内容生成的一段hash字符串（类似于MD5或者SHA1之后的结果），可以标识资源的状态。 当资源发送改变时，ETag也随之发生变化。
+ETag是Web服务端产生的，然后发给浏览器客户端。浏览器客户端是不用关心Etag是如何产生的。
+问题是，我们知道last-modified可以用来判断浏览器的本地缓存是否有效，那为什么还要使用ETag呢？ 主要是为了解决Last-Modified 无法解决的一些问题：
+
+某些服务器不能精确得到文件的最后修改时间， 这样就无法通过最后修改时间来判断文件是否更新了。
+
+某些文件的修改非常频繁，在秒以下的时间内进行修改. Last-Modified只能精确到秒。
+
+一些文件的 ...</div></div></div><div class="recent-post-item"><div class="post_cover right_radius"><a href="/2022/01/22/postcss%E7%AE%80%E4%BB%8B/" title="postcss简介">     <img class="post_bg" src="/img/css.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="postcss简介"></a></div><div class="recent-post-info"><a class="article-title" href="/2022/01/22/postcss%E7%AE%80%E4%BB%8B/" title="postcss简介">postcss简介</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time class="post-meta-date-created" datetime="2022-01-22T04:09:25.000Z" title="发表于 2022-01-22 12:09:25">2022-01-22</time><span class="article-meta__separator">|</span><i class="fas fa-history"></i><span class="article-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2023-07-30T09:16:59.585Z" title="更新于 2023-07-30 17:16:59">2023-07-30</time></span><span class="article-meta"><span class="article-meta__separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/CSS/">CSS</a></span><span class="article-meta tags"><span class="article-meta__separator">|</span><i class="fas fa-tag"></i><a class="article-meta__tags" href="/tags/CSS/">CSS</a></span></div><div class="content">前言css预处理器在目前的开发中是很受欢迎的，但是它们也有一些缺点。在今天的介绍中，我们将探讨postcss的优势以及它是如何工作的，还有其一些丰富而且实用的插件。
+css预处理器的价值和局限性大多数CSS开发人员都非常熟悉css预处理器，像sass、less、stylus等，以及伴随着这些预处理器出现的一些概念，比如file partials, nesting, variables 和 mixins等。随着css的发展，预处理器的一些功能正在渐渐的被原生css所实现，但是还有大量非常实用的功能对于开发者开发大型项目以及维护保持代码的一致性方面是及其有用的。
+你可能很难想象没有 CSS 预处理器的生活，但它也有缺点：
+
+预处理器不可扩展或受限。大多数预处理器都是一个黑匣子，它为您提供一组特定的受支持功能。可以编写自定义功能，但超出该工具范围的功能仍然是不可能的——例如将 SVG 内联为背景图像。同样，您不能阻止开发人员使用您宁愿避免使用的选项，例如@extend深度嵌套。Linting 可以提供帮助，但它不会阻止预处理器编译有效文件。
+预处理器提供自己的语法。预处理器代码可能类似于 C ...</div></div></div><div class="recent-post-item"><div class="post_cover left_radius"><a href="/2022/01/15/react-typescript%E6%AD%A3%E7%A1%AE%E7%9A%84%E5%BC%80%E5%8F%91%E5%A7%BF%E5%8A%BF%E4%B9%8B%E6%AD%A3%E7%A1%AE%E4%BD%BF%E7%94%A8hooks%E4%B9%8BuseReducer/" title="react+typescript正确的开发姿势之正确使用hooks之useReducer">     <img class="post_bg" src="/img/ts+react.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="react+typescript正确的开发姿势之正确使用hooks之useReducer"></a></div><div class="recent-post-info"><a class="article-title" href="/2022/01/15/react-typescript%E6%AD%A3%E7%A1%AE%E7%9A%84%E5%BC%80%E5%8F%91%E5%A7%BF%E5%8A%BF%E4%B9%8B%E6%AD%A3%E7%A1%AE%E4%BD%BF%E7%94%A8hooks%E4%B9%8BuseReducer/" title="react+typescript正确的开发姿势之正确使用hooks之useReducer">react+typescript正确的开发姿势之正确使用hooks之useReducer</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time class="post-meta-date-created" datetime="2022-01-15T10:06:17.000Z" title="发表于 2022-01-15 18:06:17">2022-01-15</time><span class="article-meta__separator">|</span><i class="fas fa-history"></i><span class="article-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2023-07-30T09:16:59.585Z" title="更新于 2023-07-30 17:16:59">2023-07-30</time></span><span class="article-meta"><span class="article-meta__separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/React/">React</a></span><span class="article-meta tags"><span class="article-meta__separator">|</span><i class="fas fa-tag"></i><a class="article-meta__tags" href="/tags/React/">React</a></span></div><div class="content">在react + typescript项目中正确使用useReducer我们在Home页面增加一个组件Counter，用来保存一个数值count，来记录点击按钮的次数，如下：
+123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354// Counter.tsximport React, &#123; useReducer &#125; from &#x27;react&#x27;type StateType = &#123;    count: number;&#125;type ActionType = &#123;    type: string;    payload: number;&#125;const initialState = &#123;count: 0&#125;function countReducer(state: StateType, action: ActionType) &#123;    switch (actio ...</div></div></div><div class="recent-post-item"><div class="post_cover right_radius"><a href="/2022/01/15/react-typescript%E6%AD%A3%E7%A1%AE%E7%9A%84%E5%BC%80%E5%8F%91%E5%A7%BF%E5%8A%BF%E4%B9%8B%E6%AD%A3%E7%A1%AE%E4%BD%BF%E7%94%A8hooks%E4%B9%8BuseState/" title="react+typescript正确的开发姿势之正确使用hooks之useState">     <img class="post_bg" src="/img/ts+react.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="react+typescript正确的开发姿势之正确使用hooks之useState"></a></div><div class="recent-post-info"><a class="article-title" href="/2022/01/15/react-typescript%E6%AD%A3%E7%A1%AE%E7%9A%84%E5%BC%80%E5%8F%91%E5%A7%BF%E5%8A%BF%E4%B9%8B%E6%AD%A3%E7%A1%AE%E4%BD%BF%E7%94%A8hooks%E4%B9%8BuseState/" title="react+typescript正确的开发姿势之正确使用hooks之useState">react+typescript正确的开发姿势之正确使用hooks之useState</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time class="post-meta-date-created" datetime="2022-01-15T10:04:36.000Z" title="发表于 2022-01-15 18:04:36">2022-01-15</time><span class="article-meta__separator">|</span><i class="fas fa-history"></i><span class="article-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2023-07-30T09:16:59.586Z" title="更新于 2023-07-30 17:16:59">2023-07-30</time></span><span class="article-meta"><span class="article-meta__separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/React/">React</a></span><span class="article-meta tags"><span class="article-meta__separator">|</span><i class="fas fa-tag"></i><a class="article-meta__tags" href="/tags/React/">React</a></span></div><div class="content">写在前面要想在react + typescript 项目中正确的使用 hooks ，请务必掌握泛型的使用，关于泛型的讲解，我在上一篇博文中详细的进行了介绍，如果你还不了解 typescript 中的泛型请看上一篇：正确认识typescript中的泛型。
+如何结合typescript正确使用hooks在react中使用函数式组件，难免会使用到hooks，hooks赋予了函数式组件可以像 class 组件那样拥有状态的能力，那么如何结合typescript正确的使用hooks呢？
+在react + typescript项目中正确使用useState如果想编写一个 Header 组件，使其具备一个登录和退出的功能，登录的时候，显示一些提示已经登录的文字，退出的时候显示欢迎的文字，那么我们很容易知道：如果使用函数式组件来编写此 Header 组件，那么就一定会用到 useState ，因为登录与否的状态是该组件自身的状态，所以就会用到hooks中的 useState 来赋予函数式组件状态。如下：
+12345678910111213141516171819202122// Header.tsxi ...</div></div></div><nav id="pagination"><div class="pagination"><span class="page-number current">1</span><a class="page-number" href="/page/2/#content-inner">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/8/#content-inner">8</a><a class="extend next" rel="next" href="/page/2/#content-inner"><i class="fas fa-chevron-right fa-fw"></i></a></div></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/img/webRambler.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">webRambler</div><div class="author-info__description">一个爱生活爱code的程序猿</div></div><div class="card-info-data"><div class="card-info-data-item is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">77</div></a></div><div class="card-info-data-item is-center"><a href="/tags/"><div class="headline">标签</div><div class="length-num">17</div></a></div><div class="card-info-data-item is-center"><a href="/categories/"><div class="headline">分类</div><div class="length-num">17</div></a></div></div><a class="button--animated" id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/webRambler"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/webRambler" target="_blank" title="Github"><i class="fab fa-github"></i></a><a class="social-icon" href="mailto:talent1203@163.com" target="_blank" title="Email"><i class="fas fa-envelope"></i></a><a class="social-icon" href="https://blog.csdn.net/weixin_40920953" target="_blank" title="CSDN"><i class="far fa-newspaper"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn card-announcement-animation"></i><span>公告</span></div><div class="announcement_content">欢迎来到webRambler的博客</div></div><div class="sticky_layout"><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2023/07/30/%E6%9C%AC%E5%9C%B0%E6%90%AD%E5%BB%BAChatGPT/" title="本地搭建ChatGPT"><img src="/img/docker.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="本地搭建ChatGPT"/></a><div class="content"><a class="title" href="/2023/07/30/%E6%9C%AC%E5%9C%B0%E6%90%AD%E5%BB%BAChatGPT/" title="本地搭建ChatGPT">本地搭建ChatGPT</a><time datetime="2023-07-30T09:23:20.000Z" title="发表于 2023-07-30 17:23:20">2023-07-30</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/07/17/js%E4%B8%AD%E4%B8%80%E4%B8%AA%E5%A5%BD%E7%8E%A9%E7%9A%84api%E4%B9%8BqueueMicrotask/" title="js中一个好玩的api之queueMicrotask"><img src="/img/javascript.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="js中一个好玩的api之queueMicrotask"/></a><div class="content"><a class="title" href="/2022/07/17/js%E4%B8%AD%E4%B8%80%E4%B8%AA%E5%A5%BD%E7%8E%A9%E7%9A%84api%E4%B9%8BqueueMicrotask/" title="js中一个好玩的api之queueMicrotask">js中一个好玩的api之queueMicrotask</a><time datetime="2022-07-17T15:31:10.000Z" title="发表于 2022-07-17 23:31:10">2022-07-17</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/06/21/css%E7%94%BB%E6%AD%A3%E6%96%B9%E4%BD%93/" title="css画正方体"><img src="/img/css.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="css画正方体"/></a><div class="content"><a class="title" href="/2022/06/21/css%E7%94%BB%E6%AD%A3%E6%96%B9%E4%BD%93/" title="css画正方体">css画正方体</a><time datetime="2022-06-21T08:57:19.000Z" title="发表于 2022-06-21 16:57:19">2022-06-21</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/06/19/typescript%E5%AD%A6%E4%B9%A0%E6%97%A5%E8%AE%B0%E3%80%8A%E4%B8%89%E3%80%8B%E5%B8%B8%E7%94%A8%E7%9A%84%E5%86%85%E7%BD%AE%E5%B7%A5%E5%85%B7%E7%B1%BB%E5%9E%8B/" title="typescript学习日记《三》常用的内置工具类型"><img src="/img/ts.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="typescript学习日记《三》常用的内置工具类型"/></a><div class="content"><a class="title" href="/2022/06/19/typescript%E5%AD%A6%E4%B9%A0%E6%97%A5%E8%AE%B0%E3%80%8A%E4%B8%89%E3%80%8B%E5%B8%B8%E7%94%A8%E7%9A%84%E5%86%85%E7%BD%AE%E5%B7%A5%E5%85%B7%E7%B1%BB%E5%9E%8B/" title="typescript学习日记《三》常用的内置工具类型">typescript学习日记《三》常用的内置工具类型</a><time datetime="2022-06-18T17:35:43.000Z" title="发表于 2022-06-19 01:35:43">2022-06-19</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/06/18/TypeScript%E5%AD%A6%E4%B9%A0%E6%97%A5%E8%AE%B0%E3%80%8A%E4%BA%8C%E3%80%8B%E7%B1%BB%E5%9E%8B%E5%85%BC%E5%AE%B9%E6%80%A7%EF%BC%88%E5%8D%8F%E5%8F%98%E3%80%81%E9%80%86%E5%8F%98%E3%80%81%E5%8F%8C%E5%8F%98%E5%92%8C%E6%8A%97%E5%8F%98%EF%BC%89/" title="TypeScript学习日记《二》类型兼容性（协变、逆变、双变和抗变）"><img src="/img/ts.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="TypeScript学习日记《二》类型兼容性（协变、逆变、双变和抗变）"/></a><div class="content"><a class="title" href="/2022/06/18/TypeScript%E5%AD%A6%E4%B9%A0%E6%97%A5%E8%AE%B0%E3%80%8A%E4%BA%8C%E3%80%8B%E7%B1%BB%E5%9E%8B%E5%85%BC%E5%AE%B9%E6%80%A7%EF%BC%88%E5%8D%8F%E5%8F%98%E3%80%81%E9%80%86%E5%8F%98%E3%80%81%E5%8F%8C%E5%8F%98%E5%92%8C%E6%8A%97%E5%8F%98%EF%BC%89/" title="TypeScript学习日记《二》类型兼容性（协变、逆变、双变和抗变）">TypeScript学习日记《二》类型兼容性（协变、逆变、双变和抗变）</a><time datetime="2022-06-18T09:25:24.000Z" title="发表于 2022-06-18 17:25:24">2022-06-18</time></div></div></div></div><div class="card-widget" id="card-newest-comments"><div class="item-headline"><i class="fas fa-comment-dots"></i><span>最新评论</span></div><div class="aside-list"><span>正在加载中...</span></div></div><div class="card-widget card-categories"><div class="item-headline">
+            <i class="fas fa-folder-open"></i>
+            <span>分类</span>
+            <a class="card-more-btn" href="/categories/" title="查看更多">
+    <i class="fas fa-angle-right"></i></a>
+            </div>
+            <ul class="card-category-list" id="aside-cat-list">
+            <li class="card-category-list-item "><a class="card-category-list-link" href="/categories/CSS/"><span class="card-category-list-name">CSS</span><span class="card-category-list-count">5</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/Git/"><span class="card-category-list-name">Git</span><span class="card-category-list-count">3</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/HTTP/"><span class="card-category-list-name">HTTP</span><span class="card-category-list-count">7</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/JavaScript/"><span class="card-category-list-name">JavaScript</span><span class="card-category-list-count">17</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/Node/"><span class="card-category-list-name">Node</span><span class="card-category-list-count">1</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/React/"><span class="card-category-list-name">React</span><span class="card-category-list-count">5</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/Vue/"><span class="card-category-list-name">Vue</span><span class="card-category-list-count">9</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/docker/"><span class="card-category-list-name">docker</span><span class="card-category-list-count">1</span></a></li>
+            </ul></div><div class="card-widget card-tags"><div class="item-headline"><i class="fas fa-tags"></i><span>标签</span></div><div class="card-tag-cloud"><a href="/tags/HTTP/" style="font-size: 1.36em; color: rgb(120, 198, 77)">HTTP</a><a href="/tags/JavaScript/" style="font-size: 1.45em; color: rgb(16, 128, 2)">JavaScript</a><a href="/tags/Git/" style="font-size: 1.24em; color: rgb(185, 110, 158)">Git</a><a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 1.41em; color: rgb(123, 176, 72)">算法</a><a href="/tags/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/" style="font-size: 1.24em; color: rgb(113, 48, 6)">性能优化</a><a href="/tags/%E6%89%8B%E5%86%99%E4%BB%A3%E7%A0%81/" style="font-size: 1.15em; color: rgb(150, 15, 198)">手写代码</a><a href="/tags/%E6%AD%A3%E5%88%99/" style="font-size: 1.19em; color: rgb(60, 0, 68)">正则</a><a href="/tags/typescript/" style="font-size: 1.28em; color: rgb(85, 34, 80)">typescript</a><a href="/tags/npm/" style="font-size: 1.28em; color: rgb(188, 39, 107)">npm</a><a href="/tags/CSS/" style="font-size: 1.32em; color: rgb(53, 175, 194)">CSS</a><a href="/tags/Node/" style="font-size: 1.15em; color: rgb(153, 46, 27)">Node</a><a href="/tags/React/" style="font-size: 1.32em; color: rgb(49, 67, 138)">React</a><a href="/tags/Vue/" style="font-size: 1.41em; color: rgb(22, 101, 120)">Vue</a><a href="/tags/webpack/" style="font-size: 1.24em; color: rgb(4, 86, 167)">webpack</a><a href="/tags/%E7%BC%96%E8%BE%91%E5%99%A8/" style="font-size: 1.19em; color: rgb(27, 41, 69)">编辑器</a><a href="/tags/docker/" style="font-size: 1.15em; color: rgb(127, 107, 167)">docker</a><a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" style="font-size: 1.15em; color: rgb(128, 31, 74)">设计模式</a></div></div><div class="card-widget card-archives"><div class="item-headline"><i class="fas fa-archive"></i><span>归档</span></div><ul class="card-archive-list"><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2023/07/"><span class="card-archive-list-date">七月 2023</span><span class="card-archive-list-count">1</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2022/07/"><span class="card-archive-list-date">七月 2022</span><span class="card-archive-list-count">1</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2022/06/"><span class="card-archive-list-date">六月 2022</span><span class="card-archive-list-count">4</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2022/05/"><span class="card-archive-list-date">五月 2022</span><span class="card-archive-list-count">1</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2022/01/"><span class="card-archive-list-date">一月 2022</span><span class="card-archive-list-count">15</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2021/12/"><span class="card-archive-list-date">十二月 2021</span><span class="card-archive-list-count">55</span></a></li></ul></div><div class="card-widget card-webinfo"><div class="item-headline"><i class="fas fa-chart-line"></i><span>网站资讯</span></div><div class="webinfo"><div class="webinfo-item"><div class="item-name">文章数目 :</div><div class="item-count">77</div></div><div class="webinfo-item"><div class="item-name">已运行时间 :</div><div class="item-count" id="runtimeshow" data-publishDate="2023-07-30T11:24:27.671Z"></div></div><div class="webinfo-item"><div class="item-name">本站访客数 :</div><div class="item-count" id="busuanzi_value_site_uv"></div></div><div class="webinfo-item"><div class="item-name">本站总访问量 :</div><div class="item-count" id="busuanzi_value_site_pv"></div></div><div class="webinfo-item"><div class="item-name">最后更新时间 :</div><div class="item-count" id="last-push-date" data-lastPushDate="2023-07-30T11:24:27.671Z"></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2023 By webRambler</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div class="footer_custom_text">欢迎来到<a href="https://webrambler.github.io/">webRambler</a>的博客!</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="font-plus" type="button" title="放大字体"><i class="fas fa-plus"></i></button><button id="font-minus" type="button" title="缩小字体"><i class="fas fa-minus"></i></button><button id="translateLink" type="button" title="简繁转换">繁</button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div id="local-search"><div class="search-dialog"><div class="search-dialog__title" id="local-search-title">本地搜索</div><div id="local-input-panel"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div></div><hr/><div id="local-search-results"></div><span class="search-close-button"><i class="fas fa-times"></i></span></div><div id="search-mask"></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/tw_cn.js"></script><script src="/js/search/local-search.js"></script><div class="js-pjax"><script>function subtitleType () {
+  if (true) { 
+    var typed = new Typed("#subtitle", {
+      strings: "海内存知己，天涯若比邻！,分享技术的点点滴滴......,Talent is enduring patience!".split(","),
+      startDelay: 300,
+      typeSpeed: 150,
+      loop: true,
+      backSpeed: 50
+    })
+  } else {
+    document.getElementById("subtitle").innerHTML = '海内存知己，天涯若比邻！'
+  }
+}
+
+if (true) {
+  if (typeof Typed === 'function') {
+    subtitleType()
+  } else {
+    getScript('https://cdn.jsdelivr.net/npm/typed.js/lib/typed.min.js').then(subtitleType)
+  }
+} else {
+  subtitleType()
+}</script></div><script src="https://cdn.jsdelivr.net/npm/blueimp-md5@2.17.0/js/md5.min.js"></script><script>window.addEventListener('load', () => {
+  const changeContent = (content) => {
+    if (content === '') return content
+
+    content = content.replace(/<img.*?src="(.*?)"?[^\>]+>/ig, '[图片]') // replace image link
+    content = content.replace(/<a[^>]+?href=["']?([^"']+)["']?[^>]*>([^<]+)<\/a>/gi, '[链接]') // replace url
+    content = content.replace(/<pre><code>.*?<\/pre>/gi, '[代码]') // replace code
+    content = content.replace(/<[^>]+>/g,"") // remove html tag
+
+    if (content.length > 150) {
+      content = content.substring(0,150) + '...'
+    }
+    return content
+  }
+
+  const getIcon = (icon, mail) => {
+    if (icon) return icon
+    let defaultIcon = '?d=monsterid'
+    let iconUrl = `https://gravatar.loli.net/avatar/${md5(mail.toLowerCase()) + defaultIcon}`
+    return iconUrl
+  }
+
+  const generateHtml = array => {
+    let result = ''
+
+    if (array.length) {
+      for (let i = 0; i < array.length; i++) {
+        result += '<div class=\'aside-list-item\'>'
+
+        if (true) {
+          const name = 'src'
+          result += `<a href='${array[i].url}' class='thumbnail'><img ${name}='${array[i].avatar}' alt='${array[i].nick}'></a>`
+        }
+
+        result += `<div class='content'>
+        <a class='comment' href='${array[i].url}'>${array[i].content}</a>
+        <div class='name'><span>${array[i].nick} / </span><time datetime="${array[i].date}">${btf.diffDate(array[i].date, true)}</time></div>
+        </div></div>`
+      }
+    } else {
+      result += '没有评论'
+    }
+
+    let $dom = document.querySelector('#card-newest-comments .aside-list')
+    $dom.innerHTML= result
+    window.lazyLoadInstance && window.lazyLoadInstance.update()
+    window.pjax && window.pjax.refresh($dom)
+  }
+
+  const getComment = () => {
+    const serverURL = 'https://goynj29x.lc-cn-n1-shared.com'
+
+    var settings = {
+      "method": "GET",
+      "headers": {
+        "X-LC-Id": 'GOyNj29x73bx1upNOHjcnbfP-gzGzoHsz',
+        "X-LC-Key": 'mPtn3xc7mQtKwuOvfUmNdY1X',
+        "Content-Type": "application/json"
+      },
+    }
+
+    fetch(`${serverURL}/1.1/classes/Comment?limit=6&order=-createdAt`,settings)
+      .then(response => response.json())
+      .then(data => {
+        const valineArray = data.results.map(function (e) {
+          return {
+            'avatar': getIcon(e.QQAvatar, e.mail),
+            'content': changeContent(e.comment),
+            'nick': e.nick,
+            'url': e.url + '#' + e.objectId,
+            'date': e.updatedAt,
+          }
+        })
+        saveToLocal.set('valine-newest-comments', JSON.stringify(valineArray), 10/(60*24))
+        generateHtml(valineArray)
+      }).catch(e => {
+        const $dom = document.querySelector('#card-newest-comments .aside-list')
+        $dom.innerHTML= "无法获取评论，请确认相关配置是否正确"
+      }) 
+  }
+
+  const newestCommentInit = () => {
+    if (document.querySelector('#card-newest-comments .aside-list')) {
+      const data = saveToLocal.get('valine-newest-comments')
+      if (data) {
+        generateHtml(JSON.parse(data))
+      } else {
+        getComment()
+      }
+    }
+  }
+
+  newestCommentInit()
+  document.addEventListener('pjax:complete', newestCommentInit)
+})</script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>

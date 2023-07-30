@@ -1,0 +1,210 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>JavaScript原型之对象属性设置与屏蔽 | webRambler-blog</title><meta name="keywords" content="JavaScript"><meta name="author" content="webRambler"><meta name="copyright" content="webRambler"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="前言JavaScript和面向类的语言不同，在ES6出现之前，它其实并没有类来作为对象的抽象模式，所以在描述对象中不免会遇到一个特别的词语，没错就是原型prototype，今天我们讨论的主角也是它，今天我们就来讨论JavaScript原型中的冰山一角。 三道面试题让我们先来看三道面试题，慢慢的打开你的视野：先列出三道题目都会用到的对象objProto： 1const objProto &#x3D; &amp;#12">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JavaScript原型之对象属性设置与屏蔽">
+<meta property="og:url" content="https://webrambler.github.io/2022/01/01/JavaScript%E5%8E%9F%E5%9E%8B%E4%B9%8B%E5%AF%B9%E8%B1%A1%E5%B1%9E%E6%80%A7%E8%AE%BE%E7%BD%AE%E4%B8%8E%E5%B1%8F%E8%94%BD/index.html">
+<meta property="og:site_name" content="webRambler-blog">
+<meta property="og:description" content="前言JavaScript和面向类的语言不同，在ES6出现之前，它其实并没有类来作为对象的抽象模式，所以在描述对象中不免会遇到一个特别的词语，没错就是原型prototype，今天我们讨论的主角也是它，今天我们就来讨论JavaScript原型中的冰山一角。 三道面试题让我们先来看三道面试题，慢慢的打开你的视野：先列出三道题目都会用到的对象objProto： 1const objProto &#x3D; &amp;#12">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://webrambler.github.io/img/javascript.jpg">
+<meta property="article:published_time" content="2021-12-31T20:15:29.000Z">
+<meta property="article:modified_time" content="2023-07-30T09:16:59.581Z">
+<meta property="article:author" content="webRambler">
+<meta property="article:tag" content="JavaScript">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://webrambler.github.io/img/javascript.jpg"><link rel="shortcut icon" href="/img/favicon.ico"><link rel="canonical" href="https://webrambler.github.io/2022/01/01/JavaScript%E5%8E%9F%E5%9E%8B%E4%B9%8B%E5%AF%B9%E8%B1%A1%E5%B1%9E%E6%80%A7%E8%AE%BE%E7%BD%AE%E4%B8%8E%E5%B1%8F%E8%94%BD/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"search.xml","languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: {"defaultEncoding":2,"translateDelay":0,"msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"簡"},
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '天',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: {"limitCount":50,"languages":{"author":"作者: webRambler","link":"链接: ","source":"来源: webRambler-blog","info":"著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。"}},
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    jQuery: 'https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js',
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+    },
+    fancybox: {
+      js: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css'
+    }
+  },
+  isPhotoFigcaption: true,
+  islazyload: false,
+  isanchor: true
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'JavaScript原型之对象属性设置与屏蔽',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2023-07-30 17:16:59'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const fontSizeVal = saveToLocal.get('global-font-size')
+    if (fontSizeVal !== undefined) {
+      document.documentElement.style.setProperty('--global-font-size', fontSizeVal + 'px')
+    }
+    
+    const detectApple = () => {
+      if (GLOBAL_CONFIG_SITE.isHome && /iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><meta name="generator" content="Hexo 5.4.0"></head><body><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/img/webRambler.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">文章</div><div class="length-num">77</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/tags/"><div class="headline">标签</div><div class="length-num">17</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/categories/"><div class="headline">分类</div><div class="length-num">17</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 目录</span></a></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 清单</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> Music</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> Movie</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 链接</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div><div class="menus_item"><a class="site-page" href="/messageboard/"><i class="fa-fw fa fa-comments"></i><span> 留言板</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('/img/javascript.jpg')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">webRambler-blog</a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 目录</span></a></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 清单</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> Music</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> Movie</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 链接</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div><div class="menus_item"><a class="site-page" href="/messageboard/"><i class="fa-fw fa fa-comments"></i><span> 留言板</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">JavaScript原型之对象属性设置与屏蔽</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2021-12-31T20:15:29.000Z" title="发表于 2022-01-01 04:15:29">2022-01-01</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2023-07-30T09:16:59.581Z" title="更新于 2023-07-30 17:16:59">2023-07-30</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/JavaScript/">JavaScript</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="JavaScript原型之对象属性设置与屏蔽"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span><span class="post-meta-separator">|</span><span class="post-meta-commentcount"><i class="far fa-comments fa-fw post-meta-icon"></i><span class="post-meta-label">评论数:</span><a href="/2022/01/01/JavaScript%E5%8E%9F%E5%9E%8B%E4%B9%8B%E5%AF%B9%E8%B1%A1%E5%B1%9E%E6%80%A7%E8%AE%BE%E7%BD%AE%E4%B8%8E%E5%B1%8F%E8%94%BD/#post-comment" itemprop="discussionUrl"><span class="valine-comment-count" data-xid="/2022/01/01/JavaScript%E5%8E%9F%E5%9E%8B%E4%B9%8B%E5%AF%B9%E8%B1%A1%E5%B1%9E%E6%80%A7%E8%AE%BE%E7%BD%AE%E4%B8%8E%E5%B1%8F%E8%94%BD/" itemprop="commentCount"></span></a></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>JavaScript和面向类的语言不同，在ES6出现之前，它其实并没有类来作为对象的抽象模式，所以在描述对象中不免会遇到一个特别的词语，没错就是原型prototype，今天我们讨论的主角也是它，今天我们就来讨论JavaScript原型中的冰山一角。</p>
+<h2 id="三道面试题"><a href="#三道面试题" class="headerlink" title="三道面试题"></a>三道面试题</h2><p>让我们先来看三道面试题，慢慢的打开你的视野：<br>先列出三道题目都会用到的对象objProto：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> objProto = &#123;&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 题目一</span></span><br><span class="line">objProto.a = <span class="number">23</span></span><br><span class="line"><span class="keyword">const</span> obj = <span class="built_in">Object</span>.create(objProto)</span><br><span class="line">obj.a = <span class="number">24</span></span><br><span class="line"><span class="built_in">console</span>.log(obj.a)</span><br><span class="line"><span class="built_in">console</span>.log(obj.hasOwnProperty(<span class="string">&#x27;a&#x27;</span>))</span><br></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 题目二</span></span><br><span class="line"><span class="comment">// 设置objProto对象的a属性为只读属性</span></span><br><span class="line"><span class="built_in">Object</span>.defineProperty(objProto, <span class="string">&#x27;a&#x27;</span>, &#123;</span><br><span class="line">	<span class="attr">enumerable</span>: <span class="literal">true</span>,</span><br><span class="line">  	<span class="attr">configurable</span>: <span class="literal">true</span>,</span><br><span class="line">	<span class="attr">value</span>: <span class="number">23</span>,</span><br><span class="line">	<span class="attr">writeable</span>: <span class="literal">false</span></span><br><span class="line">&#125;)</span><br><span class="line"><span class="keyword">const</span> obj = <span class="built_in">Object</span>.create(objProto)</span><br><span class="line">obj.a = <span class="number">24</span></span><br><span class="line"><span class="built_in">console</span>.log(obj.a)</span><br><span class="line"><span class="built_in">console</span>.log(obj.hasOwnProperty(<span class="string">&#x27;a&#x27;</span>))</span><br></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 题目三</span></span><br><span class="line"><span class="built_in">Object</span>.defineProperty(objProto, <span class="string">&#x27;a&#x27;</span>, &#123;</span><br><span class="line">	<span class="attr">enumerable</span>: <span class="literal">true</span>,</span><br><span class="line">  	<span class="attr">configurable</span>: <span class="literal">true</span>,</span><br><span class="line">	<span class="function"><span class="title">get</span>(<span class="params"></span>)</span> &#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="number">23</span></span><br><span class="line">	&#125;,</span><br><span class="line">	<span class="function"><span class="title">set</span>(<span class="params"></span>)</span> &#123;</span><br><span class="line">		<span class="built_in">console</span>.log(<span class="string">&#x27;对象objProto的a属性被设置了！&#x27;</span>)</span><br><span class="line">	&#125;</span><br><span class="line">&#125;)</span><br><span class="line"><span class="keyword">const</span> obj = <span class="built_in">Object</span>.create(objProto)</span><br><span class="line">obj.a = <span class="number">24</span></span><br><span class="line"><span class="built_in">console</span>.log(obj.a)</span><br><span class="line"><span class="built_in">console</span>.log(obj.hasOwnProperty(<span class="string">&#x27;a&#x27;</span>))</span><br></pre></td></tr></table></figure>
+<p>那么你知道上述三道题的答案吗？<br>让我们来一一进行分析吧：</p>
+<h2 id="题目一"><a href="#题目一" class="headerlink" title="题目一"></a>题目一</h2><p>对于第一道题，这是我们大多数人都知道并且了解的场景，答案也很明显，没错就是控制台会打印24和true，那么我们再来看看题目一中的对象obj长啥样，如下图：</p>
+<p><img src="https://img-blog.csdnimg.cn/8fe4e2c4b16d448eb2634942a9f42397.png#pic_center" alt="在这里插入图片描述"><br>通过上图我们不难看出，对象a被加在了obj对象的自身属性上了，其原型上的属性a还是原来的23，有没有人会以为改变的是原型上的a属性的值呢？我想还是会有人这样认为的吧。那么为什么a属性被加在obj自身上而不是改变其原型上的a属性呢，obj对象自身原本是不存在a的啊。原因我们待会儿再来解释，我们不妨先来看后面两道题目。</p>
+<h2 id="题目二"><a href="#题目二" class="headerlink" title="题目二"></a>题目二</h2><p>对于题目二，你的答案又是什么呢？<br>好吧，先让我来告诉你答案吧，控制台会打印出23和false，哈哈，是不是出乎你的意料呢？那我们再来看看obj对象长啥样吧，如下图：</p>
+<p><img src="https://img-blog.csdnimg.cn/9f94dd831d864cb895386fbc008f2b3e.png#pic_center" alt="在这里插入图片描述"><br>what fuck？obj对象里面空空如也，为什么，我明明对obj对象的a属性进行赋值操作了啊 <code>obj.a = 24</code> ，既然都进行赋值操作了，那为什么obj对象还空空如也呢，先保留着你的疑问，让我们先来看第三道题目。</p>
+<h2 id="题目三"><a href="#题目三" class="headerlink" title="题目三"></a>题目三</h2><p>题目三的答案你想到了吗？好了，不卖关子了，直接说了，题目三的控制台会打印23和false，同上我们先来看看obj对象长啥样，如下图：</p>
+<p><img src="https://img-blog.csdnimg.cn/2a76b8f2391a43b8b232eb15482951b1.png#pic_center" alt="在这里插入图片描述"><br>what fuck？obj.hasOwnProperty(‘a’)不是false吗？为什么控制台打印obj对象，还能看到其自身属性也有a属性？what fuck？这到底是怎么一回事呢？</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>我们先来总结一下：<br>对于对象自身不含有的属性而其原型对象含有的属性，当我们设置此属性时的几种情况：</p>
+<ol>
+<li>如果原型对象objProto的此属性并没有被标记为只读属性，那么会直接在obj对象自身属性上创建该属性为一个新属性，这就是<strong>屏蔽属性</strong>。</li>
+<li>如果原型对象objProto的此属性被标记为只读属性，那么无法修改原型的此属性值也无法在对象obj自身上创建该属性，也就是此情况下不会发生<strong>屏蔽属性</strong>。如果是严格模式下， <code>obj.a = 24</code>  这行代码会报错，否则赋值语句 <code>obj.a = 24</code>  会被忽略，总之不会发生屏蔽。</li>
+<li>如果原型对象objProto的此属性，并且有setter，那就一定会调用这个setter。根据 obj.hasOwnProperty(‘a’) 的值为false，我们可以得知该属性并不会被添加到obj自身上（可是我们在控制台打印obj又会看到obj自身属性中含有a，对于三，笔者我也没想明白咋回事，明明hasOwnProperty为false，但是又看到了其自身属性确实有a属性的存在，语言bug？）</li>
+</ol>
+<p>第一种情况是我们日常开发中遇到的大多数情况，二和三很少遇到，尤其是三，着实让人摸不着头脑，也难怪有很多大神说JavaScript是一门像屎一样的语言，无可厚非，毕竟JavaScript是在短短十天内就被创造出来的，就像我们日常开发一样，时间短速度快那代码自然bug就多呗。虽然JavaScript在某些方面很垃圾，但是其足够的灵活性也让人爱不释手。</p>
+<p>好了，今天就聊到这里，有谁知道三是怎么回事的，欢迎给笔者留言。</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">webRambler</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://webrambler.github.io/2022/01/01/JavaScript%E5%8E%9F%E5%9E%8B%E4%B9%8B%E5%AF%B9%E8%B1%A1%E5%B1%9E%E6%80%A7%E8%AE%BE%E7%BD%AE%E4%B8%8E%E5%B1%8F%E8%94%BD/">https://webrambler.github.io/2022/01/01/JavaScript%E5%8E%9F%E5%9E%8B%E4%B9%8B%E5%AF%B9%E8%B1%A1%E5%B1%9E%E6%80%A7%E8%AE%BE%E7%BD%AE%E4%B8%8E%E5%B1%8F%E8%94%BD/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://webRambler.github.io" target="_blank">webRambler-blog</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/JavaScript/">JavaScript</a></div><div class="post_share"><div class="social-share" data-image="/img/javascript.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><div class="post-reward"><div class="reward-button button--animated"><i class="fas fa-qrcode"></i> 打赏</div><div class="reward-main"><ul class="reward-all"><li class="reward-item"><a href="/img/wechat.jpg" target="_blank"><img class="post-qr-code-img" src="/img/wechat.jpg" alt="微信"/></a><div class="post-qr-code-desc">微信</div></li><li class="reward-item"><a href="/img/alipay.jpg" target="_blank"><img class="post-qr-code-img" src="/img/alipay.jpg" alt="支付宝"/></a><div class="post-qr-code-desc">支付宝</div></li></ul></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2022/01/12/react-typescript%E6%AD%A3%E7%A1%AE%E7%9A%84%E5%BC%80%E5%8F%91%E5%A7%BF%E5%8A%BF%E4%B9%8B%E5%87%BD%E6%95%B0%E5%BC%8F%E7%BB%84%E4%BB%B6/"><img class="prev-cover" src="/img/ts+react.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">react+typescript正确的开发姿势之函数式组件</div></div></a></div><div class="next-post pull-right"><a href="/2022/01/01/CORS%E7%BC%93%E5%AD%98options%E9%A2%84%E6%A3%80%E8%AF%B7%E6%B1%82/"><img class="next-cover" src="/img/HTTP.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">CORS缓存options预检请求</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2021/12/12/ES6%E7%9A%84let%E5%88%B0%E5%BA%95%E5%AD%98%E4%B8%8D%E5%AD%98%E5%9C%A8%E5%8F%98%E9%87%8F%E6%8F%90%E5%8D%87/" title="ES6的let到底存不存在变量提升"><img class="cover" src="/img/javascript.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-12-12</div><div class="title">ES6的let到底存不存在变量提升</div></div></a></div><div><a href="/2021/12/13/JS%E4%BA%8B%E4%BB%B6%E5%A7%94%E6%89%98/" title="JS事件委托"><img class="cover" src="/img/javascript.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-12-13</div><div class="title">JS事件委托</div></div></a></div><div><a href="/2021/12/13/JS%E4%B8%AD%E6%9E%84%E9%80%A0%E5%87%BD%E6%95%B0%E4%B8%AD%E6%9C%89return%E7%9A%84%E5%88%86%E6%9E%90/" title="JS中构造函数中有return的分析"><img class="cover" src="/img/javascript.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-12-13</div><div class="title">JS中构造函数中有return的分析</div></div></a></div><div><a href="/2021/12/12/JS%E4%BA%8B%E4%BB%B6%E5%AF%B9%E8%B1%A1-event-%E7%9A%84%E4%B8%80%E4%BA%9B%E5%85%BC%E5%AE%B9%E6%80%A7%E5%86%99%E6%B3%95/" title="JS事件对象(event)的一些兼容性写法"><img class="cover" src="/img/javascript.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-12-12</div><div class="title">JS事件对象(event)的一些兼容性写法</div></div></a></div><div><a href="/2021/12/13/JS%E5%B0%BE%E8%B0%83%E7%94%A8%E4%BC%98%E5%8C%96/" title="JS尾调用优化"><img class="cover" src="/img/javascript.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-12-13</div><div class="title">JS尾调用优化</div></div></a></div><div><a href="/2021/12/13/JS%E5%B0%BE%E8%B0%83%E7%94%A8/" title="JS尾调用"><img class="cover" src="/img/javascript.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-12-13</div><div class="title">JS尾调用</div></div></a></div></div></div><hr/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div class="vcomment" id="vcomment"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/img/webRambler.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">webRambler</div><div class="author-info__description">一个爱生活爱code的程序猿</div></div><div class="card-info-data"><div class="card-info-data-item is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">77</div></a></div><div class="card-info-data-item is-center"><a href="/tags/"><div class="headline">标签</div><div class="length-num">17</div></a></div><div class="card-info-data-item is-center"><a href="/categories/"><div class="headline">分类</div><div class="length-num">17</div></a></div></div><a class="button--animated" id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/webRambler"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/webRambler" target="_blank" title="Github"><i class="fab fa-github"></i></a><a class="social-icon" href="mailto:talent1203@163.com" target="_blank" title="Email"><i class="fas fa-envelope"></i></a><a class="social-icon" href="https://blog.csdn.net/weixin_40920953" target="_blank" title="CSDN"><i class="far fa-newspaper"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn card-announcement-animation"></i><span>公告</span></div><div class="announcement_content">欢迎来到webRambler的博客</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%89%8D%E8%A8%80"><span class="toc-number">1.</span> <span class="toc-text">前言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%89%E9%81%93%E9%9D%A2%E8%AF%95%E9%A2%98"><span class="toc-number">2.</span> <span class="toc-text">三道面试题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%A2%98%E7%9B%AE%E4%B8%80"><span class="toc-number">3.</span> <span class="toc-text">题目一</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%A2%98%E7%9B%AE%E4%BA%8C"><span class="toc-number">4.</span> <span class="toc-text">题目二</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%A2%98%E7%9B%AE%E4%B8%89"><span class="toc-number">5.</span> <span class="toc-text">题目三</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-number">6.</span> <span class="toc-text">总结</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2023/07/30/%E6%9C%AC%E5%9C%B0%E6%90%AD%E5%BB%BAChatGPT/" title="本地搭建ChatGPT"><img src="/img/docker.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="本地搭建ChatGPT"/></a><div class="content"><a class="title" href="/2023/07/30/%E6%9C%AC%E5%9C%B0%E6%90%AD%E5%BB%BAChatGPT/" title="本地搭建ChatGPT">本地搭建ChatGPT</a><time datetime="2023-07-30T09:23:20.000Z" title="发表于 2023-07-30 17:23:20">2023-07-30</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/07/17/js%E4%B8%AD%E4%B8%80%E4%B8%AA%E5%A5%BD%E7%8E%A9%E7%9A%84api%E4%B9%8BqueueMicrotask/" title="js中一个好玩的api之queueMicrotask"><img src="/img/javascript.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="js中一个好玩的api之queueMicrotask"/></a><div class="content"><a class="title" href="/2022/07/17/js%E4%B8%AD%E4%B8%80%E4%B8%AA%E5%A5%BD%E7%8E%A9%E7%9A%84api%E4%B9%8BqueueMicrotask/" title="js中一个好玩的api之queueMicrotask">js中一个好玩的api之queueMicrotask</a><time datetime="2022-07-17T15:31:10.000Z" title="发表于 2022-07-17 23:31:10">2022-07-17</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/06/21/css%E7%94%BB%E6%AD%A3%E6%96%B9%E4%BD%93/" title="css画正方体"><img src="/img/css.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="css画正方体"/></a><div class="content"><a class="title" href="/2022/06/21/css%E7%94%BB%E6%AD%A3%E6%96%B9%E4%BD%93/" title="css画正方体">css画正方体</a><time datetime="2022-06-21T08:57:19.000Z" title="发表于 2022-06-21 16:57:19">2022-06-21</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/06/19/typescript%E5%AD%A6%E4%B9%A0%E6%97%A5%E8%AE%B0%E3%80%8A%E4%B8%89%E3%80%8B%E5%B8%B8%E7%94%A8%E7%9A%84%E5%86%85%E7%BD%AE%E5%B7%A5%E5%85%B7%E7%B1%BB%E5%9E%8B/" title="typescript学习日记《三》常用的内置工具类型"><img src="/img/ts.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="typescript学习日记《三》常用的内置工具类型"/></a><div class="content"><a class="title" href="/2022/06/19/typescript%E5%AD%A6%E4%B9%A0%E6%97%A5%E8%AE%B0%E3%80%8A%E4%B8%89%E3%80%8B%E5%B8%B8%E7%94%A8%E7%9A%84%E5%86%85%E7%BD%AE%E5%B7%A5%E5%85%B7%E7%B1%BB%E5%9E%8B/" title="typescript学习日记《三》常用的内置工具类型">typescript学习日记《三》常用的内置工具类型</a><time datetime="2022-06-18T17:35:43.000Z" title="发表于 2022-06-19 01:35:43">2022-06-19</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/06/18/TypeScript%E5%AD%A6%E4%B9%A0%E6%97%A5%E8%AE%B0%E3%80%8A%E4%BA%8C%E3%80%8B%E7%B1%BB%E5%9E%8B%E5%85%BC%E5%AE%B9%E6%80%A7%EF%BC%88%E5%8D%8F%E5%8F%98%E3%80%81%E9%80%86%E5%8F%98%E3%80%81%E5%8F%8C%E5%8F%98%E5%92%8C%E6%8A%97%E5%8F%98%EF%BC%89/" title="TypeScript学习日记《二》类型兼容性（协变、逆变、双变和抗变）"><img src="/img/ts.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="TypeScript学习日记《二》类型兼容性（协变、逆变、双变和抗变）"/></a><div class="content"><a class="title" href="/2022/06/18/TypeScript%E5%AD%A6%E4%B9%A0%E6%97%A5%E8%AE%B0%E3%80%8A%E4%BA%8C%E3%80%8B%E7%B1%BB%E5%9E%8B%E5%85%BC%E5%AE%B9%E6%80%A7%EF%BC%88%E5%8D%8F%E5%8F%98%E3%80%81%E9%80%86%E5%8F%98%E3%80%81%E5%8F%8C%E5%8F%98%E5%92%8C%E6%8A%97%E5%8F%98%EF%BC%89/" title="TypeScript学习日记《二》类型兼容性（协变、逆变、双变和抗变）">TypeScript学习日记《二》类型兼容性（协变、逆变、双变和抗变）</a><time datetime="2022-06-18T09:25:24.000Z" title="发表于 2022-06-18 17:25:24">2022-06-18</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2023 By webRambler</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div class="footer_custom_text">欢迎来到<a href="https://webrambler.github.io/">webRambler</a>的博客!</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="font-plus" type="button" title="放大字体"><i class="fas fa-plus"></i></button><button id="font-minus" type="button" title="缩小字体"><i class="fas fa-minus"></i></button><button id="translateLink" type="button" title="简繁转换">繁</button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div id="local-search"><div class="search-dialog"><div class="search-dialog__title" id="local-search-title">本地搜索</div><div id="local-input-panel"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div></div><hr/><div id="local-search-results"></div><span class="search-close-button"><i class="fas fa-times"></i></span></div><div id="search-mask"></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/tw_cn.js"></script><script src="/js/search/local-search.js"></script><div class="js-pjax"><script>function loadValine () {
+  function initValine () {
+    const valine = new Valine(Object.assign({
+      el: '#vcomment',
+      appId: 'GOyNj29x73bx1upNOHjcnbfP-gzGzoHsz',
+      appKey: 'mPtn3xc7mQtKwuOvfUmNdY1X',
+      placeholder: '请输入您的评论',
+      avatar: 'monsterid',
+      meta: 'nick,mail,link'.split(','),
+      pageSize: '10',
+      lang: 'zh-CN',
+      recordIP: false,
+      serverURLs: 'https://goynj29x.lc-cn-n1-shared.com',
+      emojiCDN: '',
+      emojiMaps: "",
+      enableQQ: false,
+      path: window.location.pathname,
+      requiredFields: ["nick,mail"],
+      visitor: false
+    }, null))
+  }
+
+  if (typeof Valine === 'function') initValine() 
+  else getScript('https://cdn.jsdelivr.net/npm/valine/dist/Valine.min.js').then(initValine)
+}
+
+if ('Valine' === 'Valine' || !false) {
+  if (false) btf.loadComment(document.getElementById('vcomment'),loadValine)
+  else setTimeout(loadValine, 0)
+} else {
+  function loadOtherComment () {
+    loadValine()
+  }
+}</script></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
